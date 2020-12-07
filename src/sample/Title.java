@@ -11,6 +11,17 @@ public class Title
     String description;
     String developer;
     String platform;
+
+    public String getGenreString() {
+        return genreString;
+    }
+
+    String genreString;
+
+    public ArrayList<String> getGenre() {
+        return genre;
+    }
+
     ArrayList<String> genre;
     Float rating;
     Float price;
@@ -24,16 +35,20 @@ public class Title
         genre = new ArrayList<>();
         rating = (float) 0;
         price = (float) 0;
+        genreString = new String("");
     }
 
     Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Float r, Float p)
     {
+        genreString = new String("");
         name = n;
         releaseDate = d;
         description = desc;
         developer = dev;
         genre = new ArrayList<>();
         genre.addAll(g);
+        for(String m: genre)
+            genreString += m + ", ";
         platform = plat;
         rating = r;
         price = p;
@@ -74,10 +89,6 @@ public class Title
         return price;
     }
 
-    public ArrayList<String> getGenres()
-    {
-        return genre;
-    }
 
     public void setName(String name)
     {

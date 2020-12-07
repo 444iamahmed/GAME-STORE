@@ -71,7 +71,7 @@ public class BrowseController {
         releaseDateColumn.setCellValueFactory(new PropertyValueFactory<>("releaseDate"));
 
 
-        TableColumn<Title, ArrayList<String>> genreColumn = new TableColumn<>("Genre");
+        TableColumn<Title, String> genreColumn = new TableColumn<>("Genre");
         genreColumn.setMinWidth(100);
         genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
 

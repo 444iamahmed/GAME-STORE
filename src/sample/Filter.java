@@ -16,7 +16,7 @@ public class Filter {
         platforms = new ArrayList<>();
         searchText = new String("");
         rating = (float) 0;
-        maxPrice = (float) 0;
+        maxPrice = Float.POSITIVE_INFINITY;
     }
 
     public Date getReleaseDate() {

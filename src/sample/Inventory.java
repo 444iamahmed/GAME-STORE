@@ -19,7 +19,7 @@ public class Inventory
         for (Title temp : ExistingTitles) {
             if (((temp.getName()).contains(criteria.getSearchText()) || criteria.getSearchText().isEmpty()) &&
                     temp.getRating() >= criteria.getRating() && temp.getPrice() <= criteria.getMaxPrice()
-                    && (temp.getGenres()).containsAll(criteria.getGenres()) && (criteria.getPlatforms()).contains(temp.getPlatform())) {
+                    && ((temp.getGenre()).containsAll(criteria.getGenres()) || criteria.getGenres().isEmpty()) && ((criteria.getPlatforms()).contains(temp.getPlatform())) || criteria.getPlatforms().isEmpty()) {
                 filtered.add(temp);
             }
         }
