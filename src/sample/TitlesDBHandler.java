@@ -14,22 +14,22 @@ public class TitlesDBHandler {
     {
         TitlesFile = new File(fileName);
     }
-    public ArrayList<Titles> getTitles() {
-        ArrayList<Titles> tempList = new ArrayList<>();
+    public ArrayList<Title> getTitles() {
+        ArrayList<Title> tempList = new ArrayList<>();
         try {
             
-            TitleScanner = new Scanner(namesFile);
+            TitleScanner = new Scanner(TitlesFile);
             String temp;
-            while (namesScanner.hasNextLine()) {
+            while (TitleScanner.hasNextLine()) {
                 temp = (TitleScanner.nextLine());
                 Scanner LineScanner = new Scanner(temp);
-                LineScanner.UseDelimiter(' ');
+                LineScanner.useDelimiter(" ");
                 String tempname = LineScanner.next();
-                Date tempdate = Date(LineScanner.next());
+                Date tempdate = new Date(LineScanner.next());
                 String tempdesc = LineScanner.next();
                 String tempdev = LineScanner.next();
                 String tempplat = LineScanner.next();
-                ArrayList<String> tempgenres = new ArrayList<>;
+                ArrayList<String> tempgenres = new ArrayList<>();
                 while(!LineScanner.hasNextFloat())
                     tempgenres.add(LineScanner.next());
                 Float temprat = LineScanner.nextFloat();
