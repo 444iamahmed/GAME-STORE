@@ -11,7 +11,7 @@ public class Genres {
     // private constructor restricted to this class itself
     private Genres()
     {
-        handler = new namesDBHandler("D:\\WORK\\Sem_5\\SDA\\GAME-STORE\\src\\sample\\GenresFile.txt");
+        handler = new namesDBHandler("src\\sample\\GenresFile.txt");
         genres = handler.getNames();
     }
 
