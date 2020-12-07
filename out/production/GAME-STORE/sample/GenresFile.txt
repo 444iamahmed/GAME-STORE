@@ -1,0 +1,4 @@
+Action
+Multiplayer
+Adventure
+Puzzle
