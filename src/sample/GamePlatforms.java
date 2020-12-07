@@ -11,7 +11,7 @@ public class GamePlatforms {
     // private constructor restricted to this class itself
     private GamePlatforms()
     {
-        handler = new namesDBHandler("src\\sample\\PlatformsFile.txt");
+        handler = new namesDBHandler("src/sample/PlatformsFile.txt");
         platforms = handler.getNames();
     }
 

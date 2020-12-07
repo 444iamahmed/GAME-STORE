@@ -11,7 +11,7 @@ public class Store {
     Inventory inventory;
     Store()
     {
-        inventory = new Inventory("Titles.txt");
+        inventory = new Inventory("src/sample/Titles.txt");
     }
     public static Store getInstance()
     {

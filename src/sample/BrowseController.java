@@ -76,11 +76,11 @@ public class BrowseController {
         genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
 
        
-        TableColumn<Title, String> ratingColumn = new TableColumn<>("Rating");
+        TableColumn<Title, Float> ratingColumn = new TableColumn<>("Rating");
         ratingColumn.setMinWidth(100);
         ratingColumn.setCellValueFactory(new PropertyValueFactory<>("rating"));
 
-        TableColumn<Title, String> priceColumn = new TableColumn<>("Price");
+        TableColumn<Title, Float> priceColumn = new TableColumn<>("Price");
         priceColumn.setMinWidth(100);
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 

@@ -6,15 +6,17 @@ import java.util.Date;
 public class Filter {
 
     String searchText;
-    float rating;
+    Float rating;
     ArrayList<String> genres, platforms;
-    float maxPrice;
+    Float maxPrice;
 
     Filter()
     {
         genres = new ArrayList<>();
         platforms = new ArrayList<>();
-
+        searchText = new String("");
+        rating = (float) 0;
+        maxPrice = (float) 0;
     }
 
     public Date getReleaseDate() {

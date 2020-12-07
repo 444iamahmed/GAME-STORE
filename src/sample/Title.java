@@ -15,7 +15,17 @@ public class Title
     Float rating;
     Float price;
     //Image
-  
+    Title()
+    {
+        name = new String("");
+        releaseDate = new Date();
+        description = new String("");
+        platform = new String("");
+        genre = new ArrayList<>();
+        rating = (float) 0;
+        price = (float) 0;
+    }
+
     Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Float r, Float p)
     {
         name = n;
