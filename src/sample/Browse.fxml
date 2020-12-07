@@ -3,10 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -28,7 +26,7 @@
                   <Insets bottom="5.0" left="42.0" />
                </VBox.margin>
             </Label>
-            <Slider blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            <Slider fx:id="rating" blockIncrement="1.0" majorTickUnit="1.0" max="5.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
             <Label alignment="CENTER" contentDisplay="CENTER" text="Genre">
                <opaqueInsets>
                   <Insets />
@@ -59,24 +57,7 @@
                   <Insets top="16.0" />
                </padding>
             </Label>
-            <VBox fx:id="platform">
-               <children>
-                  <CheckBox mnemonicParsing="false" text="Steam">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="Epic">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </CheckBox>
-                  <CheckBox mnemonicParsing="false" text="PS4">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </CheckBox>
-               </children>
+            <VBox fx:id="platformVBox">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -95,7 +76,7 @@
                   <Insets top="16.0" />
                </padding>
             </Label>
-            <Slider showTickLabels="true" showTickMarks="true">
+            <Slider fx:id="price" showTickLabels="true" showTickMarks="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -114,8 +95,8 @@
          <children>
           <Button fx:id="backLogin" mnemonicParsing="false" onAction="#changeSceneToLogin" text="Back To Login" />
             <Pane prefWidth="258.0" />
-            <TextField />
-            <Button alignment="CENTER" mnemonicParsing="false" text="Search">
+            <TextField fx:id="searchText" />
+            <Button fx:id="search" alignment="CENTER" mnemonicParsing="false" onAction="#Search" text="Search">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -153,15 +134,6 @@
       </TitledPane>
    </bottom>
    <center>
-      <TableView BorderPane.alignment="CENTER">
-         <columns>
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Name" />
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Developer" />
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Genre" />
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Platform" />
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Rating" />
-            <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Price" />
-         </columns>
-      </TableView>
+      <TableView fx:id="titles" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

@@ -1,21 +1,25 @@
-import Title.java;
-import Filter.java;
+package sample;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Inventory
 { 
     
-    List<Title> ExistingTitles;
+    ArrayList<Title> ExistingTitles;
   
     Inventory()
-    {   }
+    {
+        ExistingTitles = new ArrayList<Title>();
+    }
     Inventory(String filename)
     {
         
 
     } 
-    public List<Title> filterTitles(Filter criteria)
+    public ArrayList<Title> filterTitles(Filter criteria)
     {
-        List<Title> filtered;
+        ArrayList<Title> filtered = new ArrayList<>();
         for(int i = 0; i < ExistingTitles.size();i++)
         {
             Title temp = ExistingTitles.get(i);

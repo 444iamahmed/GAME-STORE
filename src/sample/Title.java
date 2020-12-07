@@ -1,4 +1,8 @@
+package sample;
+
 import java.util.ArrayList;
+import java.util.Date;
+
 public class Title 
 { 
     
@@ -18,6 +22,7 @@ public class Title
         releaseDate = d;
         description = desc;
         developer = dev;
+        genre = new ArrayList<>();
         genre.addAll(g);
         platform = plat;
         rating = r;
@@ -61,7 +66,7 @@ public class Title
 
     public ArrayList<String> getGenres()
     {
-        return name;
+        return genre;
     }
 
     public void setName(String name)
@@ -69,7 +74,7 @@ public class Title
         this.name = name;
     }
 
-    public void setDeveloper(string developer)
+    public void setDeveloper(String developer)
     {
         this.developer = developer;
     }
@@ -79,12 +84,12 @@ public class Title
         this.releaseDate = releaseDate;
     }
 
-    public void setPlatform(string platform)
+    public void setPlatform(String platform)
     {
         this.platform = platform;
     }
 
-    public void setDescription(string description)
+    public void setDescription(String description)
     {
         this.description = description;
     }

@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Filter {
 
@@ -8,6 +9,23 @@ public class Filter {
     float rating;
     ArrayList<String> genres, platforms;
     float maxPrice;
+
+    Filter()
+    {
+        genres = new ArrayList<>();
+        platforms = new ArrayList<>();
+
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    Date releaseDate;
 
     public String getSearchText() {
         return searchText;
@@ -48,4 +66,16 @@ public class Filter {
     public void setMaxPrice(float maxPrice) {
         this.maxPrice = maxPrice;
     }
+
+    public void addGenre(String genre)
+    {
+        if(!genres.contains(genre))
+            genres.add(genre);
+    }
+    public void removeGenre(String genre)
+    {
+        genres.remove(genre);
+    }
+
+
 }
