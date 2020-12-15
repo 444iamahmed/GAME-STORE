@@ -3,29 +3,24 @@ package sample;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Title 
-{ 
-    
-    String name;
-    Date releaseDate;
-    String description;
-    String developer;
-    String platform;
+public class Title extends Displayable
+{
 
-    public String getGenreString() {
-        return genreString;
-    }
-
-    String genreString;
-
-    public ArrayList<String> getGenre() {
-        return genre;
-    }
-
-    ArrayList<String> genre;
-    Float rating;
-    Float price;
+    private String name;
+    private Date releaseDate;
+    private String description;
+    private String developer;
+    private String platform;
+    private ArrayList<String> genre;
+    private ArrayList<Key> keys;
+    private Double rating;
+    private Double price;
     //Image
+    public ArrayList<Key> getKeys() {
+        return keys;
+    }
+
+
     Title()
     {
         name = new String("");
@@ -33,26 +28,32 @@ public class Title
         description = new String("");
         platform = new String("");
         genre = new ArrayList<>();
-        rating = (float) 0;
-        price = (float) 0;
-        genreString = new String("");
+        rating = 0.0;
+        price = 0.0;
     }
 
-    Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Float r, Float p)
+    Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Double r, Double p)
     {
-        genreString = new String("");
         name = n;
         releaseDate = d;
         description = desc;
         developer = dev;
         genre = new ArrayList<>();
         genre.addAll(g);
-        for(String m: genre)
-            genreString += m + ", ";
         platform = plat;
         rating = r;
         price = p;
-    } 
+    }
+    Title(String n, Date d, String desc, String dev, String plat, Double r, Double p)
+    {
+        name = n;
+        releaseDate = d;
+        description = desc;
+        developer = dev;
+        platform = plat;
+        rating = r;
+        price = p;
+    }
 
     public String getName()
     {
@@ -79,12 +80,12 @@ public class Title
         return description;
     }
 
-    public Float getRating()
+    public double getRating()
     {
         return rating;
     }
 
-    public Float getPrice()
+    public double getPrice()
     {
         return price;
     }
@@ -115,16 +116,25 @@ public class Title
         this.description = description;
     }
 
-    public void setRating(float rating)
+    public void setRating(Double rating)
     {
         this.rating = rating;
     }
 
-    public void setPrice(float price)
+    public void setPrice(Double price)
     {
         this.price = price;
     }
 
+    public ArrayList<String> getGenre() {
+        return genre;
+    }
+
+    public void addGenre(String g)
+    {
+        genre.add(g);
+    }
+    public void addKey(Key key){keys.add(key);}
     public void updateGenres(ArrayList<String> genres)
     {
         genre.clear();

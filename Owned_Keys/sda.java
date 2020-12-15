@@ -5,7 +5,7 @@ import java.io.*;
 class Account {
     String email;
     String password;
-    Vector<key> klist;
+    ArrayList<Title> ownedTitles;
 
     public Account() {
         email = " ";
@@ -21,10 +21,10 @@ class Account {
     public Account(Account obj) {
         email = obj.email;
         password = obj.password;
-        klist = new Vector<key>();
-        if (obj.klist.size() > 0) {
-            for (int i = 0; i < obj.klist.size(); i++) {
-                klist.add(obj.klist.get(i));
+        ownedTitles = new ArrayList<Title>();
+        if (obj.ownedTitles.size() > 0) {
+            for (int i = 0; i < obj.ownedTitles.size(); i++) {
+                klist.add(obj.ownedTitles.get(i));
             }
         }
     }
@@ -170,17 +170,4 @@ class gstore {
     }
 };
 
-public class sda {
-    public static void main(String[] args) {
-        Account abc = new Account();
-        abc.email = "hasanriaz@outlook.com";
-        abc.password = "1234";
-        Account def = new Account(abc);
-        System.out.println(def.email + "\n" + def.password + "\n");
-        for (int i = 0; i < def.klist.size(); i++) {
-            System.out.println(def.klist.get(i).kval);
-        }
 
-    }
-
-}

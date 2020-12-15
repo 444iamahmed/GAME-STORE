@@ -4,25 +4,26 @@ import java.util.ArrayList;
 
 public class Inventory
 { 
-    
-    ArrayList<Title> ExistingTitles;
-    TitlesDBHandler titlesDB;
-    Inventory(String filename)
-    {
-        titlesDB = new TitlesDBHandler(filename);
-        ExistingTitles = titlesDB.getTitles();
+    public static Inventory instance = null;
 
-    } 
-    public ArrayList<Title> filterTitles(Filter criteria)
+    public void setPersistenceDBHandler(PersistenceDBHandler persistenceDBHandler) {
+        this.persistenceDBHandler = persistenceDBHandler;
+    }
+
+    PersistenceDBHandler persistenceDBHandler;
+    private Inventory()
     {
-        ArrayList<Title> filtered = new ArrayList<>();
-        for (Title temp : ExistingTitles) {
-            if (((temp.getName()).contains(criteria.getSearchText()) || criteria.getSearchText().isEmpty()) &&
-                    temp.getRating() >= criteria.getRating() && temp.getPrice() <= criteria.getMaxPrice()
-                    && ((temp.getGenre()).containsAll(criteria.getGenres()) || criteria.getGenres().isEmpty()) && ((criteria.getPlatforms()).contains(temp.getPlatform()) || criteria.getPlatforms().isEmpty())) {
-                filtered.add(temp);
-            }
-        }
-        return filtered;
+    }
+    public static Inventory getInstance()
+    {
+        if(instance == null)
+            instance = new Inventory();
+        return instance;
+    }
+
+
+    public ArrayList<Title> search(Filter criteria)
+    {
+        return persistenceDBHandler.getTitles(criteria);
     }
 } 

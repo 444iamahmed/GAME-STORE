@@ -21,7 +21,7 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField promptText="User Name">
+            <TextField promptText="Username or email">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

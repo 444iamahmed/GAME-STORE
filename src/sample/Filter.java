@@ -5,20 +5,26 @@ import java.util.Date;
 
 public class Filter {
 
-    String searchText;
-    Float rating;
-    ArrayList<String> genres, platforms;
-    Float maxPrice;
+    private static Filter instance = null;
+    private String searchText;
+    private Double rating;
+    private ArrayList<String> genres;
+    private ArrayList<String> platforms;
+    private Double maxPrice;
 
-    Filter()
+    private Filter()
     {
         genres = new ArrayList<>();
         platforms = new ArrayList<>();
-        searchText = new String("");
-        rating = (float) 0;
-        maxPrice = Float.POSITIVE_INFINITY;
+        rating = 0.0;
+        maxPrice = 500000.0;
     }
-
+    public static Filter getInstance()
+    {
+        if(instance == null)
+            instance = new Filter();
+        return instance;
+    }
     public Date getReleaseDate() {
         return releaseDate;
     }
@@ -27,7 +33,7 @@ public class Filter {
         this.releaseDate = releaseDate;
     }
 
-    Date releaseDate;
+    private Date releaseDate;
 
     public String getSearchText() {
         return searchText;
@@ -37,11 +43,11 @@ public class Filter {
         this.searchText = searchText;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -61,11 +67,11 @@ public class Filter {
         this.platforms = platforms;
     }
 
-    public float getMaxPrice() {
+    public double getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(float maxPrice) {
+    public void setMaxPrice(Double maxPrice) {
         this.maxPrice = maxPrice;
     }
 

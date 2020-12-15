@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class BrowseController {
 
     @FXML
@@ -29,19 +30,20 @@ public class BrowseController {
     Slider rating, price;
 
     ArrayList<String> genres, platforms;
-    Filter filters;
+    Filter filter;
     Store myStore;
     public void initialize()
     {
-        genres = Genres.getInstance().genres;
-        platforms = GamePlatforms.getInstance().platforms;
+
         myStore = Store.getInstance();
-        filters = new Filter();
+        genres = myStore.genres;
+        platforms = myStore.platforms;
+        filter = Filter.getInstance();
        for(String m: genres)
        {
            CheckBox tempCheckBox = new CheckBox(m);
            tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
-               SetGenre(tempCheckBox, newValue);
+               setGenre(tempCheckBox);
                Search();
            });
            genreVBox.getChildren().add(tempCheckBox);
@@ -50,7 +52,7 @@ public class BrowseController {
         {
             CheckBox tempCheckBox = new CheckBox(m);
             tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
-                SetPlatform(tempCheckBox, newValue);
+                setPlatform(tempCheckBox);
                 Search();
             });
             platformVBox.getChildren().add(tempCheckBox);
@@ -84,16 +86,16 @@ public class BrowseController {
         priceColumn.setMinWidth(100);
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        titles.setItems(myStore.Search(filters));
+        titles.setItems(myStore.search(filter));
         titles.getColumns().addAll(nameColumn, developerColumn, releaseDateColumn, genreColumn, ratingColumn, priceColumn);
 
         rating.valueChangingProperty().addListener((v, oldValue, newValue) -> {
-            SetRating(rating);
+            setRating(rating);
             Search();
         });
 
         price.valueChangingProperty().addListener((v, oldValue, newValue) -> {
-            SetPrice(price);
+            setPrice(price);
             Search();
         });
     }
@@ -118,34 +120,33 @@ public class BrowseController {
 
     public void Search()
     {
-        System.out.println(searchText.getText() + " searched");
-        filters.setSearchText(searchText.getText());
+        filter.setSearchText(searchText.getText());
         titles.getItems().clear();
-        titles.setItems(myStore.Search(filters));
+        titles.setItems(myStore.search(filter));
     }
 
-    void SetGenre(CheckBox box, boolean val)
+    void setGenre(CheckBox box)
     {
        if(box.isSelected())
-           filters.addGenre(box.getText());
+           filter.addGenre(box.getText());
        else
-           filters.removeGenre(box.getText());
+           filter.removeGenre(box.getText());
     }
-    void SetPlatform(CheckBox box, boolean val)
+    void setPlatform(CheckBox box)
     {
         if(box.isSelected())
-            filters.addGenre(box.getText());
+            filter.addGenre(box.getText());
         else
-            filters.removeGenre(box.getText());
+            filter.removeGenre(box.getText());
     }
 
-    void SetRating(Slider slider)
+    void setRating(Slider slider)
     {
-        filters.setRating((float) slider.getValue());
+        filter.setRating(slider.getValue());
     }
-    void SetPrice(Slider slider)
+    void setPrice(Slider slider)
     {
-        filters.setMaxPrice((float) slider.getValue());
+        filter.setMaxPrice(slider.getValue());
     }
 
 

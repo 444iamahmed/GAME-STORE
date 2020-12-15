@@ -6,24 +6,35 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 
 public class Store {
-    private static Store single_instance = null;
+    private static Store instance = null;
 
+    Account activeAccount;
     Inventory inventory;
-    Store()
+    ArrayList<String> genres;
+    ArrayList<String> platforms;
+    PersistenceDBHandler persistenceDBHandler;
+    private Store()
     {
-        inventory = new Inventory("src/sample/Titles.txt");
+        persistenceDBHandler = MySQLHandler.getInstance();
+        inventory = Inventory.getInstance();
+        inventory.setPersistenceDBHandler(persistenceDBHandler);
+        genres = persistenceDBHandler.getGenres();
+        platforms = persistenceDBHandler.getPlatforms();
     }
     public static Store getInstance()
     {
-        if (single_instance == null)
-            single_instance = new Store();
+        if (instance == null)
+            instance = new Store();
 
-        return single_instance;
+        return instance;
     }
 
-    public ObservableList<Title> Search(Filter filters)
+    public ObservableList<Title> search(Filter filters)
     {
-        return FXCollections.observableList(inventory.filterTitles(filters));
+        return FXCollections.observableList(inventory.search(filters));
     }
-
+    public ObservableList<Title> getOwnedKeys()
+    {
+        return FXCollections.observableList(persistenceDBHandler.getOwnedTitles(activeAccount));
+    }
 }
