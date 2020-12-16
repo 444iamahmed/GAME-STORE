@@ -100,7 +100,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Title> getOwnedTitles(Account account) {
+    public ArrayList<Title> getOwnedKeys(Account account) {
         String QUERY = "select * from title where title_key_owner = " + account.username;
         ArrayList<Title> titles = new ArrayList<>();
 

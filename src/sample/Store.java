@@ -35,6 +35,6 @@ public class Store {
     }
     public ObservableList<Title> getOwnedKeys()
     {
-        return FXCollections.observableList(persistenceDBHandler.getOwnedTitles(activeAccount));
+        return FXCollections.observableList(persistenceDBHandler.getOwnedKeys(activeAccount));
     }
 }
