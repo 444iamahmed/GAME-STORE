@@ -11,6 +11,4 @@ public abstract class PersistenceDBHandler {
     public abstract ArrayList<Title> getTitles(Filter filter);
     public abstract ArrayList<Title> getOwnedKeys(Account account);
 
-
-
 }

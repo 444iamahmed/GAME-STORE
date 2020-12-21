@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Store {
     private static Store instance = null;
 
-    Account activeAccount;
+    static Account activeAccount;
     Inventory inventory;
     ArrayList<String> genres;
     ArrayList<String> platforms;

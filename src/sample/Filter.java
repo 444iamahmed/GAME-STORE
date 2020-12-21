@@ -18,6 +18,7 @@ public class Filter {
         platforms = new ArrayList<>();
         rating = 0.0;
         maxPrice = 500000.0;
+        searchText = "";
     }
     public static Filter getInstance()
     {

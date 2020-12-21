@@ -6,6 +6,7 @@ import java.util.Date;
 public class Title extends Displayable
 {
 
+
     private String name;
     private Date releaseDate;
     private String description;
@@ -135,6 +136,13 @@ public class Title extends Displayable
         genre.add(g);
     }
     public void addKey(Key key){keys.add(key);}
+    public boolean equals(Title title)
+    {
+        if(name == title.name && platform == title.platform && developer == title.developer)
+            return true;
+        return false;
+    }
+
     public void updateGenres(ArrayList<String> genres)
     {
         genre.clear();
