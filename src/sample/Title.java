@@ -54,6 +54,8 @@ public class Title extends Displayable
         platform = plat;
         rating = r;
         price = p;
+        genre = new ArrayList<>();
+
     }
 
     public String getName()
