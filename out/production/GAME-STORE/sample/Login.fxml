@@ -6,6 +6,7 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -14,18 +15,24 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField promptText="Username or email">
+            <TextField fx:id="loginId" promptText="Username or email">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextField>
             <Pane prefHeight="38.0" prefWidth="200.0" />
-            <PasswordField promptText="Password">
+            <PasswordField fx:id="loginPassword" promptText="Password">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </PasswordField>
-            <Button fx:id="login" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Login">
+            <HBox>
+               <children>
+                  <Pane />
+                  <Label fx:id="loginError" textFill="#ed2121" />
+               </children>
+            </HBox>
+            <Button fx:id="login" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Sign In">
                <VBox.margin>
                   <Insets left="75.0" top="35.0" />
                </VBox.margin>
@@ -40,7 +47,7 @@
       </VBox>
    </center>
    <top>
-      <Label alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label fx:id="loginError" alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>

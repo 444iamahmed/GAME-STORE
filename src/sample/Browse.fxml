@@ -108,6 +108,9 @@
                      </font>
                   </Label>
                </children>
+               <padding>
+                  <Insets top="17.0" />
+               </padding>
             </HBox>
             <HBox prefHeight="70.0" prefWidth="944.0">
                <children>

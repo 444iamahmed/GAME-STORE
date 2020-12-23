@@ -29,10 +29,10 @@
             <HBox>
                <children>
                   <Pane />
-                  <Label textFill="#ed2121" />
+                  <Label fx:id="loginError" textFill="#ed2121" />
                </children>
             </HBox>
-            <Button fx:id="login" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Login">
+            <Button fx:id="login" mnemonicParsing="false" onAction="#validateCredentials" text="Sign In">
                <VBox.margin>
                   <Insets left="75.0" top="35.0" />
                </VBox.margin>

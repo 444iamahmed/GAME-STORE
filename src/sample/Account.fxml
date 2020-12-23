@@ -47,7 +47,7 @@
             <Insets />
          </BorderPane.margin>
          <padding>
-            <Insets left="17.0" top="7.0" />
+            <Insets bottom="8.0" left="17.0" top="7.0" />
          </padding>
       </HBox>
    </top>
