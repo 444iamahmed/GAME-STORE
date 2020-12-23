@@ -47,7 +47,7 @@
       </VBox>
    </center>
    <top>
-      <Label fx:id="loginError" alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
