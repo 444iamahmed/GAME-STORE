@@ -2,36 +2,36 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
-   <bottom>
-      <TitledPane animated="false" collapsible="false" expanded="false" text="LOGIN/REGISTER" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
-      </TitledPane>
-   </bottom>
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField promptText="Username or email">
+            <TextField fx:id="loginId" promptText="Username or email">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextField>
             <Pane prefHeight="38.0" prefWidth="200.0" />
-            <PasswordField promptText="Password">
+            <PasswordField fx:id="loginPassword" promptText="Password">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </PasswordField>
+            <HBox>
+               <children>
+                  <Pane />
+                  <Label textFill="#ed2121" />
+               </children>
+            </HBox>
             <Button fx:id="login" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Login">
                <VBox.margin>
                   <Insets left="75.0" top="35.0" />
@@ -39,11 +39,21 @@
             </Button>
          </children>
          <padding>
-            <Insets bottom="100.0" top="145.0" />
+            <Insets bottom="100.0" top="50.0" />
          </padding>
          <BorderPane.margin>
             <Insets left="200.0" right="200.0" />
          </BorderPane.margin>
       </VBox>
    </center>
+   <top>
+      <Label fx:id="loginError" alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <padding>
+            <Insets top="72.0" />
+         </padding>
+      </Label>
+   </top>
 </BorderPane>

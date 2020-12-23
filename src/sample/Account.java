@@ -18,8 +18,12 @@ class Account extends Displayable{
         this.username = account.username;
         this.email = account.email;
         this.password = account.password;
-
-
+    }
+    public Account(String username, String email, String password)
+    {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
 

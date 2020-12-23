@@ -37,4 +37,27 @@ public class Store {
     {
         return FXCollections.observableList(persistenceDBHandler.getOwnedKeys(activeAccount));
     }
+
+    public boolean usernameExists(String username)
+    {
+        return false;
+    }
+
+    public boolean emailExists(String email)
+    {
+        return false;
+    }
+
+    public void saveAccountAndSetActive(String username, String email, String password)
+    {
+        activeAccount = persistenceDBHandler.saveAccount(username, email, password);
+    }
+    public boolean checkAccountAndLogin(String id, String password)
+    {
+        if((activeAccount = persistenceDBHandler.retrieveAccount(id, password)) != null)
+            return true;
+        return false;
+    }
+
+
 }

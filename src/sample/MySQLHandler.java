@@ -1,5 +1,6 @@
 package sample;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     {
         try {
                 connection = DriverManager
-                        .getConnection("jdbc:mysql://z3iruaadbwo0iyfp.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/gka5gkdoler1i5f1?useSSL=false", "p9uy9lzjrzjk4bgr", "kcr96eiqdzrgoiu7");
+                        .getConnection("jdbc:mysql://z3iruaadbwo0iyfp.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/gka5gkdoler1i5f1?useSSL=false&zeroDateTimeBehavior =convertToNull", "p9uy9lzjrzjk4bgr", "kcr96eiqdzrgoiu7");
             }catch (SQLException e) {
             printSQLException(e);
         }
@@ -108,15 +109,18 @@ public class MySQLHandler extends PersistenceDBHandler {
 
 
         try (
-                Statement stmt = connection.createStatement();
-                 ResultSet rs = stmt.executeQuery(QUERY);
+                Statement titlesStatement = connection.createStatement();
+                 ResultSet rs = titlesStatement.executeQuery(QUERY);
                  ){
             while (rs.next())
             {
                 String TITLE_INFORMATION_QUERY = "select * from title where title_name = " + rs.getString("title_name") +
                         " AND title_developer = " + rs.getString("title_developer") +
                         " AND title_platform = " + rs.getString("title_platform");
-                try (ResultSet titleInformation = stmt.executeQuery(TITLE_INFORMATION_QUERY)){
+                try (
+                        Statement titleInfoStatement = connection.createStatement();
+                        ResultSet titleInformation = titleInfoStatement.executeQuery(TITLE_INFORMATION_QUERY);
+                        ){
                     while (titleInformation.next())
                     {
                         currKeyTitle = new Title(titleInformation.getString("title_name"),
@@ -142,7 +146,10 @@ public class MySQLHandler extends PersistenceDBHandler {
                         " and title_developer = " + tempTitle.getDeveloper() +
                         " and title_platform = "+ tempTitle.getPlatform() +
                         " GROUP BY title_name,title_developer, title_platform";
-                    try (ResultSet genreSet = stmt.executeQuery(GENRE_QUERY)){
+                    try (
+                            Statement genresStatement = connection.createStatement();
+                            ResultSet genreSet = genresStatement.executeQuery(GENRE_QUERY);
+                            ){
                         while (genreSet.next())
                             tempTitle.addGenre(genreSet.getString("genre"));
                     } catch (SQLException e){
@@ -162,20 +169,22 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public ArrayList<Title> getTitles(Filter filter) {
 
-        String QUERY = "select * from title Inner Join " +
-                "    title_genre On title_genre.title_name = title.title_name" +
-                "            And title_genre.title_developer = title.title_developer" +
-                "            And title_genre.title_platform = title.title_platform where " +
+        String QUERY = "select * from title where " +
                 searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", filter.getSearchText(),"AND")  +
                 "title.title_rating >= " + filter.getRating() + " AND title.title_price <= " + filter.getMaxPrice() +
+                "AND (select count(title_genre.genre) from title_genre where " +
+                "title_genre.title_name = title.title_name " +
+                "AND title_genre.title_developer = title.title_developer " +
+                "AND title_genre.title_platform = title.title_platform " +
                 arrayListQuery("AND", "title_genre.genre", filter.getGenres()) +
-                arrayListQuery("AND",  "title.title_platform", filter.getPlatforms());
+                ") > 0 "+
+                arrayListQuery(" AND",  "title.title_platform", filter.getPlatforms());
         ArrayList<Title> titles = new ArrayList<>();
 
         try (
-                Statement stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery(QUERY);
-        ){
+                Statement titlesStatement = connection.createStatement();
+                ResultSet rs = titlesStatement.executeQuery(QUERY);
+                ){
             while (rs.next())
             {
 
@@ -186,10 +195,13 @@ public class MySQLHandler extends PersistenceDBHandler {
                         rs.getString("title_platform"),
                         rs.getDouble("title_rating") ,
                         rs.getDouble("title_price"));
-                String GENRE_QUERY = "select genre from title_genre where title_name = "+tempTitle.getName() +
-                        " and title_developer = " + tempTitle.getDeveloper() +
-                        " and title_platform = "+ tempTitle.getPlatform();
-                try (ResultSet genreSet = stmt.executeQuery(GENRE_QUERY)){
+                String GENRE_QUERY = "select genre from title_genre where title_name = \""+ tempTitle.getName() +
+                        "\" and title_developer = \"" + tempTitle.getDeveloper() +
+                        "\" and title_platform = \""+ tempTitle.getPlatform() + "\"";
+                try (
+                        Statement genresStatement = connection.createStatement();
+                        ResultSet genreSet = genresStatement.executeQuery(GENRE_QUERY);
+                        ){
                     while (genreSet.next())
                         tempTitle.addGenre(genreSet.getString("genre"));
                 } catch (SQLException e){
@@ -202,5 +214,15 @@ public class MySQLHandler extends PersistenceDBHandler {
             printSQLException(e);
         }
         return titles;
+    }
+
+    @Override
+    public Account saveAccount(String username, String email, String password) {
+        return null;
+    }
+
+    @Override
+    public Account retrieveAccount(String username, String password) {
+        return null;
     }
 }
