@@ -102,7 +102,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Title> getOwnedKeys(Account account) {
-        String QUERY = "select * from key where key_owner = " + account.username;
+        String QUERY = "select * from key where key_owner = " + account.getUsername();
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -224,5 +224,10 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public Account retrieveAccount(String username, String password) {
         return null;
+    }
+
+    @Override
+    public void updateAccount(Account account) {
+
     }
 }

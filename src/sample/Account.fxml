@@ -5,17 +5,76 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
+            <Tab text="Profile">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="175.0" layoutY="112.0" prefHeight="466.4" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <center>
+                              <VBox BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label text="Username" />
+                                    <TextField />
+                                    <Label fx:id="accountPageUsernameError" />
+                                    <Label text="Email" />
+                                    <TextField editable="false" />
+                                    <Label />
+                                    <Label text="Password" />
+                                    <TextField />
+                                    <Label fx:id="accountPagePasswordError" />
+                                    <Label text="Confirm Password" />
+                                    <TextField editable="false" />
+                                    <Label fx:id="accountPageRepeatPasswordError" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" text="Delete Account" />
+                                          <Pane>
+                                             <opaqueInsets>
+                                                <Insets />
+                                             </opaqueInsets>
+                                             <padding>
+                                                <Insets left="305.0" />
+                                             </padding>
+                                          </Pane>
+                                          <Button mnemonicParsing="false" text="Save Changes" />
+                                       </children>
+                                       <padding>
+                                          <Insets top="20.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </center>
+                           <left>
+                              <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </left>
+                           <right>
+                              <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </right>
+                           <bottom>
+                              <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </bottom>
+                           <top>
+                              <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                           </top>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Owned Keys">
             <content>
               <AnchorPane>
@@ -31,7 +90,7 @@
    <top>
       <HBox prefHeight="41.0" prefWidth="894.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="login" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Back To Browse" />
+            <Button fx:id="backToBrowse" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Back To Browse" />
             <Pane prefHeight="200.0" prefWidth="200.0">
                <padding>
                   <Insets left="275.0" />

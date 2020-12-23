@@ -34,7 +34,7 @@ public class SignUpController {
         username.textProperty().addListener((v, oldValue, newValue) -> {
 
             condition[0] = false;
-            if(myStore.usernameExists(username.getText()))
+            if(myStore.usernameExists(newValue))
                 usernameError.setText("Username already exists!");
             else
             {
@@ -49,7 +49,7 @@ public class SignUpController {
             condition[1] = false;
             if(validateEmailFormat())
                 emailError.setText("Email Invalid!");
-            else if(myStore.emailExists(email.getText()))
+            else if(myStore.emailExists(newValue))
                 emailError.setText("Email already exists!");
             else
             {
@@ -106,7 +106,7 @@ public class SignUpController {
             if(!i)
                 flag = false;
 
-        signUp.setDisable(flag);
+        signUp.setDisable(!flag);
     }
 
     boolean validateEmailFormat()
@@ -120,10 +120,14 @@ public class SignUpController {
 
     boolean repeatEmailMatches()
     {
+        if(email.getText() == repeatEmail.getText())
+            return true;
         return false;
     }
     boolean repeatPasswordMatches()
     {
+        if(password.getText() == repeatPassword.getText())
+            return true;
         return false;
     }
     boolean validatePasswordIntegrity()

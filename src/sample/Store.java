@@ -58,6 +58,18 @@ public class Store {
             return true;
         return false;
     }
-
+    public Account getActiveAccount()
+    {
+        return activeAccount;
+    }
+    public void saveActiveAccountChanges(Account account)
+    {
+        activeAccount = account;
+        persistenceDBHandler.updateAccount(activeAccount);
+    }
+    public void deleteActiveAccount()
+    {
+        
+    }
 
 }
