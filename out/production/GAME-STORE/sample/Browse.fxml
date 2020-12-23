@@ -7,12 +7,11 @@
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BrowseController">
    <left>
@@ -90,50 +89,58 @@
          </padding>
       </VBox>
    </left>
-   <top>
-      <HBox BorderPane.alignment="CENTER">
-         <children>
-          <Button fx:id="backLogin" mnemonicParsing="false" onAction="#changeSceneToLogin" text="Back To Login" />
-            <Pane prefWidth="258.0" />
-            <TextField fx:id="searchText" />
-            <Button fx:id="search" alignment="CENTER" mnemonicParsing="false" onAction="#Search" text="Search">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
-            <Pane prefWidth="258.0" HBox.hgrow="ALWAYS" />
-            <ButtonBar prefWidth="22.0">
-              <buttons>
-                  <HBox>
-                     <children>
-                        <Button fx:id="account" mnemonicParsing="false" onAction="#changeSceneToAccount" text="Account" />
-                     </children>
-                  </HBox>
-              </buttons>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </ButtonBar>
-         </children>
-         <padding>
-            <Insets bottom="21.0" left="25.0" right="25.0" top="24.0" />
-         </padding>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-      </HBox>
-   </top>
-   <bottom>
-      <TitledPane animated="false" collapsible="false" expanded="false" text="BROWSE" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
-      </TitledPane>
-   </bottom>
    <center>
       <TableView fx:id="titles" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <VBox prefHeight="120.0" prefWidth="944.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox>
+               <children>
+                  <Pane>
+                     <padding>
+                        <Insets left="425.0" />
+                     </padding>
+                  </Pane>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Browse" textAlignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="70.0" prefWidth="944.0">
+               <children>
+                  <Button fx:id="backLogin" mnemonicParsing="false" onAction="#changeSceneToLogin" text="Back To Login" />
+                  <Pane prefWidth="258.0" />
+                  <TextField fx:id="searchText" />
+                  <Button fx:id="search" alignment="CENTER" mnemonicParsing="false" onAction="#Search" text="Search">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Pane prefWidth="258.0" HBox.hgrow="ALWAYS" />
+                  <ButtonBar prefWidth="22.0">
+                     <buttons>
+                        <HBox>
+                           <children>
+                              <Button fx:id="account" mnemonicParsing="false" onAction="#changeSceneToAccount" text="Account" />
+                           </children>
+                        </HBox>
+                     </buttons>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ButtonBar>
+               </children>
+               <padding>
+                  <Insets bottom="21.0" left="25.0" right="25.0" top="30.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
 </BorderPane>

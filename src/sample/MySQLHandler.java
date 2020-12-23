@@ -215,4 +215,14 @@ public class MySQLHandler extends PersistenceDBHandler {
         }
         return titles;
     }
+
+    @Override
+    public Account saveAccount(String username, String email, String password) {
+        return null;
+    }
+
+    @Override
+    public Account retrieveAccount(String username, String password) {
+        return null;
+    }
 }
