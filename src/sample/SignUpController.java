@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +16,9 @@ import java.util.regex.Pattern;
 public class SignUpController {
 
     @FXML
-    TextField username, email, repeatEmail, password, repeatPassword;
+    TextField username, email, repeatEmail;
+    @FXML
+    PasswordField password, repeatPassword;
 
     @FXML
     Label usernameError, emailError, repeatEmailError, passwordError, repeatPasswordError;
@@ -34,20 +37,25 @@ public class SignUpController {
         username.textProperty().addListener((v, oldValue, newValue) -> {
 
             condition[0] = false;
-            if(myStore.usernameExists(newValue))
-                usernameError.setText("Username already exists!");
-            else
+            if(newValue != "")
             {
-                usernameError.setText("");
-                condition[0] = true;
+                if(myStore.usernameExists(newValue))
+                    usernameError.setText("Username already exists!");
+                else
+                {
+                    usernameError.setText("");
+                    condition[0] = true;
+                }
             }
+            else
+                usernameError.setText("Username empty!");
             resetSignUpButton();
         });
 
         email.textProperty().addListener((v, oldValue, newValue) -> {
 
             condition[1] = false;
-            if(validateEmailFormat())
+            if(!validateEmailFormat())
                 emailError.setText("Email Invalid!");
             else if(myStore.emailExists(newValue))
                 emailError.setText("Email already exists!");
@@ -89,10 +97,10 @@ public class SignUpController {
 
             condition[4] = false;
             if(!repeatPasswordMatches())
-                repeatPassword.setText("Passwords don't match!");
+                repeatPasswordError.setText("Passwords don't match!");
             else
             {
-                repeatPassword.setText("");
+                repeatPasswordError.setText("");
                 condition[4] = true;
             }
             resetSignUpButton();
@@ -111,7 +119,7 @@ public class SignUpController {
 
     boolean validateEmailFormat()
     {
-        Pattern p = Pattern.compile("[a-zA-Z0-9][a-zA-Z0-9._]*@[a-zA-Z0-9]+([.][a-zA-Z]+)+");
+        Pattern p = Pattern.compile("^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(email.getText());
         if(m.find() && m.group().equals(email.getText()))
             return true;
@@ -120,28 +128,27 @@ public class SignUpController {
 
     boolean repeatEmailMatches()
     {
-        if(email.getText() == repeatEmail.getText())
+        String em = email.getText(), rem = repeatEmail.getText();
+        if(em.equals(rem))
             return true;
         return false;
     }
     boolean repeatPasswordMatches()
     {
-        if(password.getText() == repeatPassword.getText())
+        if(password.getText().equals(repeatPassword.getText()))
             return true;
         return false;
     }
     boolean validatePasswordIntegrity()
     {
-        Pattern p = Pattern.compile("((?=.*[a-z])(?=.*\\\\d)(?=.*[A-Z]).{8,40})");
-        Matcher m = p.matcher(password.getText());
-        if(m.find() && m.group().equals(password.getText()))
-            return true;
-        return false;
+        Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,40}$");
+        Matcher matcher = p.matcher(password.getText());
+        return matcher.matches();
     }
 
     public void makeAccount()
     {
-        myStore.saveAccountAndSetActive(username.getText(), email.getText(), password.getText());
+        myStore.saveAccountAndSetActive(username.getText(), email.getText().toLowerCase(Locale.ROOT), password.getText());
     }
 
     public void changeSceneToBrowse() throws IOException

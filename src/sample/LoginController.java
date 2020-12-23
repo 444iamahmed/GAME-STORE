@@ -1,38 +1,23 @@
 package sample;
 
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-
-import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import javafx.application.Platform;
-import java.lang.Object;
 
 
 public class LoginController {
 
-    @FXML Button login;
+    @FXML Button signInButton, signInPageToSignUpButton;
 
     @FXML
-    TextField loginId, loginPassword;
+    TextField loginId;
+    @FXML
+    PasswordField loginPassword;
 
     @FXML
     Label loginError;
@@ -55,9 +40,17 @@ public class LoginController {
         Parent browseParent = FXMLLoader.load(getClass().getResource("Browse.fxml"));
         Scene browseScene = new Scene(browseParent);
 
-        Stage window = (Stage) login.getScene().getWindow();
+        Stage window = (Stage) signInButton.getScene().getWindow();
         window.setScene(browseScene);
     }
 
+    public void changeSceneToSignUp() throws  IOException
+    {
+        Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+        Scene signUpScene = new Scene(signUpParent);
+
+        Stage window = (Stage) signInPageToSignUpButton.getScene().getWindow();
+        window.setScene(signUpScene);
+    }
 
 }

@@ -19,7 +19,9 @@ public class AccountController {
     @FXML
     TreeView ownedTitles;
     @FXML
-    TextField accountPageUsername, accountPageEmail, accountPagePassword, accountPageRepeatPassword;
+    TextField accountPageUsername, accountPageEmail;
+    @FXML
+    PasswordField accountPagePassword, accountPageRepeatPassword;
     @FXML
     Label accountPageUsernameError, accountPagePasswordError, accountPageRepeatPasswordError;
 
@@ -147,12 +149,11 @@ public class AccountController {
 
     boolean validatePasswordIntegrity()
     {
-        Pattern p = Pattern.compile("((?=.*[a-z])(?=.*\\\\d)(?=.*[A-Z]).{8,40})");
-        Matcher m = p.matcher(accountPagePassword.getText());
-        if(m.find() && m.group().equals(accountPagePassword.getText()))
-            return true;
-        return false;
+        Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,40}$");
+        Matcher matcher = p.matcher(accountPagePassword.getText());
+        return matcher.matches();
     }
+
     public void changeSceneToLogin() throws IOException
     {
         Parent loginParent = FXMLLoader.load(getClass().getResource("Login.fxml"));
