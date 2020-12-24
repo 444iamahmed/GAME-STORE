@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class LoginController {
+public class SignInPageController {
 
     @FXML Button signInButton, signInPageToSignUpButton;
 
@@ -37,7 +37,7 @@ public class LoginController {
 
     public void changeSceneToBrowse() throws IOException
     {
-        Parent browseParent = FXMLLoader.load(getClass().getResource("Browse.fxml"));
+        Parent browseParent = FXMLLoader.load(getClass().getResource("BrowsePage.fxml"));
         Scene browseScene = new Scene(browseParent);
 
         Stage window = (Stage) signInButton.getScene().getWindow();
@@ -46,7 +46,7 @@ public class LoginController {
 
     public void changeSceneToSignUp() throws  IOException
     {
-        Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
+        Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUpPage.fxml"));
         Scene signUpScene = new Scene(signUpParent);
 
         Stage window = (Stage) signInPageToSignUpButton.getScene().getWindow();

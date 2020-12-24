@@ -10,13 +10,16 @@ public class Store {
 
     static Account activeAccount;
     Inventory inventory;
+    Cart cart;
     ArrayList<String> genres;
     ArrayList<String> platforms;
     PersistenceDBHandler persistenceDBHandler;
+    Payment paymentHandler;
     private Store()
     {
         persistenceDBHandler = MySQLHandler.getInstance();
         inventory = Inventory.getInstance();
+        cart = Cart.getInstance();
         inventory.setPersistenceDBHandler(persistenceDBHandler);
         genres = persistenceDBHandler.getGenres();
         platforms = persistenceDBHandler.getPlatforms();
@@ -71,5 +74,37 @@ public class Store {
     {
 
     }
+    public void removeFromCart(CartItem cartItem)
+    {
+        cart.remove(cartItem);
+    }
+    public void addToCart(Title title)
+    {
+        cart.add(title);
+    }
+    public ArrayList<CartItem> getCartItems()
+    {
+        return cart.getItems();
+    }
+    public Double getCartTotal()
+    {
+        return cart.getTotal();
+    }
+    public void checkout(String cardNumber, String expiration, String CVV)
+    {
+
+    }
+    public Double generateOrderNumber()
+    {
+        return 0.0;
+    }
+    public void clearCart()
+    {
+        cart.clear();
+    }
+
+
+
+
 
 }

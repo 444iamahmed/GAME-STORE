@@ -13,15 +13,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
+          <Tab text="Owned Keys">
+            <content>
+              <AnchorPane nodeOrientation="LEFT_TO_RIGHT">
+                     <children>
+                        <TreeView fx:id="ownedTitles" layoutX="-1.0" layoutY="-2.0" prefHeight="450.4" prefWidth="894.4" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
             <Tab text="Profile">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <BorderPane layoutX="175.0" layoutY="112.0" prefHeight="466.4" prefWidth="894.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <center>
@@ -76,39 +84,13 @@
                   </AnchorPane>
               </content>
             </Tab>
-          <Tab text="Owned Keys">
-            <content>
-              <AnchorPane>
-                     <children>
-                        <TreeView fx:id="ownedTitles" layoutX="-1.0" layoutY="-2.0" prefHeight="450.4" prefWidth="894.4" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
         </tabs>
-      </TabPane>
-   </center>
-   <top>
-      <HBox prefHeight="41.0" prefWidth="894.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="backToBrowse" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Back To Browse" />
-            <Pane prefHeight="200.0" prefWidth="200.0">
-               <padding>
-                  <Insets left="275.0" />
-               </padding>
-            </Pane>
-            <Label text="Account">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-         </children>
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
-         <padding>
-            <Insets bottom="8.0" left="17.0" top="7.0" />
-         </padding>
-      </HBox>
-   </top>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TabPane>
+   </center>
 </BorderPane>

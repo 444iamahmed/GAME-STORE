@@ -5,14 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class AccountController {
+public class AccountPageController {
 
     @FXML
     Button backToBrowse, deleteAccountButton, saveChangesButton;
@@ -25,17 +24,17 @@ public class AccountController {
     @FXML
     Label accountPageUsernameError, accountPagePasswordError, accountPageRepeatPasswordError;
 
+    VBox boxybox;
+
     Store myStore;
     Account activeAccount;
     boolean[] conditions = {false, false, false};
-    String passwordErrorMessage = "Password must contain at least 1 of (0-9, a-z, A-Z) and must have a length between 8 and 40 characters!";
 
     public void initialize()
     {
 
         myStore = Store.getInstance();
         activeAccount = myStore.getActiveAccount();
-
 
         accountPageUsername.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[0] = false;
@@ -56,17 +55,17 @@ public class AccountController {
             conditions[1] = false;
             if(newValue != activeAccount.getPassword())
             {
-                if(validatePasswordIntegrity())
+                if(Validator.validatePasswordIntegrity(newValue))
                 {
-                    accountPagePassword.setText("");
+                    accountPagePasswordError.setText("");
                     accountPageRepeatPassword.setDisable(false);
                     conditions[1] = true;
                 }
                 else
-                    accountPageUsernameError.setText(passwordErrorMessage);
+                    accountPagePasswordError.setText(Validator.passwordErrorMessage);
             }
             else
-                accountPagePassword.setDisable(true);
+                accountPageRepeatPassword.setDisable(true);
             resetSaveChangesButton();
         });
 
@@ -74,11 +73,11 @@ public class AccountController {
             conditions[2] = false;
             if(newValue == accountPagePassword.getText())
             {
-                accountPageRepeatPassword.setText("");
+                accountPageRepeatPasswordError.setText("");
                 conditions[2] = true;
             }
             else
-                accountPageUsernameError.setText("Passwords don't match!");
+                accountPageRepeatPasswordError.setText("Passwords don't match!");
             resetSaveChangesButton();
         });
         //activeAccount = myStore.getActiveAccount();
@@ -115,7 +114,7 @@ public class AccountController {
     }
     public void changeSceneToBrowse() throws IOException
     {
-        Parent browseParent = FXMLLoader.load(getClass().getResource("Browse.fxml"));
+        Parent browseParent = FXMLLoader.load(getClass().getResource("BrowsePage.fxml"));
         Scene browseScene = new Scene(browseParent);
 
         Stage window = (Stage) backToBrowse.getScene().getWindow();
@@ -148,16 +147,9 @@ public class AccountController {
 
     }
 
-    boolean validatePasswordIntegrity()
-    {
-        Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,40}$");
-        Matcher matcher = p.matcher(accountPagePassword.getText());
-        return matcher.matches();
-    }
-
     public void changeSceneToLogin() throws IOException
     {
-        Parent loginParent = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
         Scene loginScene = new Scene(loginParent);
 
         Stage window = (Stage) deleteAccountButton.getScene().getWindow();

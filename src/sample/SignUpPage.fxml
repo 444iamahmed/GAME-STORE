@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignUpController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignUpPageController">
    <children>
       <BorderPane layoutX="169.0" layoutY="127.0" prefHeight="452.6" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -28,19 +28,19 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField fx:id="username" promptText="Username" />
-                  <Label fx:id="usernameError" textFill="#e21d1d" />
-                  <TextField fx:id="email" promptText="Email" />
-                  <Label fx:id="emailError" textFill="#e21d1d" />
-                  <TextField fx:id="repeatEmail" promptText="Confirm Email" />
-                  <Label fx:id="repeatEmailError" textFill="#e21d1d" />
-                  <PasswordField fx:id="password" promptText="Password" />
-                  <Label fx:id="passwordError" textFill="#e21d1d" />
-                  <PasswordField fx:id="repeatPassword" promptText="Confirm Password" />
-                  <Label fx:id="repeatPasswordError" textFill="#e21d1d" />
+                  <TextField fx:id="signUpPageUsername" promptText="Username" />
+                  <Label fx:id="signUpPageUsernameError" textFill="#e21d1d" />
+                  <TextField fx:id="signUpPageEmail" promptText="Email" />
+                  <Label fx:id="signUpPageEmailError" textFill="#e21d1d" />
+                  <TextField fx:id="signUpPageRepeatEmail" promptText="Confirm Email" />
+                  <Label fx:id="signUpPageRepeatEmailError" textFill="#e21d1d" />
+                  <PasswordField fx:id="signUpPagePassword" promptText="Password" />
+                  <Label fx:id="signUpPagePasswordError" textFill="#e21d1d" />
+                  <PasswordField fx:id="signUpPageRepeatPassword" promptText="Confirm Password" />
+                  <Label fx:id="signUpPageRepeatPasswordError" textFill="#e21d1d" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="back" mnemonicParsing="false" onAction="#changeSceneToLogin" text="Back" />
+                        <Button fx:id="back" mnemonicParsing="false" onAction="#changeSceneToSignIn" text="Back" />
                         <Pane prefHeight="200.0" prefWidth="200.0" />
                         <Button fx:id="signUp" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Sign Up" textAlignment="CENTER" />
                      </children>

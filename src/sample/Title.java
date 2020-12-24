@@ -29,6 +29,7 @@ public class Title extends Displayable
         description = new String("");
         platform = new String("");
         genre = new ArrayList<>();
+        keys = new ArrayList<>();
         rating = 0.0;
         price = 0.0;
     }
@@ -40,6 +41,7 @@ public class Title extends Displayable
         description = desc;
         developer = dev;
         genre = new ArrayList<>();
+        keys = new ArrayList<>();
         genre.addAll(g);
         platform = plat;
         rating = r;
@@ -55,6 +57,7 @@ public class Title extends Displayable
         rating = r;
         price = p;
         genre = new ArrayList<>();
+        keys = new ArrayList<>();
 
     }
 
@@ -83,12 +86,12 @@ public class Title extends Displayable
         return description;
     }
 
-    public double getRating()
+    public Double getRating()
     {
         return rating;
     }
 
-    public double getPrice()
+    public Double getPrice()
     {
         return price;
     }
@@ -140,9 +143,7 @@ public class Title extends Displayable
     public void addKey(Key key){keys.add(key);}
     public boolean equals(Title title)
     {
-        if(name == title.name && platform == title.platform && developer == title.developer)
-            return true;
-        return false;
+        return name.equals(title.name) && platform.equals(title.platform) && developer.equals(title.developer);
     }
 
     public void updateGenres(ArrayList<String> genres)
@@ -150,4 +151,11 @@ public class Title extends Displayable
         genre.clear();
         genre.addAll(genres);
     }
-} 
+
+    public String getGenreString() {
+        String tempGenres = "";
+        for(String i: genre)
+            tempGenres += i + " ";
+        return tempGenres;
+    }
+}
