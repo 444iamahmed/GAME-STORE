@@ -40,12 +40,12 @@ public class Store {
 
     public boolean usernameExists(String username)
     {
-        return false;
+        return persistenceDBHandler.checkUserExistence(username);
     }
 
     public boolean emailExists(String email)
     {
-        return false;
+        return persistenceDBHandler.checkEmailExistence(email);
     }
 
     public void saveAccountAndSetActive(String username, String email, String password)

@@ -12,5 +12,8 @@ public abstract class PersistenceDBHandler {
     public abstract ArrayList<Title> getOwnedKeys(Account account);
     public abstract Account saveAccount(String username, String email, String password);
     public abstract Account retrieveAccount(String username, String password);
+    public abstract Title getSingleTitle(String title_name);
+    public abstract Boolean checkUserExistence(String username);
+    public abstract Boolean checkEmailExistence(String email);
     public abstract void updateAccount(Account account);
 }

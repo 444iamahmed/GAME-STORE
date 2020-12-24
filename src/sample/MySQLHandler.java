@@ -218,16 +218,125 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Account saveAccount(String username, String email, String password) {
-        return null;
+        String QUERY = "INSERT INTO customer (customer_username, customer_password, customer_email) VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\")";
+        Account saved = new Account(username,email,password);
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            return saved;
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
     }
 
     @Override
     public Account retrieveAccount(String username, String password) {
+        String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"";
+        Account retrieved = new Account();
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            while(rs.next()) {
+                retrieved.setUsername(rs.getString("customer_username"));
+                retrieved.setPassword(rs.getString("customer_password"));
+                retrieved.setEmail(rs.getString("customer_email"));
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        return retrieved;
+    }
+
+    @Override
+    public Boolean checkUserExistence(String username) {
+        String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            if(rs.next()) {
+               return true;
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkEmailExistence(String email) {
+        String QUERY = "select * from customer where customer.customer_email = \"" + email + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            if(rs.next()) {
+                return true;
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public Title getSingleTitle(String title_name) {
+        String QUERY = "select * from title where title.title_name = \"" + title_name + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            if(rs.next()) {
+                Title tempTitle = new Title(rs.getString("title_name"),
+                        rs.getDate("title_release_date"),
+                        rs.getString("title_description"),
+                        rs.getString("title_developer"),
+                        rs.getString("title_platform"),
+                        rs.getDouble("title_rating") ,
+                        rs.getDouble("title_price"));
+                String GENRE_QUERY = "select genre from title_genre where title_name = \""+ tempTitle.getName() +
+                        "\" and title_developer = \"" + tempTitle.getDeveloper() +
+                        "\" and title_platform = \""+ tempTitle.getPlatform() + "\"";
+                try (
+                        Statement genresStatement = connection.createStatement();
+                        ResultSet genreSet = genresStatement.executeQuery(GENRE_QUERY);
+                ){
+                    while (genreSet.next())
+                        tempTitle.addGenre(genreSet.getString("genre"));
+                } catch (SQLException e){
+                    printSQLException(e);
+                    return tempTitle;
+                }
+                return tempTitle;
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
         return null;
     }
 
     @Override
     public void updateAccount(Account account) {
+        String QUERY = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_email = \"" + account.getEmail() + "\" WHERE (customer_username =  \"" + account.getUsername() + "\")";
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
 
     }
 }

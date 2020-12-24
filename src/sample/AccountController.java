@@ -81,6 +81,7 @@ public class AccountController {
                 accountPageUsernameError.setText("Passwords don't match!");
             resetSaveChangesButton();
         });
+        //activeAccount = myStore.getActiveAccount();
         accountPageEmail.setText(activeAccount.getEmail());
         accountPageUsername.setText(activeAccount.getUsername());
         accountPagePassword.setText(activeAccount.getPassword());
