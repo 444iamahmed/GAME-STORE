@@ -24,7 +24,6 @@ public class AccountPageController {
     @FXML
     Label accountPageUsernameError, accountPagePasswordError, accountPageRepeatPasswordError;
 
-    VBox boxybox;
 
     Store myStore;
     Account activeAccount;
@@ -80,7 +79,7 @@ public class AccountPageController {
                 accountPageRepeatPasswordError.setText("Passwords don't match!");
             resetSaveChangesButton();
         });
-        //activeAccount = myStore.getActiveAccount();
+
         accountPageEmail.setText(activeAccount.getEmail());
         accountPageUsername.setText(activeAccount.getUsername());
         accountPagePassword.setText(activeAccount.getPassword());
