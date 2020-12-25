@@ -87,4 +87,12 @@ public class Filter {
     }
 
 
+    public void addPlatform(String platform) {
+        if(!platforms.contains(platform))
+            platforms.add(platform);
+    }
+
+    public void removePlatform(String platform) {
+        platforms.remove(platform);
+    }
 }

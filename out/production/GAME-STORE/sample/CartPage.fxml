@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CartPageController">
    <bottom>
       <HBox alignment="CENTER" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Price: Rs. " />
+            <Label fx:id="totalPriceLabel" text="Price: Rs. " />
             <Pane prefHeight="0.0" prefWidth="100.0" />
-            <Button mnemonicParsing="false" text="Checkout" />
+            <Button mnemonicParsing="false" onAction="#checkout" text="Checkout" />
          </children>
       </HBox>
    </bottom>
@@ -35,11 +35,11 @@
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Label text="Card Number" />
-            <TextField />
+            <TextField fx:id="cardNumberText" />
             <Label text="Expiration" />
-            <TextField />
+            <TextField fx:id="expirationText" />
             <Label text="CVV" />
-            <TextField />
+            <TextField fx:id="CVVText" />
          </children>
       </VBox>
    </right>

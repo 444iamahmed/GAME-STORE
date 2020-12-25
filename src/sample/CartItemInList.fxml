@@ -8,10 +8,10 @@
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.CartItemInListController">
    <children>
-      <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="titleImageView" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" />
       <Label />
-      <Label text="Price: Rs. " />
+      <Label fx:id="priceLabel" text="Price: Rs. " />
       <Pane prefWidth="200.0" />
-      <Button alignment="CENTER" mnemonicParsing="false" text="Remove" />
+      <Button alignment="CENTER" mnemonicParsing="false" onAction="#remove" text="Remove" />
    </children>
 </HBox>

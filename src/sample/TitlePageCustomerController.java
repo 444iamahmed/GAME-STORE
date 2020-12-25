@@ -27,7 +27,8 @@ public class TitlePageCustomerController {
 
     Title title;
     Store myStore;
-    void initialize()
+
+    public void initialize()
     {
         myStore = Store.getInstance();
     }
@@ -40,7 +41,7 @@ public class TitlePageCustomerController {
         genresLabel.setText(genresLabel.getText() + myTitle.getGenreString());
         descriptionTextFlow.getChildren().add(new Text(myTitle.getDescription()));
     }
-    void addToCart()
+    public void addToCart()
     {
         myStore.addToCart(title);
     }
