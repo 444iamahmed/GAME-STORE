@@ -42,7 +42,7 @@
                      <children>
                         <Button fx:id="back" mnemonicParsing="false" onAction="#changeSceneToSignIn" text="Back" />
                         <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Button fx:id="signUp" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#changeSceneToBrowse" text="Sign Up" textAlignment="CENTER" />
+                        <Button fx:id="signUp" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#makeAccount" text="Sign Up" textAlignment="CENTER" />
                      </children>
                   </HBox>
                </children>
