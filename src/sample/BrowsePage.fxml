@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BrowsePageController">
@@ -104,7 +103,7 @@
       </VBox>
    </right>
    <center>
-      <GridPane alignment="CENTER" hgap="25.0" prefWidth="721.0" vgap="10.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="titlesContainer" alignment="CENTER" hgap="25.0" prefWidth="721.0" vgap="10.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

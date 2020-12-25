@@ -23,11 +23,14 @@ public class MySQLHandler extends PersistenceDBHandler {
         String tempString = "";
         if(!list.isEmpty())
         {
-            tempString = field;
-            tempString += logic + " IN (";
-            for (String m : list)
-                field += "\"" + m + "\", ";
-            tempString += ") ";
+            tempString = logic + " ";
+            tempString += field + " IN (";
+            for (int i = 0; i<list.size(); i++)
+            {
+                tempString += "\"" + list.get(i) + "\"";
+                if(i != list.size() - 1)
+                    tempString += ", ";
+            }tempString += ") ";
         }
         return tempString;
     }
@@ -102,7 +105,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Title> getOwnedKeys(Account account) {
-        String QUERY = "select * from key where key_owner = " + account.getUsername();
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + account.getUsername() + "\"";
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -172,7 +175,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         String QUERY = "select * from title where " +
                 searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", filter.getSearchText(),"AND")  +
                 "title.title_rating >= " + filter.getRating() + " AND title.title_price <= " + filter.getMaxPrice() +
-                "AND (select count(title_genre.genre) from title_genre where " +
+                " AND (select count(title_genre.genre) from title_genre where " +
                 "title_genre.title_name = title.title_name " +
                 "AND title_genre.title_developer = title.title_developer " +
                 "AND title_genre.title_platform = title.title_platform " +

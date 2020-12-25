@@ -138,7 +138,7 @@ public class AccountPageController {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if(result.get() == ButtonType.OK)
+        if(result.get() == buttonTypeYes)
         {
             myStore.deleteActiveAccount();
             changeSceneToLogin();

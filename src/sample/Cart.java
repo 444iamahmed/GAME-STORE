@@ -19,26 +19,26 @@ public class Cart {
         }
         return instance;
     }
-    public void addtoCart(Title t){
-        CartItem temp=new CartItem(t.getName(),t.getDeveloper(),t.getPlatform());
+    public void add(Title t){
+        CartItem temp=new CartItem(t.getName(),t.getDeveloper(),t.getPlatform(), t.getPrice());
         cartItems.add(temp);
         price+=t.getPrice();
     }
-    public void remove(Title t){
+    public void remove(CartItem item){
         for(int i=0;i<cartItems.size();i++){
-            if(cartItems.get(i).compare(t)){
-                price-=t.getPrice();
+            if(cartItems.get(i).equals(item)){
+                price-=item.getPrice();
                 cartItems.remove(i);
                 break;
             }
         }
     }
 
-    public Double getCartTotal(){
+    public Double getTotal(){
         return price;
     }
 
-    public ArrayList<CartItem> getCartItems() {
+    public ArrayList<CartItem> getItems() {
         return cartItems;
     }
 
@@ -49,5 +49,10 @@ public class Cart {
         //Clear Cart
         //Proceed to Payment
     }
+    public void clear()
+    {
+        cartItems.clear();
+    }
+
 
 }

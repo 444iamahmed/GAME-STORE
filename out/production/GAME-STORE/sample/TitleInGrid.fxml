@@ -8,20 +8,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TitleInGridController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="150.0" onMouseClicked="#openTitlePage" pickOnBounds="true" preserveRatio="true" />
-      <Label />
+      <Label fx:id="name" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label text="Price: Rs. " />
+            <Label fx:id="price" text="Price: Rs. " />
             <Pane>
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
             </Pane>
-            <Button graphicTextGap="5.0" mnemonicParsing="false" text="Add To Cart" />
+            <Button graphicTextGap="5.0" mnemonicParsing="false" onAction="#addToCart" text="Add To Cart" />
          </children>
       </HBox>
    </children>

@@ -29,10 +29,10 @@ public class MainPageController {
         loadPage("HomePage");
         pageLabel.setText("Home");
     }
-    public void changeTabToBrowse()
-    {
+    public void changeTabToBrowse() throws IOException {
         BrowsePageController browsePageController = (BrowsePageController) loadPage("BrowsePage");
         browsePageController.setMyController(this);
+        browsePageController.fillGrid();
         pageLabel.setText("Browse");
     }
     public void changeTabToAccount()
@@ -40,10 +40,11 @@ public class MainPageController {
         loadPage("AccountPage");
         pageLabel.setText("Account");
     }
-    public void changeTabToCart()
-    {
-        loadPage("CartPage");
+    public void changeTabToCart() throws IOException {
+        CartPageController cartPageController = (CartPageController) loadPage("CartPage");
         pageLabel.setText("Cart");
+        cartPageController.setMyController(this);
+        cartPageController.refreshList();
     }
     private Object loadPage(String page)
     {

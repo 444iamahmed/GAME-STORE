@@ -30,18 +30,18 @@ public class SignInPageController {
 
     public void validateCredentials() throws IOException {
         if(myStore.checkAccountAndLogin(loginId.getText(), loginPassword.getText()))
-            changeSceneToBrowse();
+            changeSceneToMainPage();
         else
             loginError.setText("Invalid username or password!");
     }
 
-    public void changeSceneToBrowse() throws IOException
+    public void changeSceneToMainPage() throws IOException
     {
-        Parent browseParent = FXMLLoader.load(getClass().getResource("BrowsePage.fxml"));
-        Scene browseScene = new Scene(browseParent);
+        Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+        Scene mainPageScene = new Scene(mainPageParent);
 
         Stage window = (Stage) signInButton.getScene().getWindow();
-        window.setScene(browseScene);
+        window.setScene(mainPageScene);
     }
 
     public void changeSceneToSignUp() throws  IOException

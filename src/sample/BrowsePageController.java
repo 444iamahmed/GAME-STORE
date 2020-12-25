@@ -36,7 +36,6 @@ public class BrowsePageController {
         genres = myStore.genres;
         platforms = myStore.platforms;
         filter = Filter.getInstance();
-        fillGrid();
         for(String m: genres)
        {
            CheckBox tempCheckBox = new CheckBox(m);
@@ -83,22 +82,25 @@ public class BrowsePageController {
         });
     }
 
-    private void fillGrid() throws IOException
+    public void fillGrid() throws IOException
     {
         titlesContainer.getChildren().clear();
-        int maxCol = 3, rowCnt = 0;
+        int maxCol = 3, rowCnt = 0, colCnt = 0;
         for(Title i: myStore.search(filter))
         {
-            for(int colCnt = 0; colCnt < maxCol; colCnt++)
+            FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGrid.fxml"));
+            Parent titleInGrid = titleLoader.load();
+            TitleInGridController titleController = titleLoader.getController();
+            titleController.setMyTitle(i);
+            titleController.setController(myController);
+            titlesContainer.add(titleInGrid, colCnt, rowCnt);
+            colCnt++;
+
+            if(colCnt > maxCol)
             {
-                FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInPage.fxml"));
-                TitleInGridController titleController = titleLoader.getController();
-                titleController.setMyTitle(i);
-                Parent titleInGrid = titleLoader.load();
-                titleController.setController(myController);
-                titlesContainer.add(titleInGrid, colCnt, rowCnt);
+                rowCnt++;
+                colCnt = 0;
             }
-            rowCnt++;
         }
     }
 
@@ -118,9 +120,9 @@ public class BrowsePageController {
     void setPlatform(CheckBox box)
     {
         if(box.isSelected())
-            filter.addGenre(box.getText());
+            filter.addPlatform(box.getText());
         else
-            filter.removeGenre(box.getText());
+            filter.removePlatform(box.getText());
     }
 
     void setRating(Slider slider)

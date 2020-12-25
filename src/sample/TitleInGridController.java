@@ -16,7 +16,9 @@ public class TitleInGridController {
 
     Title title;
     Store myStore;
-    void initialize()
+
+
+    public void initialize()
     {
         myStore = Store.getInstance();
     }

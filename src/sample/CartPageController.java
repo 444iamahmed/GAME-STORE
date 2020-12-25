@@ -27,8 +27,7 @@ public class CartPageController {
 
     Store myStore;
 
-    public void initialize()
-    {
+    public void initialize() throws IOException {
         myStore = Store.getInstance();
     }
 
@@ -38,11 +37,11 @@ public class CartPageController {
         for(CartItem i: myStore.getCartItems())
         {
             FXMLLoader cartItemLoader = new FXMLLoader(getClass().getResource("CartItemInList.fxml"));
+            cartItemsList.getChildren().add(cartItemLoader.load());
             CartItemInListController cartItemInList = cartItemLoader.getController();
             cartItemInList.setController(this);
-            cartItemsList.getChildren().add(cartItemLoader.load());
+            cartItemInList.setItem(i);
         }
-
         totalPriceLabel.setText(totalPriceLabel.getText() + myStore.getCartTotal().toString());
 
     }
@@ -61,7 +60,7 @@ public class CartPageController {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if(result.get() == ButtonType.OK)
+        if(result.get() == buttonTypeYes)
         {
             myStore.checkout(cardNumberText.getText(), expirationText.getText(), CVVText.getText());
             Alert orderDetails = new Alert(Alert.AlertType.INFORMATION);

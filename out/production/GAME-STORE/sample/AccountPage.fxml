@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountPageController">
    <center>
       <TabPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -58,7 +58,7 @@
                                                 <Insets left="305.0" />
                                              </padding>
                                           </Pane>
-                                          <Button mnemonicParsing="false" onAction="#saveChanges" text="Save Changes" />
+                                          <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#saveChanges" text="Save Changes" />
                                        </children>
                                        <padding>
                                           <Insets top="20.0" />
