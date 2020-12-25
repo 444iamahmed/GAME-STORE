@@ -37,7 +37,7 @@ public class SignInPageController {
 
     public void changeSceneToMainPage() throws IOException
     {
-        Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+        Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPageCustomer.fxml"));
         Scene mainPageScene = new Scene(mainPageParent);
 
         Stage window = (Stage) signInButton.getScene().getWindow();

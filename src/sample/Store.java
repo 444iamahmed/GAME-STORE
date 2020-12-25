@@ -102,6 +102,10 @@ public class Store {
     {
         cart.clear();
     }
+    public void signOut()
+    {
+        activeAccount = null;
+    }
 
 
 

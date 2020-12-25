@@ -121,7 +121,7 @@ public class SignUpPageController {
 
     public void changeSceneToMainPage() throws IOException
     {
-        Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPage.fxml"));
+        Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPageCustomer.fxml"));
         Scene mainPageScene = new Scene(mainPageParent);
 
         Stage window = (Stage) signUp.getScene().getWindow();
@@ -130,6 +130,7 @@ public class SignUpPageController {
 
     public void changeSceneToSignIn() throws IOException
     {
+        myStore.signOut();
         Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
         Scene loginScene = new Scene(loginParent);
 

@@ -11,6 +11,25 @@ public class Filter {
     private ArrayList<String> genres;
     private ArrayList<String> platforms;
     private Double maxPrice;
+    private SortBy sortBy;
+    private Released released;
+    private String orderBy;
+
+    public SortBy getSortBy() {
+        return sortBy;
+    }
+
+    public void setSortBy(SortBy sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    public Released getReleased() {
+        return released;
+    }
+
+    public void setReleased(Released released) {
+        this.released = released;
+    }
 
     private Filter()
     {
@@ -19,6 +38,9 @@ public class Filter {
         rating = 0.0;
         maxPrice = 500000.0;
         searchText = "";
+        sortBy = SortBy.DATE;
+        released = Released.ALL_TIME;
+        orderBy = "asc";
     }
     public static Filter getInstance()
     {
@@ -94,5 +116,9 @@ public class Filter {
 
     public void removePlatform(String platform) {
         platforms.remove(platform);
+    }
+
+    public void setOrderBy(String ob) {
+        orderBy = ob;
     }
 }
