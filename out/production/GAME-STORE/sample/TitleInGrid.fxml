@@ -21,7 +21,7 @@
                   <Insets left="20.0" right="20.0" />
                </padding>
             </Pane>
-            <Button graphicTextGap="5.0" mnemonicParsing="false" onAction="#addToCart" text="Add To Cart" />
+            <Button graphicTextGap="5.0" mnemonicParsing="false" text="Add To Cart" />
          </children>
       </HBox>
    </children>
