@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MainPageController {
+public class MainPageCustomerController {
 
     @FXML
     BorderPane mainPageBorderPane;
@@ -54,7 +54,7 @@ public class MainPageController {
             pageLoader = new FXMLLoader(getClass().getResource(page + ".fxml"));
             root = pageLoader.load();
         } catch (IOException e) {
-            Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(MainPageCustomerController.class.getName()).log(Level.SEVERE, null, e);
         }
         mainPageBorderPane.setCenter(root);
         return pageLoader.getController();

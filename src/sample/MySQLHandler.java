@@ -227,7 +227,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                 (Statement stmt = connection.createStatement();
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
-            return saved;
+            return retrieveAccount(username, password);
         }catch (SQLException e) {
             printSQLException(e);
             return null;

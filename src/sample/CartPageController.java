@@ -2,21 +2,18 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
 
 public class CartPageController {
 
-    MainPageController myController;
+    MainPageCustomerController myController;
     @FXML
     VBox cartItemsList;
     @FXML
@@ -73,7 +70,7 @@ public class CartPageController {
 
     }
 
-    void setMyController(MainPageController controller)
+    void setMyController(MainPageCustomerController controller)
     {
         myController = controller;
     }

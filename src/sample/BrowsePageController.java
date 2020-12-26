@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,11 +11,15 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class BrowsePageController {
 
-    MainPageController myController;
+    MainPageCustomerController myController;
+
+    @FXML
+    ToggleGroup sortToggleGroup, releaseToggleGroup, sortOrderToggleGroup;
 
     @FXML
     GridPane titlesContainer;
@@ -80,6 +86,84 @@ public class BrowsePageController {
                 e.printStackTrace();
             }
         });
+        for(Toggle i: sortToggleGroup.getToggles())
+        {
+            if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("price"))
+            {
+                i.setUserData(SortBy.PRICE);
+            }
+            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("date"))
+            {
+                i.setUserData(SortBy.DATE);
+            }
+            else
+            {
+                i.setUserData(SortBy.RATING);
+            }
+        }
+
+        for(Toggle i: releaseToggleGroup.getToggles())
+        {
+            if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("all time"))
+            {
+                i.setUserData(Released.ALL_TIME);
+            }
+            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this year"))
+            {
+                i.setUserData(Released.THIS_YEAR);
+            }
+            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this month"))
+            {
+                i.setUserData(Released.THIS_MONTH);
+            }
+            else
+            {
+                i.setUserData(Released.THIS_WEEK);
+            }
+        }
+
+        for(Toggle i: sortOrderToggleGroup.getToggles())
+        {
+            ((RadioButton) i).setUserData(((RadioButton) i).getText());
+        }
+
+        sortToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
+                filter.setSortBy((SortBy) t1.getUserData());
+                try {
+                    Search();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        releaseToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
+                filter.setReleased((Released) t1.getUserData());
+                try {
+                    Search();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        sortOrderToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
+                filter.setOrderBy((String) t1.getUserData());
+                try {
+                    Search();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     public void fillGrid() throws IOException
@@ -134,8 +218,7 @@ public class BrowsePageController {
         filter.setMaxPrice(slider.getValue());
     }
 
-
-    public void setMyController(MainPageController mainPageController) {
-        this.myController = mainPageController;
+    public void setMyController(MainPageCustomerController mainPageCustomerController) {
+        this.myController = mainPageCustomerController;
     }
 }

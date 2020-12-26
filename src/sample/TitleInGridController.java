@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TitleInGridController {
 
-    private MainPageController myController;
+    private MainPageCustomerController myController;
     @FXML
     Label name, price;
     @FXML
@@ -47,7 +47,7 @@ public class TitleInGridController {
     }
 
 
-    public void setController(MainPageController controller) {
+    public void setController(MainPageCustomerController controller) {
         myController = controller;
     }
 
