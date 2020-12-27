@@ -1,108 +1,87 @@
 package sample;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
 
-public class AccountPageController {
+public abstract class AccountPageController {
 
     @FXML
-    Button backToBrowse, deleteAccountButton, saveChangesButton;
+    Button deleteAccountButton,
+            saveChangesButton;
+
     @FXML
-    TreeView ownedTitles;
+    TextField usernameText, emailText;
     @FXML
-    TextField accountPageUsername, accountPageEmail;
+    PasswordField passwordText, confirmPasswordText;
     @FXML
-    PasswordField accountPagePassword, accountPageRepeatPassword;
-    @FXML
-    Label accountPageUsernameError, accountPagePasswordError, accountPageRepeatPasswordError;
+    Label usernameErrorLabel, passwordErrorLabel, confirmPasswordErrorLabel;
 
 
     Store myStore;
-    Account activeAccount;
+    Account myAccount;
     boolean[] conditions = {false, false, false};
 
     public void initialize()
     {
-
         myStore = Store.getInstance();
-        activeAccount = myStore.getActiveAccount();
+    }
 
-        accountPageUsername.textProperty().addListener((v, oldValue, newValue) -> {
+    public void fillAccountData(Account account) {
+        myAccount = account;
+
+        usernameText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[0] = false;
-            if(newValue != activeAccount.getUsername())
+            if(newValue != myAccount.getUsername())
             {
                 if(!myStore.usernameExists(newValue))
                 {
-                    accountPageUsernameError.setText("");
+                    usernameErrorLabel.setText("");
                     conditions[0] = true;
                 }
                 else
-                    accountPageUsernameError.setText("Username already exists!");
+                    usernameErrorLabel.setText("Username already exists!");
             }
             resetSaveChangesButton();
 
         });
-        accountPagePassword.textProperty().addListener((v, oldValue, newValue) -> {
+        passwordText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[1] = false;
-            if(newValue != activeAccount.getPassword())
+            if(newValue != myAccount.getPassword())
             {
                 if(Validator.validatePasswordIntegrity(newValue))
                 {
-                    accountPagePasswordError.setText("");
-                    accountPageRepeatPassword.setDisable(false);
+                    passwordErrorLabel.setText("");
+                    confirmPasswordText.setDisable(false);
                     conditions[1] = true;
                 }
                 else
-                    accountPagePasswordError.setText(Validator.passwordErrorMessage);
+                    passwordErrorLabel.setText(Validator.passwordErrorMessage);
             }
             else
-                accountPageRepeatPassword.setDisable(true);
+                confirmPasswordText.setDisable(true);
             resetSaveChangesButton();
         });
 
-        accountPageRepeatPassword.textProperty().addListener((v, oldValue, newValue) -> {
+        confirmPasswordText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[2] = false;
-            if(newValue == accountPagePassword.getText())
+            if(newValue == passwordText.getText())
             {
-                accountPageRepeatPasswordError.setText("");
+                confirmPasswordErrorLabel.setText("");
                 conditions[2] = true;
             }
             else
-                accountPageRepeatPasswordError.setText("Passwords don't match!");
+                confirmPasswordErrorLabel.setText("Passwords don't match!");
             resetSaveChangesButton();
         });
 
-        accountPageEmail.setText(activeAccount.getEmail());
-        accountPageUsername.setText(activeAccount.getUsername());
-        accountPagePassword.setText(activeAccount.getPassword());
-
-        TreeItem<Displayable> root;
-        root = new TreeItem<>();
-        root.setExpanded(true);
-
-        for(Title t: myStore.getOwnedKeys())
-        {
-            TreeItem<Displayable> titleTreeItem = new TreeItem<>(t);
-            root.getChildren().add(titleTreeItem);
-            for(Key key: t.getKeys())
-            {
-                titleTreeItem.getChildren().add(new TreeItem<>(key));
-            }
-
-        }
-        ownedTitles = new TreeView(root);
-        ownedTitles.setShowRoot(false);
-
-
+        emailText.setText(myAccount.getEmail());
+        usernameText.setText(myAccount.getUsername());
+        passwordText.setText(myAccount.getPassword());
     }
+
     void resetSaveChangesButton()
     {
         boolean flag = true;
@@ -111,20 +90,12 @@ public class AccountPageController {
                 flag = false;
         saveChangesButton.setDisable(!flag);
     }
-    public void changeSceneToBrowse() throws IOException
-    {
-        Parent browseParent = FXMLLoader.load(getClass().getResource("BrowsePage.fxml"));
-        Scene browseScene = new Scene(browseParent);
-
-        Stage window = (Stage) backToBrowse.getScene().getWindow();
-        window.setScene(browseScene);
-    }
 
     public void saveChanges()
     {
-        activeAccount.setPassword(accountPagePassword.getText());
-        activeAccount.setUsername(accountPageUsername.getText());
-        myStore.saveActiveAccountChanges(activeAccount);
+        myAccount.setPassword(passwordText.getText());
+        myAccount.setUsername(usernameText.getText());
+        myStore.saveAccountChanges(myAccount);
     }
     public void deleteAccount() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -146,12 +117,5 @@ public class AccountPageController {
 
     }
 
-    public void changeSceneToLogin() throws IOException
-    {
-        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
-        Scene loginScene = new Scene(loginParent);
-
-        Stage window = (Stage) deleteAccountButton.getScene().getWindow();
-        window.setScene(loginScene);
-    }
+    public abstract void  changeSceneToLogin() throws IOException;
 }

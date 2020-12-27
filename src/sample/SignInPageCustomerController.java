@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class SignInPageController {
+public class SignInPageCustomerController {
 
     @FXML Button signInButton, signInPageToSignUpButton;
 
@@ -46,7 +46,7 @@ public class SignInPageController {
 
     public void changeSceneToSignUp() throws  IOException
     {
-        Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUpPage.fxml"));
+        Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUpPageCustomer.fxml"));
         Scene signUpScene = new Scene(signUpParent);
 
         Stage window = (Stage) signInPageToSignUpButton.getScene().getWindow();

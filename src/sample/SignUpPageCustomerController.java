@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 
-public class SignUpPageController {
+public class SignUpPageCustomerController {
 
     @FXML
     TextField signUpPageUsername, signUpPageEmail, signUpPageRepeatEmail;
@@ -131,7 +131,7 @@ public class SignUpPageController {
     public void changeSceneToSignIn() throws IOException
     {
         myStore.signOut();
-        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
+        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPageCustomer.fxml"));
         Scene loginScene = new Scene(loginParent);
 
         Stage window = (Stage) back.getScene().getWindow();

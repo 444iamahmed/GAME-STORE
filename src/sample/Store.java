@@ -73,11 +73,14 @@ public class Store {
     {
         return activeAccount;
     }
-    public void saveActiveAccountChanges(Account account)
+    public void saveAccountChanges(Account account)
     {
-        activeAccount = account;
+        if(activeAccount.getEmail() == account.getEmail())
+            activeAccount = account;
         persistenceDBHandler.updateAccount(activeAccount);
     }
+
+
     public void deleteActiveAccount()
     {
 

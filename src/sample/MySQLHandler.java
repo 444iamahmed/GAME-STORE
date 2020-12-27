@@ -367,7 +367,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void updateAccount(Account account) {
-        String QUERY = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_email = \"" + account.getEmail() + "\" WHERE (customer_username =  \"" + account.getUsername() + "\")";
+        String QUERY = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_username = \"" + account.getUsername() + "\" WHERE (customer_email =  \"" + account.getEmail() + "\")";
         try
                 (Statement stmt = connection.createStatement();
 

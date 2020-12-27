@@ -33,7 +33,7 @@ public class TitlePageCustomerController {
         myStore = Store.getInstance();
     }
 
-    public void setTitlePage(Title myTitle) {
+    public void fillTitleData(Title myTitle) {
         title = myTitle;
         priceLabel.setText(priceLabel.getText() + myTitle.getPrice().toString());
         ratingLabel.setText(ratingLabel.getText() + myTitle.getRating().toString());

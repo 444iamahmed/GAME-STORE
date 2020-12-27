@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="932.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AccountPageCustomerController">
    <center>
       <TabPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="200.0" prefWidth="818.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
@@ -22,7 +22,7 @@
             <content>
               <AnchorPane nodeOrientation="LEFT_TO_RIGHT">
                      <children>
-                        <TreeView fx:id="ownedTitles" layoutX="-1.0" layoutY="-2.0" prefHeight="450.4" prefWidth="894.4" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TreeView fx:id="ownedTitlesContainer" layoutX="-1.0" layoutY="-2.0" prefHeight="450.4" prefWidth="894.4" showRoot="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -36,17 +36,17 @@
                               <VBox BorderPane.alignment="CENTER">
                                  <children>
                                     <Label text="Username" />
-                                    <TextField fx:id="accountPageUsername" />
-                                    <Label fx:id="accountPageUsernameError" />
+                                    <TextField fx:id="usernameText" />
+                                    <Label fx:id="usernameErrorLabel" />
                                     <Label text="Email" />
-                                    <TextField fx:id="accountPageEmail" editable="false" />
+                                    <TextField fx:id="emailText" editable="false" />
                                     <Label />
                                     <Label text="Password" />
-                                    <PasswordField fx:id="accountPagePassword" />
-                                    <Label fx:id="accountPagePasswordError" />
+                                    <PasswordField fx:id="passwordText" />
+                                    <Label fx:id="passwordErrorLabel" />
                                     <Label text="Confirm Password" />
-                                    <PasswordField fx:id="accountPageRepeatPassword" />
-                                    <Label fx:id="accountPageRepeatPasswordError" />
+                                    <PasswordField fx:id="confirmPasswordText" />
+                                    <Label fx:id="confirmPasswordErrorLabel" />
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
                                           <Button mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account" />

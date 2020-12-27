@@ -22,7 +22,7 @@
                <children>
                   <Pane />
                   <TextField fx:id="searchText" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#Search" text="Search">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#search" text="Search">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

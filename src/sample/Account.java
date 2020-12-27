@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 class Account extends Displayable{
@@ -8,6 +9,9 @@ class Account extends Displayable{
     private String username;
     private String email;
     private String password;
+
+
+    private Date dateCreated;
 
 
     public String getUsername() {
@@ -32,6 +36,14 @@ class Account extends Displayable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
 

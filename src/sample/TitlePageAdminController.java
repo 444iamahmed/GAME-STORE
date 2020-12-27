@@ -49,7 +49,7 @@ public class TitlePageAdminController extends TitlePageCustomerController{
     }
 
     @Override
-    public void setTitlePage(Title myTitle) {
+    public void fillTitleData(Title myTitle) {
         title = myTitle;
         priceText.setText(myTitle.getPrice().toString());
         for(Node m: genreOptions.getChildren())

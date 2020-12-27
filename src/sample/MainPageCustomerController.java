@@ -1,43 +1,25 @@
 package sample;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class MainPageCustomerController {
+public class MainPageCustomerController extends MainPageController{
 
-    @FXML
-    BorderPane mainPageBorderPane;
 
-    @FXML
-    Button signOutButton;
-
-    @FXML
-    Label pageLabel;
-
-    public void changeTabToHome()
-    {
-        loadPage("HomePage");
-        pageLabel.setText("Home");
-    }
     public void changeTabToBrowse() throws IOException {
         BrowsePageController browsePageController = (BrowsePageController) loadPage("BrowsePage");
         browsePageController.setMyController(this);
-        browsePageController.fillGrid();
+        browsePageController.fillTitlesContainer();
         pageLabel.setText("Browse");
     }
     public void changeTabToAccount()
     {
-        loadPage("AccountPage");
+        AccountPageCustomerController accountPageCustomerController = (AccountPageCustomerController) loadPage("AccountPageCustomer");
+        accountPageCustomerController.fillAccountData(myStore.getActiveAccount());
         pageLabel.setText("Account");
     }
     public void changeTabToCart() throws IOException {
@@ -46,31 +28,20 @@ public class MainPageCustomerController {
         cartPageController.setMyController(this);
         cartPageController.refreshList();
     }
-    private Object loadPage(String page)
-    {
-        Parent root = null;
-        FXMLLoader pageLoader = null;
-        try {
-            pageLoader = new FXMLLoader(getClass().getResource(page + ".fxml"));
-            root = pageLoader.load();
-        } catch (IOException e) {
-            Logger.getLogger(MainPageCustomerController.class.getName()).log(Level.SEVERE, null, e);
-        }
-        mainPageBorderPane.setCenter(root);
-        return pageLoader.getController();
-    }
+
 
     public void changeSceneToLogin() throws IOException
     {
-        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
+        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPageCustomer.fxml"));
         Scene loginScene = new Scene(loginParent);
 
         Stage window = (Stage) signOutButton.getScene().getWindow();
         window.setScene(loginScene);
     }
 
+    @Override
     public void openTitlePage(Title myTitle) throws IOException {
         TitlePageCustomerController titlePageCustomerController = (TitlePageCustomerController) loadPage("TitlePageCustomer");
-        titlePageCustomerController.setTitlePage(myTitle);
+        titlePageCustomerController.fillTitleData(myTitle);
     }
 }

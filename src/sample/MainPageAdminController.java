@@ -1,19 +1,13 @@
 package sample;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class MainPageAdminController extends MainPageCustomerController{
+public class MainPageAdminController extends MainPageController{
 
 
     @Override
@@ -39,19 +33,7 @@ public class MainPageAdminController extends MainPageCustomerController{
 //        cartPageController.setMyController(this);
 //        cartPageController.refreshList();
     }
-    private Object loadPage(String page)
-    {
-        Parent root = null;
-        FXMLLoader pageLoader = null;
-        try {
-            pageLoader = new FXMLLoader(getClass().getResource(page + ".fxml"));
-            root = pageLoader.load();
-        } catch (IOException e) {
-            Logger.getLogger(MainPageAdminController.class.getName()).log(Level.SEVERE, null, e);
-        }
-        mainPageBorderPane.setCenter(root);
-        return pageLoader.getController();
-    }
+
 
     public void changeSceneToLogin() throws IOException
     {
@@ -65,6 +47,11 @@ public class MainPageAdminController extends MainPageCustomerController{
     @Override
     public void openTitlePage(Title myTitle) throws IOException {
         TitlePageAdminController titlePageAdminController = (TitlePageAdminController) loadPage("TitlePageAdmin");
-        titlePageAdminController.setTitlePage(myTitle);
+        titlePageAdminController.fillTitleData(myTitle);
+    }
+
+    public void openAdminPage(Account account) throws IOException{
+        AccountPageAdminController accountPageAdminController = (AccountPageAdminController) loadPage("AccountPageAdmin");
+        accountPageAdminController.fillAccountData(account);
     }
 }

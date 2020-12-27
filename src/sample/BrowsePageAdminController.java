@@ -8,7 +8,7 @@ import java.io.IOException;
 public class BrowsePageAdminController extends BrowsePageController {
 
     @Override
-    public void fillGrid() throws IOException {
+    public void fillTitlesContainer() throws IOException {
         titlesContainer.getChildren().clear();
         int maxCol = 3, rowCnt = 0, colCnt = 0;
         for(Title i: myStore.searchTitles(browseFilter))
