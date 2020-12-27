@@ -3,6 +3,7 @@ package sample;
 import java.sql.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MySQLHandler extends PersistenceDBHandler {
 
@@ -197,9 +198,25 @@ public class MySQLHandler extends PersistenceDBHandler {
                         rs.getString("title_platform"),
                         rs.getDouble("title_rating") ,
                         rs.getDouble("title_price"));
+
+                String KEY_QUERY = "select * from gka5gkdoler1i5f1.keys where title_name = \"" + tempTitle.getName() + "\" " +
+                        "AND title_developer = \"" + tempTitle.getDeveloper() + "\" " +
+                        "AND title_platform = \"" + tempTitle.getPlatform() + "\"";
+                try (
+                        Statement keysStatement = connection.createStatement();
+                        ResultSet keysSet = keysStatement.executeQuery(KEY_QUERY);
+                ){
+                    while (keysSet.next())
+                        tempTitle.addKey(new Key(keysSet.getString("key")));
+                } catch (SQLException e){
+                    printSQLException(e);
+                }
+
                 String GENRE_QUERY = "select genre from title_genre where title_name = \""+ tempTitle.getName() +
                         "\" and title_developer = \"" + tempTitle.getDeveloper() +
                         "\" and title_platform = \""+ tempTitle.getPlatform() + "\"";
+
+
                 try (
                         Statement genresStatement = connection.createStatement();
                         ResultSet genreSet = genresStatement.executeQuery(GENRE_QUERY);
@@ -417,5 +434,37 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public int getAdminCount() {
         return 0;
+    }
+
+    @Override
+    public HashSet<Key> getTitleKeys(String name, String developer, String platform) {
+
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where title_name = \"" + name + "\" " +
+                "AND title_developer = \"" + developer + "\" " +
+                "AND title_platform = \"" + platform + "\"";
+
+        HashSet<Key> keys = new HashSet<>();
+
+
+        try (
+                Statement titlesStatement = connection.createStatement();
+                ResultSet rs = titlesStatement.executeQuery(QUERY);
+        ){
+            while (rs.next())
+            {
+                keys.add(new Key(rs.getString("key")));
+            }
+
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        return keys;
+    }
+
+    @Override
+    public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
+        //String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", admin_username = \"" + account.getUsername() + "\" WHERE (admin_email =  \"" + account.getEmail() + "\")";
+        return null;
     }
 }

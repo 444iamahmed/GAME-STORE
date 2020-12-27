@@ -15,22 +15,22 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="loginId" promptText="Username or email">
+            <TextField fx:id="idText" promptText="Username or email">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextField>
             <Pane prefHeight="38.0" prefWidth="200.0" />
-            <PasswordField fx:id="loginPassword" promptText="Password">
+            <PasswordField fx:id="passwordText" promptText="Password">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </PasswordField>
-            <Label fx:id="loginError" textFill="#ed2121" />
+            <Label fx:id="signInError" textFill="#ed2121" />
             <HBox>
                <children>
                   <Pane />
-                  <Button fx:id="signInPageToSignUpButton" mnemonicParsing="false" onAction="#changeSceneToSignUp" text="Sign Up" />
+                  <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#changeSceneToSignUp" text="Sign Up" />
                   <Pane>
                      <padding>
                         <Insets left="50.0" right="50.0" />

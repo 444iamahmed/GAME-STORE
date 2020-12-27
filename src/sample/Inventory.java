@@ -26,4 +26,8 @@ public class Inventory
     {
         return persistenceDBHandler.getTitles(criteria);
     }
+    public Title saveTitleChanges(String oldName, String oldDeveloper, String oldPlatform, Title newTitle)
+    {
+        return persistenceDBHandler.updateTitle(oldName, oldDeveloper, oldPlatform, newTitle);
+    }
 } 

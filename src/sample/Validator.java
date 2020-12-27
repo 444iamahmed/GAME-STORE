@@ -21,6 +21,14 @@ public class Validator {
         return matcher.matches();
     }
 
+    public static boolean validateKeyFormat(String key)
+    {
+        Pattern p = Pattern.compile("^(?=\\S+$).{50}$");
+        Matcher matcher = p.matcher(key);
+        return matcher.matches();
+    }
+
+
 
 
 }

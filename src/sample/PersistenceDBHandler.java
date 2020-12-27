@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public abstract class PersistenceDBHandler {
 
@@ -26,4 +27,8 @@ public abstract class PersistenceDBHandler {
     public abstract void deleteAdminAccount(Account account);
 
     public abstract int getAdminCount();
+
+    public abstract HashSet<Key> getTitleKeys(String name, String developer, String platform);
+
+    public abstract Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle);
 }

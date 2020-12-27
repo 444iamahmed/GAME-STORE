@@ -11,17 +11,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignInPageController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignInPageAdminController">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="loginId" promptText="Username or email">
+            <TextField fx:id="idText" promptText="Username or email">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </TextField>
             <Pane prefHeight="38.0" prefWidth="200.0" />
-            <PasswordField fx:id="loginPassword" promptText="Password">
+            <PasswordField fx:id="passwordText" promptText="Password">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
@@ -30,13 +30,12 @@
             <HBox>
                <children>
                   <Pane />
-                  <Button fx:id="signInPageToSignUpButton" mnemonicParsing="false" onAction="#changeSceneToSignUp" text="Sign Up" />
                   <Pane>
                      <padding>
                         <Insets left="50.0" right="50.0" />
                      </padding>
                   </Pane>
-                  <Button fx:id="signInButton" mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
+                  <Button mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
                </children>
                <padding>
                   <Insets top="15.0" />

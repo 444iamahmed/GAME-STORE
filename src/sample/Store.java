@@ -140,4 +140,8 @@ public class Store {
     public int getAdminCount() {
         return persistenceDBHandler.getAdminCount();
     }
+
+    public Title saveTitleChanges(String originalName, String originalDeveloper, String originalPlatform, Title changedTitle) {
+        return inventory.saveTitleChanges(originalName, originalDeveloper, originalPlatform, changedTitle);
+    }
 }

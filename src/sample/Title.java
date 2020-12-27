@@ -2,6 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 public class Title extends Displayable
 {
@@ -13,25 +14,27 @@ public class Title extends Displayable
     private String developer;
     private String platform;
     private ArrayList<String> genre;
-    private ArrayList<Key> keys;
+    private HashSet<Key> keys;
     private Double rating;
     private Double price;
+    private final PersistenceDBHandler persistenceDBHandler = MySQLHandler.getInstance();
     //Image
-    public ArrayList<Key> getKeys() {
+    public HashSet<Key> getKeys() {
         return keys;
     }
 
 
     Title()
     {
-        name = new String("");
+        name = "";
         releaseDate = new Date();
-        description = new String("");
-        platform = new String("");
+        description = "";
+        platform = "";
         genre = new ArrayList<>();
-        keys = new ArrayList<>();
+        keys = new HashSet<>();
         rating = 0.0;
         price = 0.0;
+
     }
 
     Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Double r, Double p)
@@ -41,7 +44,7 @@ public class Title extends Displayable
         description = desc;
         developer = dev;
         genre = new ArrayList<>();
-        keys = new ArrayList<>();
+        keys = new HashSet<>();
         genre.addAll(g);
         platform = plat;
         rating = r;
@@ -57,7 +60,7 @@ public class Title extends Displayable
         rating = r;
         price = p;
         genre = new ArrayList<>();
-        keys = new ArrayList<>();
+        keys = new HashSet<>();
 
     }
 
@@ -141,6 +144,7 @@ public class Title extends Displayable
         genre.add(g);
     }
     public void addKey(Key key){keys.add(key);}
+    public void removeKey(Key key){keys.remove(key);}
     public boolean equals(Title title)
     {
         return name.equals(title.name) && platform.equals(title.platform) && developer.equals(title.developer);
@@ -157,5 +161,9 @@ public class Title extends Displayable
         for(String i: genre)
             tempGenres += i + " ";
         return tempGenres;
+    }
+
+    public void fillKeys() {
+        keys = persistenceDBHandler.getTitleKeys(name, developer, platform);
     }
 }

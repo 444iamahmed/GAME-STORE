@@ -5,6 +5,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.util.Date;
 
 public class CustomersPageController extends UsersPageController{
@@ -13,8 +14,7 @@ public class CustomersPageController extends UsersPageController{
     TableView customersContainer;
 
     @Override
-    public void initialize()
-    {
+    public void initialize() throws IOException {
         super.initialize();
         fillCustomersContainer();
     }

@@ -47,4 +47,8 @@ public class TitlePageCustomerController {
     {
         myStore.addToCart(title);
     }
+
+    public Title getTitle() {
+        return title;
+    }
 }

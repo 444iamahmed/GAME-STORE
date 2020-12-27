@@ -10,31 +10,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 
-public class SignInPageCustomerController {
+public class SignInPageCustomerController extends SignInPageController {
 
-    @FXML Button signInButton, signInPageToSignUpButton;
+    @FXML Button signUpButton;
 
-    @FXML
-    TextField loginId;
-    @FXML
-    PasswordField loginPassword;
 
-    @FXML
-    Label loginError;
 
-    Store myStore;
-    public void initialize()
-    {
-        myStore = Store.getInstance();
-    }
-
-    public void validateCredentials() throws IOException {
-        if(myStore.checkAccountAndLogin(loginId.getText(), loginPassword.getText()))
-            changeSceneToMainPage();
-        else
-            loginError.setText("Invalid username or password!");
-    }
-
+    @Override
     public void changeSceneToMainPage() throws IOException
     {
         Parent mainPageParent = FXMLLoader.load(getClass().getResource("MainPageCustomer.fxml"));
@@ -49,7 +31,7 @@ public class SignInPageCustomerController {
         Parent signUpParent = FXMLLoader.load(getClass().getResource("SignUpPageCustomer.fxml"));
         Scene signUpScene = new Scene(signUpParent);
 
-        Stage window = (Stage) signInPageToSignUpButton.getScene().getWindow();
+        Stage window = (Stage) signUpButton.getScene().getWindow();
         window.setScene(signUpScene);
     }
 
