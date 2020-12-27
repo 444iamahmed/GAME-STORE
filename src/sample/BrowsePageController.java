@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class BrowsePageController {
 
-    MainPageCustomerController myController;
+    Object myController;
 
     @FXML
     ToggleGroup sortToggleGroup, releaseToggleGroup, sortOrderToggleGroup;
@@ -34,58 +34,19 @@ public class BrowsePageController {
     Slider rating, price;
 
     ArrayList<String> genres, platforms;
-    Filter filter;
+    BrowseFilter browseFilter;
     Store myStore;
     public void initialize() throws IOException {
 
-        myStore = Store.getInstance();
-        genres = myStore.genres;
-        platforms = myStore.platforms;
-        filter = Filter.getInstance();
-        for(String m: genres)
-       {
-           CheckBox tempCheckBox = new CheckBox(m);
-           tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
-               setGenre(tempCheckBox);
-               try {
-                   Search();
-               } catch (IOException e) {
-                   e.printStackTrace();
-               }
-           });
-           genreVBox.getChildren().add(tempCheckBox);
-       }
-        for(String m: platforms)
-        {
-            CheckBox tempCheckBox = new CheckBox(m);
-            tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
-                setPlatform(tempCheckBox);
-                try {
-                    Search();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-            platformVBox.getChildren().add(tempCheckBox);
-        }
+        setSystemVariables();
+        setFilterCheckBoxes();
+        setFilterSliders();
+        setFilterToggleGroups();
 
-        rating.valueChangingProperty().addListener((v, oldValue, newValue) -> {
-            setRating(rating);
-            try {
-                Search();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
-        price.valueChangingProperty().addListener((v, oldValue, newValue) -> {
-            setPrice(price);
-            try {
-                Search();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+    }
+
+    private void setFilterToggleGroups() {
         for(Toggle i: sortToggleGroup.getToggles())
         {
             if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("price"))
@@ -106,19 +67,19 @@ public class BrowsePageController {
         {
             if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("all time"))
             {
-                i.setUserData(Released.ALL_TIME);
+                i.setUserData(TimePeriod.ALL_TIME);
             }
             else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this year"))
             {
-                i.setUserData(Released.THIS_YEAR);
+                i.setUserData(TimePeriod.THIS_YEAR);
             }
             else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this month"))
             {
-                i.setUserData(Released.THIS_MONTH);
+                i.setUserData(TimePeriod.THIS_MONTH);
             }
             else
             {
-                i.setUserData(Released.THIS_WEEK);
+                i.setUserData(TimePeriod.THIS_WEEK);
             }
         }
 
@@ -130,9 +91,9 @@ public class BrowsePageController {
         sortToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
-                filter.setSortBy((SortBy) t1.getUserData());
+                browseFilter.setSortBy((SortBy) t1.getUserData());
                 try {
-                    Search();
+                    search();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -142,9 +103,9 @@ public class BrowsePageController {
         releaseToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
-                filter.setReleased((Released) t1.getUserData());
+                browseFilter.setTimePeriod((TimePeriod) t1.getUserData());
                 try {
-                    Search();
+                    search();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -154,23 +115,77 @@ public class BrowsePageController {
         sortOrderToggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle t1) {
-                filter.setOrderBy((String) t1.getUserData());
+                browseFilter.setOrder((String) t1.getUserData());
                 try {
-                    Search();
+                    search();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+    }
 
+    private void setFilterSliders() {
+        rating.valueChangingProperty().addListener((v, oldValue, newValue) -> {
+            setRating(rating);
+            try {
+                search();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
+        price.valueChangingProperty().addListener((v, oldValue, newValue) -> {
+            setPrice(price);
+            try {
+                search();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void setFilterCheckBoxes() {
+        for(String m: genres)
+       {
+           CheckBox tempCheckBox = new CheckBox(m);
+           tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
+               setGenre(tempCheckBox);
+               try {
+                   search();
+               } catch (IOException e) {
+                   e.printStackTrace();
+               }
+           });
+           genreVBox.getChildren().add(tempCheckBox);
+       }
+        for(String m: platforms)
+        {
+            CheckBox tempCheckBox = new CheckBox(m);
+            tempCheckBox.selectedProperty().addListener((v, oldValue, newValue) -> {
+                setPlatform(tempCheckBox);
+                try {
+                    search();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            platformVBox.getChildren().add(tempCheckBox);
+        }
+    }
+
+    private void setSystemVariables() {
+        myStore = Store.getInstance();
+        genres = myStore.getGenres();
+        platforms = myStore.getPlatforms();
+        browseFilter = BrowseFilter.getInstance();
     }
 
     public void fillGrid() throws IOException
     {
         titlesContainer.getChildren().clear();
         int maxCol = 3, rowCnt = 0, colCnt = 0;
-        for(Title i: myStore.search(filter))
+        for(Title i: myStore.searchTitles(browseFilter))
         {
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGrid.fxml"));
             Parent titleInGrid = titleLoader.load();
@@ -188,37 +203,37 @@ public class BrowsePageController {
         }
     }
 
-    public void Search() throws IOException
+    public void search() throws IOException
     {
-        filter.setSearchText(searchTextBrowse.getText());
+        browseFilter.setSearchText(searchTextBrowse.getText());
         fillGrid();
     }
 
     void setGenre(CheckBox box)
     {
        if(box.isSelected())
-           filter.addGenre(box.getText());
+           browseFilter.addGenre(box.getText());
        else
-           filter.removeGenre(box.getText());
+           browseFilter.removeGenre(box.getText());
     }
     void setPlatform(CheckBox box)
     {
         if(box.isSelected())
-            filter.addPlatform(box.getText());
+            browseFilter.addPlatform(box.getText());
         else
-            filter.removePlatform(box.getText());
+            browseFilter.removePlatform(box.getText());
     }
 
     void setRating(Slider slider)
     {
-        filter.setRating(slider.getValue());
+        browseFilter.setRating(slider.getValue());
     }
     void setPrice(Slider slider)
     {
-        filter.setMaxPrice(slider.getValue());
+        browseFilter.setMaxPrice(slider.getValue());
     }
 
-    public void setMyController(MainPageCustomerController mainPageCustomerController) {
-        this.myController = mainPageCustomerController;
+    public void setMyController(Object mainPageController) {
+        this.myController = mainPageController;
     }
 }

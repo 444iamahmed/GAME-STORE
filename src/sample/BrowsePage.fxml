@@ -25,7 +25,7 @@
                <children>
                   <Pane />
                   <TextField fx:id="searchTextBrowse" />
-                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#Search" text="Search">
+                  <Button alignment="CENTER" mnemonicParsing="false" onAction="#search" text="Search">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -37,7 +37,7 @@
             </HBox>
             <HBox alignment="CENTER">
                <children>
-                  <RadioButton mnemonicParsing="false" text="Asc">
+                  <RadioButton mnemonicParsing="false" selected="true" text="Asc">
                      <font>
                         <Font name="Marlett" size="10.0" />
                      </font>
@@ -45,6 +45,7 @@
                         <ToggleGroup fx:id="sortOrderToggleGroup" />
                      </toggleGroup>
                   </RadioButton>
+                  <Pane prefWidth="10.0" />
                   <RadioButton mnemonicParsing="false" text="Desc" toggleGroup="$sortOrderToggleGroup">
                      <font>
                         <Font name="Marlett" size="10.0" />
@@ -70,7 +71,7 @@
                         <ToggleGroup fx:id="sortToggleGroup" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="Price" toggleGroup="$sortToggleGroup">
+                  <RadioButton mnemonicParsing="false" selected="true" text="Price" toggleGroup="$sortToggleGroup">
                      <font>
                         <Font name="Marlett" size="11.0" />
                      </font>
@@ -178,7 +179,7 @@
             </Label>
             <VBox>
                <children>
-                  <RadioButton mnemonicParsing="false" text="Any Time">
+                  <RadioButton mnemonicParsing="false" selected="true" text="Any Time">
                      <font>
                         <Font name="Marlett" size="11.0" />
                      </font>

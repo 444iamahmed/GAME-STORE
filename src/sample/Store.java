@@ -8,13 +8,13 @@ import java.util.ArrayList;
 public class Store {
     private static Store instance = null;
 
-    static Account activeAccount;
-    Inventory inventory;
-    Cart cart;
-    ArrayList<String> genres;
-    ArrayList<String> platforms;
-    PersistenceDBHandler persistenceDBHandler;
-    Payment paymentHandler;
+    private Account activeAccount;
+    private Inventory inventory;
+    private Cart cart;
+    private ArrayList<String> genres;
+    private ArrayList<String> platforms;
+    private PersistenceDBHandler persistenceDBHandler;
+    private Payment paymentHandler;
     private Store()
     {
         persistenceDBHandler = MySQLHandler.getInstance();
@@ -32,7 +32,15 @@ public class Store {
         return instance;
     }
 
-    public ObservableList<Title> search(Filter filters)
+    public ArrayList<String> getGenres() {
+        return genres;
+    }
+
+    public ArrayList<String> getPlatforms() {
+        return platforms;
+    }
+
+    public ObservableList<Title> searchTitles(BrowseFilter filters)
     {
         return FXCollections.observableList(inventory.search(filters));
     }
@@ -108,7 +116,11 @@ public class Store {
     }
 
 
-
-
+    public ObservableList<Account> searchCustomers(Filter filter) {
+        return FXCollections.observableList(persistenceDBHandler.getCustomers(filter));
+    }
+    public ObservableList<Account> searchAdmins(Filter filter) {
+        return FXCollections.observableList(persistenceDBHandler.getAdmins(filter));
+    }
 
 }

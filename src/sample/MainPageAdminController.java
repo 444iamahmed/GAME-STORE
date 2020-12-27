@@ -13,20 +13,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MainPageAdminController {
+public class MainPageAdminController extends MainPageCustomerController{
 
-    @FXML
-    BorderPane mainPageBorderPane;
 
-    @FXML
-    Button signOutButton;
-
-    @FXML
-    Label pageLabel;
-
+    @Override
     public void changeTabToHome()
     {
-        loadPage("HomePageCustomer");
+        loadPage("HomePageAdmin");
         pageLabel.setText("Home");
     }
     public void changeTabToTitles() throws IOException {
@@ -37,8 +30,8 @@ public class MainPageAdminController {
     }
     public void changeTabToAdmins()
     {
-        loadPage("AccountPage");
-        pageLabel.setText("Account");
+        loadPage("Admins");
+        pageLabel.setText("Admins");
     }
     public void changeTabToCustomers() throws IOException {
 //        CartPageController cartPageController = (CartPageController) loadPage("CartPage");
@@ -62,15 +55,16 @@ public class MainPageAdminController {
 
     public void changeSceneToLogin() throws IOException
     {
-        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPage.fxml"));
+        Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPageAdmin.fxml"));
         Scene loginScene = new Scene(loginParent);
 
         Stage window = (Stage) signOutButton.getScene().getWindow();
         window.setScene(loginScene);
     }
 
+    @Override
     public void openTitlePage(Title myTitle) throws IOException {
-        TitlePageCustomerController titlePageCustomerController = (TitlePageCustomerController) loadPage("TitlePageCustomer");
-        titlePageCustomerController.setTitlePage(myTitle);
+        TitlePageAdminController titlePageAdminController = (TitlePageAdminController) loadPage("TitlePageAdmin");
+        titlePageAdminController.setTitlePage(myTitle);
     }
 }

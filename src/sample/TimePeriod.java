@@ -1,6 +1,6 @@
 package sample;
 
-public enum Released {
+public enum TimePeriod {
     ALL_TIME,
     THIS_YEAR,
     THIS_MONTH,

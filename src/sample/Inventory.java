@@ -22,7 +22,7 @@ public class Inventory
     }
 
 
-    public ArrayList<Title> search(Filter criteria)
+    public ArrayList<Title> search(BrowseFilter criteria)
     {
         return persistenceDBHandler.getTitles(criteria);
     }

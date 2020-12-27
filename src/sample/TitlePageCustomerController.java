@@ -19,10 +19,10 @@ import java.util.Date;
 public class TitlePageCustomerController {
 
     @FXML
-    Label priceLabel, ratingLabel, platformLabel, genresLabel;
+    Label priceLabel, ratingLabel, platformLabel, genresLabel, developerLabel, releaseDateLabel;
 
     @FXML
-    TextFlow descriptionTextFlow;
+    TextArea descriptionTextArea;
 
 
     Title title;
@@ -39,7 +39,9 @@ public class TitlePageCustomerController {
         ratingLabel.setText(ratingLabel.getText() + myTitle.getRating().toString());
         platformLabel.setText(platformLabel.getText() + myTitle.getPlatform());
         genresLabel.setText(genresLabel.getText() + myTitle.getGenreString());
-        descriptionTextFlow.getChildren().add(new Text(myTitle.getDescription()));
+        descriptionTextArea.setText(myTitle.getDescription());
+        developerLabel.setText(developerLabel.getText() + myTitle.getDeveloper());
+        releaseDateLabel.setText(releaseDateLabel.getText() + myTitle.getReleaseDate().toString());
     }
     public void addToCart()
     {

@@ -1,6 +1,5 @@
 package sample;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -170,18 +169,18 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Title> getTitles(Filter filter) {
+    public ArrayList<Title> getTitles(BrowseFilter browseFilter) {
 
         String QUERY = "select * from title where " +
-                searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", filter.getSearchText(),"AND")  +
-                "title.title_rating >= " + filter.getRating() + " AND title.title_price <= " + filter.getMaxPrice() +
+                searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", browseFilter.getSearchText(),"AND")  +
+                "title.title_rating >= " + browseFilter.getRating() + " AND title.title_price <= " + browseFilter.getMaxPrice() +
                 " AND (select count(title_genre.genre) from title_genre where " +
                 "title_genre.title_name = title.title_name " +
                 "AND title_genre.title_developer = title.title_developer " +
                 "AND title_genre.title_platform = title.title_platform " +
-                arrayListQuery("AND", "title_genre.genre", filter.getGenres()) +
+                arrayListQuery("AND", "title_genre.genre", browseFilter.getGenres()) +
                 ") > 0 "+
-                arrayListQuery(" AND",  "title.title_platform", filter.getPlatforms());
+                arrayListQuery(" AND",  "title.title_platform", browseFilter.getPlatforms());
         ArrayList<Title> titles = new ArrayList<>();
 
         try (
@@ -341,5 +340,15 @@ public class MySQLHandler extends PersistenceDBHandler {
 
         }
 
+    }
+
+    @Override
+    public ArrayList<Account> getCustomers(Filter filter) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Account> getAdmins(Filter filter) {
+        return null;
     }
 }
