@@ -6,6 +6,6 @@ public class TitleInGridAdminController extends TitleInGridController{
 
     @Override
     public void openTitlePage() throws IOException {
-        ((MainPageAdminController) myController).openTitlePage(title);
+        ((MainPageAdminController) mainPageController).openTitlePage(title);
     }
 }

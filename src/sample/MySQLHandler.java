@@ -219,7 +219,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public Account saveAccount(String username, String email, String password) {
+    public Account saveAccountCustomer(String username, String email, String password) {
         String QUERY = "INSERT INTO customer (customer_username, customer_password, customer_email) VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\")";
         Account saved = new Account(username,email,password);
         try
@@ -366,8 +366,22 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public void updateAccount(Account account) {
+    public void updateCustomerAccount(Account account) {
         String QUERY = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_username = \"" + account.getUsername() + "\" WHERE (customer_email =  \"" + account.getEmail() + "\")";
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
+
+    }
+    @Override
+    public void updateAdminAccount(Account account) {
+        String QUERY = "UPDATE admin SET  admin_password = \"" + account.getPassword() + "\", admin_username = \"" + account.getUsername() + "\" WHERE (admin_email =  \"" + account.getEmail() + "\")";
         try
                 (Statement stmt = connection.createStatement();
 
@@ -381,6 +395,16 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
+    public void deleteAdminAccount(Account account) {
+
+    }
+
+    @Override
+    public void deleteCustomerAccount(Account account) {
+
+    }
+
+    @Override
     public ArrayList<Account> getCustomers(Filter filter) {
         return null;
     }
@@ -388,5 +412,10 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public ArrayList<Account> getAdmins(Filter filter) {
         return null;
+    }
+
+    @Override
+    public int getAdminCount() {
+        return 0;
     }
 }

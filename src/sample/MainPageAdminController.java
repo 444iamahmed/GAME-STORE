@@ -35,7 +35,7 @@ public class MainPageAdminController extends MainPageController{
     }
 
 
-    public void changeSceneToLogin() throws IOException
+    public void changeSceneToSignIn() throws IOException
     {
         Parent loginParent = FXMLLoader.load(getClass().getResource("SignInPageAdmin.fxml"));
         Scene loginScene = new Scene(loginParent);

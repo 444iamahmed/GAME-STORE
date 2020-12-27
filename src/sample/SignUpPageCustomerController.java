@@ -115,7 +115,7 @@ public class SignUpPageCustomerController {
     }
 
     public void makeAccount() throws IOException {
-        myStore.saveAccountAndSetActive(signUpPageUsername.getText(), signUpPageEmail.getText().toLowerCase(Locale.ROOT), signUpPagePassword.getText());
+        myStore.saveAccountAndSetActiveCustomer(signUpPageUsername.getText(), signUpPageEmail.getText().toLowerCase(Locale.ROOT), signUpPagePassword.getText());
         changeSceneToMainPage();
     }
 

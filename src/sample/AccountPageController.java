@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public abstract class AccountPageController {
 
+    protected Object mainPageController;
     @FXML
     Button deleteAccountButton,
             saveChangesButton;
@@ -97,25 +98,9 @@ public abstract class AccountPageController {
         myAccount.setUsername(usernameText.getText());
         myStore.saveAccountChanges(myAccount);
     }
-    public void deleteAccount() throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation");
-        alert.setContentText("Are you sure you want to delete your account?");
+    public abstract void deleteAccount() throws IOException;
 
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
+    public abstract void changeSceneToSignIn() throws IOException;
 
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
 
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if(result.get() == buttonTypeYes)
-        {
-            myStore.deleteActiveAccount();
-            changeSceneToLogin();
-        }
-
-    }
-
-    public abstract void  changeSceneToLogin() throws IOException;
 }

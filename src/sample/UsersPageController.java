@@ -12,6 +12,7 @@ import java.util.Locale;
 
 public abstract class UsersPageController {
 
+    protected Object controller;
     @FXML
     ToggleGroup timeCreatedToggleGroup, sortOrderToggleGroup;
 
@@ -21,8 +22,7 @@ public abstract class UsersPageController {
     Store myStore;
     Filter filter;
 
-    public void initialize()
-    {
+    public void initialize() throws IOException {
         myStore = Store.getInstance();
         filter = new Filter();
 

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class TitleInGridController {
 
-    protected Object myController;
+    protected Object mainPageController;
     @FXML
     Label name, price;
     @FXML
@@ -43,12 +43,12 @@ public class TitleInGridController {
     }
 
     public void openTitlePage() throws IOException {
-        ((MainPageAdminController) myController).openTitlePage(title);
+        ((MainPageCustomerController) mainPageController).openTitlePage(title);
     }
 
 
     public void setController(Object controller) {
-        myController = controller;
+        mainPageController = controller;
     }
 
     public void addToCart()

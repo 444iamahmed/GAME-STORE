@@ -34,7 +34,7 @@
                   <Insets bottom="13.0" left="13.0" top="10.0" />
                </padding>
                <children>
-                  <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#changeSceneToLogin" text="Sign Out" />
+                  <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#changeSceneToSignIn" text="Sign Out" />
                   <Label fx:id="pageLabel" alignment="CENTER">
                      <font>
                         <Font size="24.0" />

@@ -59,9 +59,9 @@ public class Store {
         return persistenceDBHandler.checkEmailExistence(email);
     }
 
-    public void saveAccountAndSetActive(String username, String email, String password)
+    public void saveAccountAndSetActiveCustomer(String username, String email, String password)
     {
-        activeAccount = persistenceDBHandler.saveAccount(username, email, password);
+        activeAccount = persistenceDBHandler.saveAccountCustomer(username, email, password);
     }
     public boolean checkAccountAndLogin(String id, String password)
     {
@@ -77,14 +77,25 @@ public class Store {
     {
         if(activeAccount.getEmail() == account.getEmail())
             activeAccount = account;
-        persistenceDBHandler.updateAccount(activeAccount);
+        persistenceDBHandler.updateCustomerAccount(activeAccount);
     }
 
 
-    public void deleteActiveAccount()
+    public void deleteCustomerAccount(Account account)
     {
-
+        if(account.getEmail() == activeAccount.getEmail())
+            activeAccount = null;
+        persistenceDBHandler.deleteCustomerAccount(account);
     }
+
+    public void deleteAdminAccount(Account account)
+    {
+        if(account.getEmail() == activeAccount.getEmail())
+            activeAccount = null;
+        persistenceDBHandler.deleteCustomerAccount(account);
+    }
+
+
     public void removeFromCart(CartItem cartItem)
     {
         cart.remove(cartItem);
@@ -126,4 +137,7 @@ public class Store {
         return FXCollections.observableList(persistenceDBHandler.getAdmins(filter));
     }
 
+    public int getAdminCount() {
+        return persistenceDBHandler.getAdminCount();
+    }
 }
