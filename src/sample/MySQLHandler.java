@@ -254,6 +254,26 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
+    public Account retrieveAdmin(String username, String password) {
+        String QUERY = "select * from admin where admin.admin_username = \"" + username + "\"";
+        Account retrieved = new Account();
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            while(rs.next()) {
+                retrieved.setUsername(rs.getString("admin_username"));
+                retrieved.setPassword(rs.getString("admin_password"));
+                retrieved.setEmail(rs.getString("admin_email"));
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        return retrieved;
+    }
+
+    @Override
     public Boolean checkUserExistence(String username) {
         String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"";
 
@@ -263,6 +283,24 @@ public class MySQLHandler extends PersistenceDBHandler {
                  ResultSet rs = stmt.executeQuery(QUERY);){
             if(rs.next()) {
                return true;
+            }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public Boolean checkAdminExistence(String username) {
+        String QUERY = "select * from admin where admin.admin_username = \"" + username + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            if(rs.next()) {
+                return true;
             }
         }catch (SQLException e) {
             printSQLException(e);
