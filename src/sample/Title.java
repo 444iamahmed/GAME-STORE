@@ -3,6 +3,7 @@ package sample;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Title extends Displayable
 {
@@ -59,6 +60,34 @@ public class Title extends Displayable
         genre = new ArrayList<>();
         keys = new HashSet<>();
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Title title = (Title) o;
+        return name.equals(title.name) && developer.equals(title.developer) && platform.equals(title.platform);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, developer, platform);
+    }
+
+    Title(Title title)
+    {
+        name = title.name;
+        releaseDate = title.releaseDate;
+        description = title.description;
+        developer = title.developer;
+        platform = title.platform;
+        rating = title.rating;
+        price = title.price;
+        genre = new ArrayList<>();
+        genre.addAll(title.getGenre());
+        keys = new HashSet<>();
+        keys.addAll(title.getKeys());
     }
 
     public String getName()
@@ -146,12 +175,10 @@ public class Title extends Displayable
         return keys;
     }
     public void addKey(Key key){keys.add(key);}
+
     public void removeKey(Key key){keys.remove(key);}
 
-    public boolean equals(Title title)
-    {
-        return name.equals(title.name) && platform.equals(title.platform) && developer.equals(title.developer);
-    }
+
 
     public void updateGenres(ArrayList<String> genres)
     {

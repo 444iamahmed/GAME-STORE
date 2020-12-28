@@ -21,7 +21,7 @@ public class Cart {
         }
         return instance;
     }
-    public void add(Title t){
+    public boolean add(Title t){
 
         for(CartItem i: cartItems)
         {
@@ -29,9 +29,14 @@ public class Cart {
                 t.removeKey(i.getKey());
         }
 
+        if(t.getKeys().isEmpty())
+            return false;
+
         CartItem temp=new CartItem(t, t.popKey());
         cartItems.add(temp);
         price+=t.getPrice();
+
+        return true;
     }
     public void remove(Title t){
         for(int i=0;i<cartItems.size();i++){

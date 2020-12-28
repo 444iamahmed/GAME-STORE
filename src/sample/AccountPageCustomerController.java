@@ -6,30 +6,44 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class AccountPageCustomerController extends AccountPageController{
 
     @FXML
     VBox ownedTitlesContainer;
+    @FXML
+    VBox ordersContainer;
 
+    ArrayList<Title> ownedTitles;
+    ArrayList<Order> orders;
     @Override
     public void initialize() throws IOException {
         super.initialize();
+        fillOrdersContainer();
         fillOwnedTitlesContainer();
     }
 
+    private void fillOrdersContainer() throws IOException {
+        orders = myStore.getOrders();
+        for(Order i: orders)
+        {
+            FXMLLoader orderLoader = new FXMLLoader(getClass().getResource("OrderContainer.fxml"));
+            ordersContainer.getChildren().add(orderLoader.load());
+            OrderContainerController orderInList = orderLoader.getController();
+            orderInList.fillContainer(i);
+        }
+    }
     private void fillOwnedTitlesContainer() throws IOException {
 
         ownedTitlesContainer.getChildren().clear();
-
-        for(Title i: myStore.getOwnedKeys())
+        fillOwnedTitlesList();
+        for(Title i: ownedTitles)
         {
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInList.fxml"));
             ownedTitlesContainer.getChildren().add(titleLoader.load());
@@ -38,6 +52,29 @@ public class AccountPageCustomerController extends AccountPageController{
             titleInList.fillData(i);
         }
     }
+
+    private void fillOwnedTitlesList()
+    {
+        ownedTitles = new ArrayList<>();
+        for(Order i: orders)
+            for(Title j: i.getTitles()) {
+                Title tempTitle = find(j);
+                if (tempTitle ==null)
+                ownedTitles.add(new Title(j));
+                else
+                    tempTitle.getKeys().addAll(j.getKeys());
+            }
+    }
+
+    private Title find(Title t)
+    {
+        for(Title i: ownedTitles)
+            if(i.equals(t))
+                return i;
+
+        return null;
+    }
+
 
 
     @Override
@@ -71,5 +108,12 @@ public class AccountPageCustomerController extends AccountPageController{
 
         Stage window = (Stage) deleteAccountButton.getScene().getWindow();
         window.setScene(loginScene);
+    }
+
+    @Override
+    public void saveChanges() {
+        super.saveChanges();
+        myStore.saveAccountChangesCustomer(myAccount);
+
     }
 }

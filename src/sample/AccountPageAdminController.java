@@ -69,5 +69,9 @@ public class AccountPageAdminController extends AccountPageController{
         alert.showAndWait();
     }
 
-
+    @Override
+    public void saveChanges() {
+        super.saveChanges();
+        myStore.saveAccountChangesAdmin(myAccount);
+    }
 }

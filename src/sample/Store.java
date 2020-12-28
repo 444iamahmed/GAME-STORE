@@ -73,11 +73,18 @@ public class Store {
     {
         return activeAccount;
     }
-    public void saveAccountChanges(Account account)
+    public void saveAccountChangesCustomer(Account account)
     {
         if(activeAccount.getEmail() == account.getEmail())
             activeAccount = account;
-        persistenceDBHandler.updateCustomerAccount(activeAccount);
+        persistenceDBHandler.updateCustomerAccount(account);
+    }
+
+    public void saveAccountChangesAdmin(Account account)
+    {
+        if(activeAccount.getEmail() == account.getEmail())
+            activeAccount = account;
+        persistenceDBHandler.updateAdminAccount(account);
     }
 
 
@@ -102,10 +109,7 @@ public class Store {
     }
     public boolean addToCart(Title title)
     {
-        if(title.getKeys().isEmpty())
-            return false;
-        cart.add(title);
-        return true;
+        return cart.add(title);
     }
     public ArrayList<CartItem> getCartItems()
     {
@@ -146,5 +150,9 @@ public class Store {
 
     public Title saveTitleChanges(String originalName, String originalDeveloper, String originalPlatform, Title changedTitle) {
         return inventory.saveTitleChanges(originalName, originalDeveloper, originalPlatform, changedTitle);
+    }
+
+    public ArrayList<Order> getOrders() {
+        return persistenceDBHandler.getOrders();
     }
 }

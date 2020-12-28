@@ -596,4 +596,9 @@ public class MySQLHandler extends PersistenceDBHandler {
             return null;
         }
     }
+
+    @Override
+    public ArrayList<Order> getOrders() {
+        return null;
+    }
 }
