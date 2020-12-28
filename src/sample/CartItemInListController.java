@@ -24,7 +24,7 @@ public class CartItemInListController {
     }
 
     public void remove() throws IOException {
-        myStore.removeFromCart(me);
+        myStore.removeFromCart(me.getTitle());
         myController.refreshList();
     }
 

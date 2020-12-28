@@ -96,9 +96,9 @@ public class Store {
     }
 
 
-    public void removeFromCart(CartItem cartItem)
+    public void removeFromCart(Title title)
     {
-        cart.remove(cartItem);
+        cart.remove(title);
     }
     public boolean addToCart(Title title)
     {

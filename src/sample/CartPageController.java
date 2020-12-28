@@ -79,7 +79,7 @@ public class CartPageController {
     {
         for(CartItem i: myStore.getCartItems())
         {
-            myStore.removeFromCart(i);
+            myStore.removeFromCart(i.getTitle());
         }
     }
 

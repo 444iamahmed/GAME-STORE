@@ -6,9 +6,8 @@ public class Inventory
 { 
     public static Inventory instance = null;
 
-    public void setPersistenceDBHandler(PersistenceDBHandler persistenceDBHandler) {
-        this.persistenceDBHandler = persistenceDBHandler;
-    }
+    private ArrayList<Title> runningInventory;
+
 
     PersistenceDBHandler persistenceDBHandler;
     private Inventory()
@@ -20,11 +19,16 @@ public class Inventory
             instance = new Inventory();
         return instance;
     }
+    public void setPersistenceDBHandler(PersistenceDBHandler persistenceDBHandler) {
+        this.persistenceDBHandler = persistenceDBHandler;
+    }
 
+    public ArrayList<Title> getRunningInventory()
+    {return runningInventory;}
 
     public ArrayList<Title> search(BrowseFilter criteria)
     {
-        return persistenceDBHandler.getTitles(criteria);
+        return runningInventory = persistenceDBHandler.getTitles(criteria);
     }
     public Title saveTitleChanges(String oldName, String oldDeveloper, String oldPlatform, Title newTitle)
     {
