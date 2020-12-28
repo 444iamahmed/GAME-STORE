@@ -543,7 +543,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
             try (
                     Statement deleteGenreStatement = connection.createStatement();
-                    ResultSet rs2 = updateStatement.executeQuery(QUERY2);
+                    ResultSet rs2 = deleteGenreStatement.executeQuery(QUERY2);
             ) {
                 for(int i = 0; i < newTitle.getGenre().size(); i++) {
                 String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() + "\", \"" + newTitle.getPlatform() + "\", \"" + newTitle.getGenre().get(i) + "\")" ;
@@ -559,7 +559,32 @@ public class MySQLHandler extends PersistenceDBHandler {
                     return null;
                 }
             }
-                return newTitle;
+                String QUERY4 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
+
+                try (
+                        Statement deleteKeysStatement = connection.createStatement();
+                        ResultSet rs4 = deleteKeysStatement.executeQuery(QUERY4);
+                ) {
+                    for(Key j: newTitle.getKeys()) {
+                        String QUERY5 = "INSERT INTO keys (title_name, title_developer, title_platform, key) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() +
+                                "\", \"" + newTitle.getPlatform() + "\", \"" + j.getValue() + "\")" ;
+
+                        try (
+                                Statement keysStatement = connection.createStatement();
+                                ResultSet rs5 = keysStatement.executeQuery(QUERY5);
+                        ) {
+
+
+                        } catch (SQLException e) {
+                            printSQLException(e);
+                            return null;
+                        }
+                    }
+                    return newTitle;
+                }catch (SQLException e) {
+                    printSQLException(e);
+                    return null;
+                }
             }catch (SQLException e) {
                 printSQLException(e);
                 return null;
