@@ -413,11 +413,32 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void deleteAdminAccount(Account account) {
+        String QUERY = "DELETE from admin where admin.admin_email = \"" + account.getEmail() + "\"";
 
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
     }
 
     @Override
     public void deleteCustomerAccount(Account account) {
+        String QUERY = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
 
     }
 
