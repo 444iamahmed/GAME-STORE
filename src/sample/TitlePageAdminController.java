@@ -12,7 +12,6 @@ import javafx.util.StringConverter;
 import javafx.util.converter.DateTimeStringConverter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

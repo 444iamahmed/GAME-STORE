@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignInPageCustomerController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignInPageAdminController">
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
@@ -26,17 +26,16 @@
                   <Insets />
                </VBox.margin>
             </PasswordField>
-            <Label fx:id="signInError" textFill="#ed2121" />
+            <Label fx:id="loginError" textFill="#ed2121" />
             <HBox>
                <children>
                   <Pane />
-                  <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#changeSceneToSignUp" text="Sign Up" />
                   <Pane>
                      <padding>
                         <Insets left="50.0" right="50.0" />
                      </padding>
                   </Pane>
-                  <Button fx:id="signInButton" mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
+                  <Button mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
                </children>
                <padding>
                   <Insets top="15.0" />
