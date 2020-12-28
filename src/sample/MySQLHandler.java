@@ -433,7 +433,18 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public int getAdminCount() {
+        String QUERY = "select COUNT(*) from admin";
+        try
+                (Statement stmt = connection.createStatement();
 
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+                while(rs.next()){
+                    return rs.getInt(1);
+                }
+        }catch (SQLException e) {
+            printSQLException(e);
+            return 0;
+        }
         return 0;
     }
 
