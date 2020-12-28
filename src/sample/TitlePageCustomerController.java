@@ -45,7 +45,13 @@ public class TitlePageCustomerController {
     }
     public void addToCart()
     {
-        myStore.addToCart(title);
+        if(!myStore.addToCart(title))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Out of Stock!");
+            alert.showAndWait();
+        }
     }
 
     public Title getTitle() {

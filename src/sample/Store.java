@@ -100,9 +100,12 @@ public class Store {
     {
         cart.remove(cartItem);
     }
-    public void addToCart(Title title)
+    public boolean addToCart(Title title)
     {
+        if(title.getKeys().isEmpty())
+            return false;
         cart.add(title);
+        return true;
     }
     public ArrayList<CartItem> getCartItems()
     {

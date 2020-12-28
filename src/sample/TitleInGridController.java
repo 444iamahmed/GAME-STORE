@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -53,7 +54,13 @@ public class TitleInGridController {
 
     public void addToCart()
     {
-        myStore.addToCart(title);
+        if(!myStore.addToCart(title))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Out of Stock!");
+            alert.showAndWait();
+        }
     }
 
 }
