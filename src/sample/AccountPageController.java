@@ -95,7 +95,6 @@ public abstract class AccountPageController {
     {
         myAccount.setPassword(passwordText.getText());
         myAccount.setUsername(usernameText.getText());
-        myStore.saveAccountChanges(myAccount);
     }
     public abstract void deleteAccount() throws IOException;
 

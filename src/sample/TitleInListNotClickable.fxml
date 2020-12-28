@@ -11,15 +11,15 @@
 
 <VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TitleInListController">
    <children>
-      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openTitlePage" prefHeight="100.0" prefWidth="400.0">
+      <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="400.0">
          <children>
-            <ImageView fx:id="titleImageView" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#openTitlePage" pickOnBounds="true" preserveRatio="true" />
-            <Pane onMouseClicked="#openTitlePage">
+            <ImageView fx:id="titleImageView" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane>
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
             </Pane>
-            <Label fx:id="titleLabel" onMouseClicked="#openTitlePage">
+            <Label fx:id="titleLabel">
                <font>
                   <Font size="16.0" />
                </font>

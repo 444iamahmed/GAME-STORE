@@ -31,4 +31,6 @@ public abstract class PersistenceDBHandler {
     public abstract HashSet<Key> getTitleKeys(String name, String developer, String platform);
 
     public abstract Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle);
+
+    public abstract ArrayList<Order> getOrders();
 }
