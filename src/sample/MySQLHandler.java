@@ -539,13 +539,18 @@ public class MySQLHandler extends PersistenceDBHandler {
                 Statement updateStatement = connection.createStatement();
                 ResultSet rs = updateStatement.executeQuery(QUERY);
         ){
-            /*for(int i = 0; i < newTitle.getGenre().size(); i++) {
-                String QUERY2 = "UPDATE title_genre SET  title_name = \"" + newTitle.getName() + "\", genre = \"" + newTitle.getGenre().get(i) +
-                        "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\"AND)";
+            String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
+
+            try (
+                    Statement deleteGenreStatement = connection.createStatement();
+                    ResultSet rs2 = updateStatement.executeQuery(QUERY2);
+            ) {
+                for(int i = 0; i < newTitle.getGenre().size(); i++) {
+                String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() + "\", \"" + newTitle.getPlatform() + "\", \"" + newTitle.getGenre().get(i) + "\")" ;
 
                 try (
                         Statement genreStatement = connection.createStatement();
-                        ResultSet rs2 = genreStatement.executeQuery(QUERY2);
+                        ResultSet rs3 = genreStatement.executeQuery(QUERY3);
                 ) {
 
 
@@ -553,8 +558,13 @@ public class MySQLHandler extends PersistenceDBHandler {
                     printSQLException(e);
                     return null;
                 }
-            }*/
-            return newTitle;
+            }
+                return newTitle;
+            }catch (SQLException e) {
+                printSQLException(e);
+                return null;
+            }
+
 
         }catch (SQLException e) {
             printSQLException(e);
