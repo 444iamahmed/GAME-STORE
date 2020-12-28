@@ -17,7 +17,7 @@ public class BrowsePageAdminController extends BrowsePageController {
             Parent titleInGrid = titleLoader.load();
             TitleInGridAdminController titleController = new TitleInGridAdminController();
             titleLoader.setController(titleController);
-            titleController.setMyTitle(i);
+            titleController.fillData(i);
             titleController.setController(myController);
             titlesContainer.add(titleInGrid, colCnt, rowCnt);
             colCnt++;

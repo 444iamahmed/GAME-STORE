@@ -25,8 +25,7 @@ public abstract class AccountPageController {
     Account myAccount;
     boolean[] conditions = {false, false, false};
 
-    public void initialize()
-    {
+    public void initialize() throws IOException {
         myStore = Store.getInstance();
     }
 

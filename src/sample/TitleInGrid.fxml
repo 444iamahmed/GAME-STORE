@@ -11,10 +11,10 @@
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openTitlePage" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TitleInGridController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="150.0" onMouseClicked="#openTitlePage" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="name" onMouseClicked="#openTitlePage" />
+      <Label fx:id="nameLabel" onMouseClicked="#openTitlePage" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label fx:id="price" text="Price: Rs. " />
+            <Label fx:id="priceLabel" text="Price: Rs. " />
             <Pane>
                <padding>
                   <Insets left="20.0" right="20.0" />

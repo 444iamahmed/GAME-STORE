@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,31 +17,26 @@ import java.util.Optional;
 public class AccountPageCustomerController extends AccountPageController{
 
     @FXML
-    TreeView ownedTitlesContainer;
+    VBox ownedTitlesContainer;
 
     @Override
-    public void initialize() {
+    public void initialize() throws IOException {
         super.initialize();
         fillOwnedTitlesContainer();
     }
 
-    private void fillOwnedTitlesContainer() {
-        TreeItem<Displayable> root;
-        root = new TreeItem<>();
-        root.setExpanded(true);
+    private void fillOwnedTitlesContainer() throws IOException {
 
-        for(Title t: myStore.getOwnedKeys())
+        ownedTitlesContainer.getChildren().clear();
+
+        for(Title i: myStore.getOwnedKeys())
         {
-            TreeItem<Displayable> titleTreeItem = new TreeItem<>(t);
-            root.getChildren().add(titleTreeItem);
-            for(Key key: t.getKeys())
-            {
-                titleTreeItem.getChildren().add(new TreeItem<>(key));
-            }
-
+            FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInList.fxml"));
+            ownedTitlesContainer.getChildren().add(titleLoader.load());
+            TitleInListController titleInList = titleLoader.getController();
+            titleInList.setController(this);
+            titleInList.fillData(i);
         }
-        ownedTitlesContainer = new TreeView(root);
-        ownedTitlesContainer.setShowRoot(false);
     }
 
 

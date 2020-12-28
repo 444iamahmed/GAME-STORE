@@ -190,7 +190,7 @@ public class BrowsePageController {
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGrid.fxml"));
             Parent titleInGrid = titleLoader.load();
             TitleInGridController titleController = titleLoader.getController();
-            titleController.setMyTitle(i);
+            titleController.fillData(i);
             titleController.setController(myController);
             titlesContainer.add(titleInGrid, colCnt, rowCnt);
             colCnt++;
