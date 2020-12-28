@@ -19,9 +19,6 @@ public class Title extends Displayable
     private Double price;
     private final PersistenceDBHandler persistenceDBHandler = MySQLHandler.getInstance();
     //Image
-    public HashSet<Key> getKeys() {
-        return keys;
-    }
 
 
     Title()
@@ -139,12 +136,18 @@ public class Title extends Displayable
         return genre;
     }
 
+
     public void addGenre(String g)
     {
         genre.add(g);
     }
+
+    public HashSet<Key> getKeys() {
+        return keys;
+    }
     public void addKey(Key key){keys.add(key);}
     public void removeKey(Key key){keys.remove(key);}
+
     public boolean equals(Title title)
     {
         return name.equals(title.name) && platform.equals(title.platform) && developer.equals(title.developer);
@@ -165,5 +168,13 @@ public class Title extends Displayable
 
     public void fillKeys() {
         keys = persistenceDBHandler.getTitleKeys(name, developer, platform);
+    }
+    public Key popKey(){
+        if (keys.size() == 0) {
+            return null;
+        }
+        Key key = keys.iterator().next();
+        keys.remove(key);
+        return key;
     }
 }
