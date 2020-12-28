@@ -75,6 +75,13 @@ public class CartPageController {
         myController = controller;
     }
 
+    public void clearCart()
+    {
+        for(CartItem i: myStore.getCartItems())
+        {
+            myStore.removeFromCart(i);
+        }
+    }
 
 
 }

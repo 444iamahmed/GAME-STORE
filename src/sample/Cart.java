@@ -1,6 +1,7 @@
 package sample;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Cart {
 
@@ -20,14 +21,17 @@ public class Cart {
         return instance;
     }
     public void add(Title t){
-        CartItem temp=new CartItem(t.getName(),t.getDeveloper(),t.getPlatform(), t.getPrice());
+
+        CartItem temp=new CartItem(t, t.popKey());
         cartItems.add(temp);
         price+=t.getPrice();
     }
     public void remove(CartItem item){
         for(int i=0;i<cartItems.size();i++){
-            if(cartItems.get(i).equals(item)){
+            CartItem currItem = cartItems.get(i);
+            if(currItem.equals(item)){
                 price-=item.getPrice();
+                currItem.getTitle().addKey(currItem.getKey());
                 cartItems.remove(i);
                 break;
             }
