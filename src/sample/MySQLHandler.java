@@ -423,12 +423,46 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Account> getCustomers(Filter filter) {
-        return null;
+        String QUERY = "select * from customer where date_created = \"" + filter.getTimePeriod() + "\" order by \"" + filter.getOrder() + "\"";
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            while(rs.next()){
+                Account tempAcc = new Account(rs.getString("customer_username"),
+                        rs.getString("customer_email"),
+                        rs.getString("customer_password"));
+                tempAcc.setDateCreated(rs.getDate("date_created"));
+                accounts.add(tempAcc);
+            }
+            return accounts;
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
     }
 
     @Override
     public ArrayList<Account> getAdmins(Filter filter) {
-        return null;
+        String QUERY = "select * from admin where date_created = \"" + filter.getTimePeriod() + "\" order by \"" + filter.getOrder() + "\"";
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+            while(rs.next()){
+                Account tempAcc = new Account(rs.getString("admin_username"),
+                        rs.getString("admin_email"),
+                        rs.getString("admin_password"));
+                tempAcc.setDateCreated(rs.getDate("date_created"));
+                accounts.add(tempAcc);
+            }
+            return accounts;
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
     }
 
     @Override
