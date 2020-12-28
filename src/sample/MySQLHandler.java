@@ -252,7 +252,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Account retrieveAccount(String username, String password) {
-        String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"";
+        String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"OR customer.customer_email = \"" + username + "\"";
         Account retrieved = new Account();
         try
                 (Statement stmt = connection.createStatement();
@@ -433,6 +433,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public int getAdminCount() {
+
         return 0;
     }
 
@@ -464,7 +465,24 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
-        //String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", admin_username = \"" + account.getUsername() + "\" WHERE (admin_email =  \"" + account.getEmail() + "\")";
+    /*    String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\" WHERE (admin_email =  \"" + account.getEmail() + \")";
+        HashSet<Key> keys = new HashSet<>();
+
+
+        try (
+                Statement titlesStatement = connection.createStatement();
+                ResultSet rs = titlesStatement.executeQuery(QUERY);
+        ){
+            while (rs.next())
+            {
+                keys.add(new Key(rs.getString("key")));
+            }
+
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        return keys;*/
         return null;
     }
 }
