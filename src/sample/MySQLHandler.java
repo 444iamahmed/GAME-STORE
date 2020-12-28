@@ -413,11 +413,32 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void deleteAdminAccount(Account account) {
+        String QUERY = "DELETE from admin where admin.admin_email = \"" + account.getEmail() + "\"";
 
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
     }
 
     @Override
     public void deleteCustomerAccount(Account account) {
+        String QUERY = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
+
+        try
+                (Statement stmt = connection.createStatement();
+
+                 ResultSet rs = stmt.executeQuery(QUERY);){
+
+        }catch (SQLException e) {
+            printSQLException(e);
+
+        }
 
     }
 
@@ -510,24 +531,34 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
-    /*    String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_developer = \"" + newTitle.getDeveloper() + "\" WHERE (admin_email =  \"" + account.getEmail() + \")";
-        HashSet<Key> keys = new HashSet<>();
-
+        String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_platform = \"" + newTitle.getPlatform() +
+                "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = \"" + newTitle.getPrice() + "\", title_rating = \"" + newTitle.getRating() +
+                "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
 
         try (
-                Statement titlesStatement = connection.createStatement();
-                ResultSet rs = titlesStatement.executeQuery(QUERY);
+                Statement updateStatement = connection.createStatement();
+                ResultSet rs = updateStatement.executeQuery(QUERY);
         ){
-            while (rs.next())
-            {
-                keys.add(new Key(rs.getString("key")));
-            }
+            /*for(int i = 0; i < newTitle.getGenre().size(); i++) {
+                String QUERY2 = "UPDATE title_genre SET  title_name = \"" + newTitle.getName() + "\", genre = \"" + newTitle.getGenre().get(i) +
+                        "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\"AND)";
+
+                try (
+                        Statement genreStatement = connection.createStatement();
+                        ResultSet rs2 = genreStatement.executeQuery(QUERY2);
+                ) {
+
+
+                } catch (SQLException e) {
+                    printSQLException(e);
+                    return null;
+                }
+            }*/
+            return newTitle;
 
         }catch (SQLException e) {
             printSQLException(e);
             return null;
         }
-        return keys;*/
-        return null;
     }
 }
