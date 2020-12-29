@@ -26,7 +26,7 @@
                   <Insets />
                </VBox.margin>
             </PasswordField>
-            <Label fx:id="loginError" textFill="#ed2121" />
+            <Label fx:id="signInErrorLabel" textFill="#ed2121" />
             <HBox>
                <children>
                   <Pane />
@@ -35,7 +35,7 @@
                         <Insets left="50.0" right="50.0" />
                      </padding>
                   </Pane>
-                  <Button mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
+                  <Button fx:id="signInButton" mnemonicParsing="false" onAction="#validateCredentials" text="Sign In" />
                </children>
                <padding>
                   <Insets top="15.0" />

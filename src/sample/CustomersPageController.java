@@ -17,26 +17,28 @@ public class CustomersPageController extends UsersPageController{
     public void initialize() throws IOException {
         super.initialize();
         fillCustomersContainer();
+        search();
     }
 
     private void fillCustomersContainer() {
-        TableColumn<Account, String> usernameColumn = new TableColumn<>("Name");
+        TableColumn<Account, String> usernameColumn = new TableColumn<>("Username");
         usernameColumn.setMinWidth(200);
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameColumn.setCellValueFactory(data -> data.getValue().usernameProperty());
 
         TableColumn<Account, String> emailColumn = new TableColumn<>("Email");
         emailColumn.setMinWidth(200);
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        emailColumn.setCellValueFactory(data -> data.getValue().emailProperty());
 
         TableColumn<Account, Date> dateCreatedColumn = new TableColumn<>("Date Created");
         dateCreatedColumn.setMinWidth(200);
-        dateCreatedColumn.setCellValueFactory(new PropertyValueFactory<>("dateCreated"));
+        dateCreatedColumn.setCellValueFactory(data -> data.getValue().dateCreatedProperty());
 
         customersContainer.getColumns().addAll(usernameColumn, emailColumn, dateCreatedColumn);
     }
 
     @Override
     public void search() {
+        super.search();
         customersContainer.setItems(myStore.searchCustomers(filter));
     }
 }

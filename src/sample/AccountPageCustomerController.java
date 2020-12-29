@@ -93,9 +93,9 @@ public class AccountPageCustomerController extends AccountPageController{
         if(result.get() == buttonTypeYes)
         {
 
-            myStore.deleteCustomerAccount(myAccount);
             if(myAccount.getEmail() == myStore.getActiveAccount().getEmail())
                 changeSceneToSignIn();
+            myStore.deleteCustomerAccount(myAccount);
         }
 
     }

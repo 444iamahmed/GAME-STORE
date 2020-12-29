@@ -17,21 +17,19 @@ public class MainPageAdminController extends MainPageController{
         pageLabel.setText("Home");
     }
     public void changeTabToTitles() throws IOException {
-//        BrowsePageController browsePageController = (BrowsePageController) loadPage("BrowsePage");
-//        browsePageController.setMyController(this);
-//        browsePageController.fillGrid();
-//        pageLabel.setText("Browse");
+        BrowsePageAdminController browsePageController = (BrowsePageAdminController) loadPage("BrowsePageAdmin");
+        browsePageController.setMyController(this);
+        browsePageController.fillTitlesContainer();
+        pageLabel.setText("Browse");
     }
     public void changeTabToAdmins()
     {
-        loadPage("Admins");
+        loadPage("AdminsPage");
         pageLabel.setText("Admins");
     }
     public void changeTabToCustomers() throws IOException {
-//        CartPageController cartPageController = (CartPageController) loadPage("CartPage");
-//        pageLabel.setText("Cart");
-//        cartPageController.setMyController(this);
-//        cartPageController.refreshList();
+        loadPage("CustomersPage");
+        pageLabel.setText("Customers");
     }
 
 

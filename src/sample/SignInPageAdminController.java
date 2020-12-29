@@ -15,6 +15,14 @@ import java.io.IOException;
 
 public class SignInPageAdminController extends SignInPageController{
 
+
+    @Override
+    public void validateCredentials() throws IOException {
+        if(myStore.checkAccountAndLoginAdmin(idText.getText(), passwordText.getText()))
+            changeSceneToMainPage();
+        else
+            signInErrorLabel.setText("Invalid username or password!");    }
+
     @Override
     public void changeSceneToMainPage() throws IOException
     {

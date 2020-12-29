@@ -1,56 +1,60 @@
 package sample;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+
 class Account extends Displayable{
 
-    private String username;
-    private String email;
-    private String password;
-
-
-    private Date dateCreated;
+    private StringProperty username;
+    private StringProperty email;
+    private StringProperty password;
+    private ObjectProperty<Date>  dateCreated= new SimpleObjectProperty<>(this, "dateCreated");
 
 
     public String getUsername() {
-        return username;
+        return username.get();
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username.set(username);
     }
 
     public String getEmail() {
-        return email;
+        return email.get();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email.set(email);
     }
 
     public String getPassword() {
-        return password;
+        return password.get();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password.set(password);
     }
 
     public Date getDateCreated() {
-        return dateCreated;
+        return dateCreated.get();
     }
 
     public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+        this.dateCreated.set(dateCreated);
     }
 
 
     public Account() {
-        this.username = " ";
-        this.email = " ";
-        this.password = " ";
+        this.username = new SimpleStringProperty("");
+        this.email = new SimpleStringProperty("");
+        this.password = new SimpleStringProperty("");
     }
 
     public Account(Account account) {
@@ -60,10 +64,25 @@ class Account extends Displayable{
     }
     public Account(String username, String email, String password)
     {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        this.username = new SimpleStringProperty(username);
+        this.email = new SimpleStringProperty(email);
+        this.password = new SimpleStringProperty(password);
     }
 
+    public StringProperty usernameProperty() {
+        return username;
+    }
+
+    public StringProperty emailProperty() {
+        return email;
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public ObjectProperty<Date> dateCreatedProperty() {
+        return dateCreated;
+    }
 
 }

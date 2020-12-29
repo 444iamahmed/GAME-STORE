@@ -20,6 +20,7 @@ public class AdminsPageController extends UsersPageController {
 
     @Override
     public void search() {
+        super.search();
         myStore.searchAdmins(filter);
     }
 

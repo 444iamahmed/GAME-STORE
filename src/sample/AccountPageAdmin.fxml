@@ -31,7 +31,7 @@
                   <Label fx:id="confirmPasswordErrorLabel" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account" />
+                        <Button fx:id="deleteAccountButton" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account" />
                         <Pane>
                            <opaqueInsets>
                               <Insets />
