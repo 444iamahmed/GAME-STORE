@@ -247,8 +247,6 @@ public class MySQLHandler extends PersistenceDBHandler {
         try
                 (Statement stmt = connection.createStatement();
 
-                 ResultSet rs = stmt.executeQuery(QUERY);){
-            return retrieveAccount(username, password);
                  ){
             int rowsUpdated = stmt.executeUpdate(QUERY);
             return retrieveAccountCustomer(username, password);
@@ -259,8 +257,6 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public Account retrieveAccount(String username, String password) {
-        String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"OR customer.customer_email = \"" + username + "\"";
     public Account retrieveAccountCustomer(String id, String password) {
         String QUERY = "select * from customer where customer.customer_username = \"" + id + "\"OR customer.customer_email = \"" + id + "\"";
         Account retrieved = new Account();
@@ -268,11 +264,6 @@ public class MySQLHandler extends PersistenceDBHandler {
                 (Statement stmt = connection.createStatement();
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
-            while(rs.next()) {
-                retrieved.setUsername(rs.getString("customer_username"));
-                retrieved.setPassword(rs.getString("customer_password"));
-                retrieved.setEmail(rs.getString("customer_email"));
-            }
             if(!rs.next())
                 return null;
 
@@ -292,8 +283,6 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public Account retrieveAdmin(String username, String password) {
-        String QUERY = "select * from admin where admin.admin_username = \"" + username + "\"";
     public Account retrieveAccountAdmin(String id, String password) {
         String QUERY = "select * from admin where admin.admin_username = \"" + id + "\"OR admin.admin_email = \"" + id + "\"";
         Account retrieved = new Account();
@@ -301,11 +290,6 @@ public class MySQLHandler extends PersistenceDBHandler {
                 (Statement stmt = connection.createStatement();
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
-            while(rs.next()) {
-                retrieved.setUsername(rs.getString("admin_username"));
-                retrieved.setPassword(rs.getString("admin_password"));
-                retrieved.setEmail(rs.getString("admin_email"));
-            }
             if(!rs.next())
                 return null;
 
@@ -422,8 +406,6 @@ public class MySQLHandler extends PersistenceDBHandler {
         try
                 (Statement stmt = connection.createStatement();
 
-                 ResultSet rs = stmt.executeQuery(QUERY);){
-
                  ){
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
@@ -438,8 +420,6 @@ public class MySQLHandler extends PersistenceDBHandler {
         try
                 (Statement stmt = connection.createStatement();
 
-                 ResultSet rs = stmt.executeQuery(QUERY);){
-
                 ){
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
@@ -453,11 +433,6 @@ public class MySQLHandler extends PersistenceDBHandler {
     public void deleteAdminAccount(Account account) {
         String QUERY = "DELETE from admin where admin.admin_email = \"" + account.getEmail() + "\"";
 
-        try
-                (Statement stmt = connection.createStatement();
-
-                 ResultSet rs = stmt.executeQuery(QUERY);){
-
         try (Statement stmt = connection.createStatement();){
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
@@ -468,11 +443,6 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public void deleteCustomerAccount(Account account) {
         String QUERY = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
-
-        try
-                (Statement stmt = connection.createStatement();
-
-                 ResultSet rs = stmt.executeQuery(QUERY);){
 
         try (Statement stmt = connection.createStatement();){
             int rowsUpdated = stmt.executeUpdate(QUERY);
@@ -499,12 +469,10 @@ public class MySQLHandler extends PersistenceDBHandler {
                 "date_created >= ? order by  date_created " + filter.getOrder();
         ArrayList<Account> accounts = new ArrayList<>();
         try
-                (Statement stmt = connection.createStatement();
         {
             PreparedStatement stmt = connection.prepareStatement(QUERY);
             stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
 
-                 ResultSet rs = stmt.executeQuery(QUERY);){
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Account tempAcc = new Account(rs.getString("customer_username"),
@@ -522,12 +490,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Account> getAdmins(Filter filter) {
-        String QUERY = "select * from admin where date_created = \"" + filter.getTimePeriod() + "\" order by \"" + filter.getOrder() + "\"";
-        ArrayList<Account> accounts = new ArrayList<Account>();
-        try
-                (Statement stmt = connection.createStatement();
 
-                 ResultSet rs = stmt.executeQuery(QUERY);){
         LocalDate date = LocalDate.now();
         TimePeriod period = filter.getTimePeriod();
         switch (period)
@@ -655,8 +618,6 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                 try (
                         Statement genreStatement = connection.createStatement();
-                        ResultSet rs3 = genreStatement.executeQuery(QUERY3);
-                ) {
 
                 ) {
 
@@ -705,41 +666,60 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-<<<<<<< HEAD
-    public Order saveOrder(Order order, Account account)
-    {
     public Order saveOrder(Order order, Account account) {
         String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
-
-        ArrayList<Order> orders = new ArrayList<Order>();
 
 
         try (
                 Statement titlesStatement = connection.createStatement();
-                ResultSet rs = titlesStatement.executeQuery(QUERY);
-        ){
-            while (rs.next())
-            {
+                //ResultSet rs = titlesStatement.executeQuery(QUERY);
         ) {
-            while (rs.next()) {
-                Order tempOrder = new Order();
-                tempOrder.setOrderNumber(rs.getInt("order_id"));
-                tempOrder.setTotal(rs.getDouble("price"));
-                tempOrder.setTitles(getOwnedKeys(tempOrder));
-                orders.add(tempOrder);
-            }
 
-        }catch (SQLException e) {
+            titlesStatement.executeUpdate(QUERY);
+            String QUERY2 = "select * from orders where customer_email = \"" + account.getEmail() + "\"";
+            int orderID = 0;
+
+
+            try (
+                    Statement lastOrderStatement = connection.createStatement();
+                    ResultSet rs = lastOrderStatement.executeQuery(QUERY2);
+            ){
+                while (rs.next())
+                {
+                    orderID = rs.getInt("orderid");
+                }
+
+            }catch (SQLException e) {
+                printSQLException(e);
+                return null;
+            }
+            order.setOrderNumber(orderID);
+            for (Title j: order.getTitles()
+                 ) {
+                for (Key i: j.getKeys()
+                     ) {
+                    String QUERY3 = "UPDATE key SET orderid = (\"" + orderID + "\") WHERE (key = \"" + i.getValue() + "\")";
+
+                    try (
+                            Statement keysStatement = connection.createStatement();
+                            //ResultSet rs = titlesStatement.executeQuery(QUERY);
+                    ) {
+                        keysStatement.executeUpdate(QUERY3);
+                    } catch (SQLException e) {
+                        printSQLException(e);
+                        return null;
+                    }
+                }
+            }
+            return order;
         } catch (SQLException e) {
             printSQLException(e);
             return null;
         }
-        return null;
-=======
+
     }
     public ArrayList<Order> getOrders() {
         return new ArrayList<>();
->>>>>>> 0b07ce9def06c28296ecc3479ebeda6359a45444
     }
 
 }
