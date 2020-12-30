@@ -599,7 +599,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
         String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_platform = \"" + newTitle.getPlatform() +
                 "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
-                "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
+                "\" WHERE (title.title_name =  \"" + oldName + "\" AND title.title_developer = \"" + oldDeveloper + "\" AND title.title_platform = \"" + oldPlatform + "\")";
 
         try (Statement updateStatement = connection.createStatement()){
             int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
