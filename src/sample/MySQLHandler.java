@@ -104,8 +104,8 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Title> getOwnedKeys(Account account) {
-        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + account.getUsername() + "\"";
+    public ArrayList<Title> getOwnedKeys(Order order) {
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where orderid = \"" + order.getOrderNumber() + "\"";
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -162,7 +162,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                 tempTitle.addKey(new Key(rs.getString("key")));
             }
-
+            titles.add(tempTitle);
         }catch (SQLException e) {
             printSQLException(e);
         }
@@ -530,6 +530,34 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
+    public ArrayList<Order> getOrders(Account account) {
+
+        String QUERY = "select * from orders where customer_email = \"" + account.getEmail() + "\"";
+
+        ArrayList<Order> orders = new ArrayList<Order>();
+
+
+        try (
+                Statement titlesStatement = connection.createStatement();
+                ResultSet rs = titlesStatement.executeQuery(QUERY);
+        ){
+            while (rs.next())
+            {
+                Order tempOrder = new Order();
+                tempOrder.setOrderNumber(rs.getInt("order_id"));
+                tempOrder.setTotal(rs.getDouble("price"));
+                tempOrder.setTitles(getOwnedKeys(tempOrder));
+                orders.add(tempOrder);
+            }
+
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        return orders;
+    }
+
+    @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
         String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_platform = \"" + newTitle.getPlatform() +
                 "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = \"" + newTitle.getPrice() + "\", title_rating = \"" + newTitle.getRating() +
@@ -598,7 +626,31 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Order> getOrders() {
+    public Order saveOrder(Order order, Account account)
+    {
+        String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
+
+        ArrayList<Order> orders = new ArrayList<Order>();
+
+
+        try (
+                Statement titlesStatement = connection.createStatement();
+                ResultSet rs = titlesStatement.executeQuery(QUERY);
+        ){
+            while (rs.next())
+            {
+                Order tempOrder = new Order();
+                tempOrder.setOrderNumber(rs.getInt("order_id"));
+                tempOrder.setTotal(rs.getDouble("price"));
+                tempOrder.setTitles(getOwnedKeys(tempOrder));
+                orders.add(tempOrder);
+            }
+
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
         return null;
     }
+
 }
