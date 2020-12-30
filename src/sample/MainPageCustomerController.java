@@ -25,7 +25,7 @@ public class MainPageCustomerController extends MainPageController{
     public void changeTabToCart() throws IOException {
         CartPageController cartPageController = (CartPageController) loadPage("CartPage");
         pageLabel.setText("Cart");
-        cartPageController.setMyController(this);
+        cartPageController.setMainPageController(this);
         cartPageController.refreshList();
     }
 

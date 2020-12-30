@@ -44,8 +44,7 @@ public class CartPageController {
     }
 
 
-    public void checkout()
-    {
+    public void checkout() throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmation");
         alert.setContentText("Are you sure you want to checkout?");
@@ -63,6 +62,7 @@ public class CartPageController {
             if(orderNumber != null)
             {
                 purchaseSuccessfulAlert(orderNumber);
+                clearCart();
             }
             else
             {
@@ -89,7 +89,7 @@ public class CartPageController {
         myController.changeTabToHome();
     }
 
-    void setMyController(MainPageCustomerController controller)
+    void setMainPageController(MainPageCustomerController controller)
     {
         myController = controller;
     }
