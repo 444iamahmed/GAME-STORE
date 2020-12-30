@@ -1,10 +1,8 @@
 package sample;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -661,7 +659,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public Order saveOrder(Order order, Account account) {
+    public Integer saveOrder(Order order, Account account) {
         String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
 
 
@@ -706,7 +704,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                     }
                 }
             }
-            return order;
+            return order.getOrderNumber();
         } catch (SQLException e) {
             printSQLException(e);
             return null;

@@ -34,7 +34,7 @@ public abstract class PersistenceDBHandler {
 
     public abstract Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle);
 
-    public abstract Order saveOrder(Order order, Account account);
+    public abstract Integer saveOrder(Order order, Account account);
 
     public abstract ArrayList<Order> getOrders();
 }

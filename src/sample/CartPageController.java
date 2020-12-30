@@ -59,15 +59,34 @@ public class CartPageController {
 
         if(result.get() == buttonTypeYes)
         {
-            myStore.checkout(cardNumberText.getText(), expirationText.getText(), CVVText.getText());
-            Alert orderDetails = new Alert(Alert.AlertType.INFORMATION);
-            orderDetails.setTitle("Order Details");
-            orderDetails.setHeaderText("Order No. " + myStore.generateOrderNumber().toString() +"\n with Total: Rs. " + myStore.getCartTotal().toString());
-            myStore.clearCart();
-            orderDetails.showAndWait();
-            myController.changeTabToHome();
+            Integer orderNumber = myStore.checkout(cardNumberText.getText(), expirationText.getText(), CVVText.getText());
+            if(orderNumber != null)
+            {
+                purchaseSuccessfulAlert(orderNumber);
+            }
+            else
+            {
+                purchaseUnsuccessfulAlert();
+            }
+
         }
 
+    }
+
+    private void purchaseUnsuccessfulAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText("Payment not verified!");
+        alert.showAndWait();
+    }
+
+    private void purchaseSuccessfulAlert(Integer orderNumber) {
+        Alert orderDetails = new Alert(Alert.AlertType.INFORMATION);
+        orderDetails.setTitle("Order Details");
+        orderDetails.setHeaderText("Order No. " + orderNumber + "\n with Total: Rs. " + myStore.getCartTotal().toString());
+        myStore.clearCart();
+        orderDetails.showAndWait();
+        myController.changeTabToHome();
     }
 
     void setMyController(MainPageCustomerController controller)
@@ -75,12 +94,12 @@ public class CartPageController {
         myController = controller;
     }
 
-    public void clearCart()
-    {
+    public void clearCart() throws IOException {
         for(CartItem i: myStore.getCartItems())
         {
             myStore.removeFromCart(i.getTitle());
         }
+        refreshList();
     }
 
 

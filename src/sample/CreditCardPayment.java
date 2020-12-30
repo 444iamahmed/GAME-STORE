@@ -1,7 +1,7 @@
 package sample;
 
 public class CreditCardPayment extends Payment{
-    String CVV, ExpirationDate,CreditCardNumber;
+    String cvv, expirationDate, creditCardNumber;
 
     private CreditCardPayment(){
 
@@ -14,11 +14,16 @@ public class CreditCardPayment extends Payment{
     }
 
 
-    @Override
-    public void paymentDetails() {
-    }
-    @Override
-    public void makePayment() {
 
+    public void setDetails(String cardNumber, String expiration, String cvv, Double amount) {
+        this.creditCardNumber = cardNumber;
+        this.expirationDate = expiration;
+        this.cvv = cvv;
+        this.amount = amount;
+    }
+
+    @Override
+    public boolean process() {
+        return true;
     }
 }

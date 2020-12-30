@@ -124,9 +124,13 @@ public class Store {
     {
         return cart.getTotal();
     }
-    public void checkout(String cardNumber, String expiration, String CVV)
+    public Integer checkout(String cardNumber, String expiration, String CVV)
     {
-        //CreditCardPayment;
+        Order newOrder = new Order(cart);
+        ((CreditCardPayment) paymentHandler).setDetails(cardNumber, expiration, CVV, newOrder.getTotal());
+        if(paymentHandler.process())
+            return persistenceDBHandler.saveOrder(newOrder, activeAccount);
+        return null;
     }
     public Double generateOrderNumber()
     {

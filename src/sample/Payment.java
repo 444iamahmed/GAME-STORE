@@ -12,6 +12,6 @@ public abstract class Payment {
         this.amount= amount;
     }
 
-    public abstract void paymentDetails();
-    public abstract void makePayment();
+    public abstract boolean process();
+
 }
