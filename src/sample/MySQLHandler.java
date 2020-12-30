@@ -598,13 +598,13 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
         String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_platform = \"" + newTitle.getPlatform() +
-                "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = \"" + newTitle.getPrice() + "\", title_rating = \"" + newTitle.getRating() +
+                "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
                 "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
 
         try (Statement updateStatement = connection.createStatement()){
             int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
 
-            String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
+            String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + newTitle.getName() + "\" AND title_developer = \"" + newTitle.getDeveloper() + "\"AND title_platform = \"" + newTitle.getPlatform() + "\")";
 
             try (Statement deleteGenreStatement = connection.createStatement();) {
                 int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
@@ -622,7 +622,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                     return null;
                 }
             }
-                String QUERY4 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
+                String QUERY4 = "DELETE from title_genre WHERE (title_name =  \"" + newTitle.getName() + "\" AND title_developer = \"" + newTitle.getDeveloper() + "\"AND title_platform = \"" + newTitle.getPlatform() + "\")";
 
                 try (
                         Statement deleteKeysStatement = connection.createStatement();

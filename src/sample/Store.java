@@ -23,6 +23,7 @@ public class Store {
         inventory.setPersistenceDBHandler(persistenceDBHandler);
         genres = persistenceDBHandler.getGenres();
         platforms = persistenceDBHandler.getPlatforms();
+        paymentHandler = CreditCardPayment.getInstance();
     }
     public static Store getInstance()
     {
@@ -44,10 +45,10 @@ public class Store {
     {
         return FXCollections.observableList(inventory.search(filters));
     }
-    public ObservableList<Title> getOwnedKeys()
-    {
-        return FXCollections.observableList(persistenceDBHandler.getOwnedKeys(activeAccount));
-    }
+//    public ObservableList<Title> getOwnedKeys()
+//    {
+//        return FXCollections.observableList(persistenceDBHandler.getOwnedKeys(activeAccount));
+//    }
 
     public boolean usernameExistsCustomer(String username)
     {
@@ -125,7 +126,7 @@ public class Store {
     }
     public void checkout(String cardNumber, String expiration, String CVV)
     {
-
+        //CreditCardPayment;
     }
     public Double generateOrderNumber()
     {
