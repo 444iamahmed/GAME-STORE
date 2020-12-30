@@ -2,8 +2,13 @@ package sample;
 
 import java.sql.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 
 public class MySQLHandler extends PersistenceDBHandler {
 
@@ -244,6 +249,9 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
             return retrieveAccount(username, password);
+                 ){
+            int rowsUpdated = stmt.executeUpdate(QUERY);
+            return retrieveAccountCustomer(username, password);
         }catch (SQLException e) {
             printSQLException(e);
             return null;
@@ -253,6 +261,8 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public Account retrieveAccount(String username, String password) {
         String QUERY = "select * from customer where customer.customer_username = \"" + username + "\"OR customer.customer_email = \"" + username + "\"";
+    public Account retrieveAccountCustomer(String id, String password) {
+        String QUERY = "select * from customer where customer.customer_username = \"" + id + "\"OR customer.customer_email = \"" + id + "\"";
         Account retrieved = new Account();
         try
                 (Statement stmt = connection.createStatement();
@@ -263,6 +273,17 @@ public class MySQLHandler extends PersistenceDBHandler {
                 retrieved.setPassword(rs.getString("customer_password"));
                 retrieved.setEmail(rs.getString("customer_email"));
             }
+            if(!rs.next())
+                return null;
+
+            String correspondingPassword = rs.getString("customer_password");
+            if(!password.equals(correspondingPassword))
+                return null;
+
+            retrieved.setUsername(rs.getString("customer_username"));
+            retrieved.setEmail(rs.getString("customer_email"));
+            retrieved.setPassword(correspondingPassword);
+
         }catch (SQLException e) {
             printSQLException(e);
             return null;
@@ -273,6 +294,8 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public Account retrieveAdmin(String username, String password) {
         String QUERY = "select * from admin where admin.admin_username = \"" + username + "\"";
+    public Account retrieveAccountAdmin(String id, String password) {
+        String QUERY = "select * from admin where admin.admin_username = \"" + id + "\"OR admin.admin_email = \"" + id + "\"";
         Account retrieved = new Account();
         try
                 (Statement stmt = connection.createStatement();
@@ -283,6 +306,17 @@ public class MySQLHandler extends PersistenceDBHandler {
                 retrieved.setPassword(rs.getString("admin_password"));
                 retrieved.setEmail(rs.getString("admin_email"));
             }
+            if(!rs.next())
+                return null;
+
+            String correspondingPassword = rs.getString("admin_password");
+            if(!password.equals(correspondingPassword))
+                return null;
+
+            retrieved.setUsername(rs.getString("admin_username"));
+            retrieved.setEmail(rs.getString("admin_email"));
+            retrieved.setPassword(correspondingPassword);
+
         }catch (SQLException e) {
             printSQLException(e);
             return null;
@@ -390,6 +424,8 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
 
+                 ){
+            int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -404,6 +440,8 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
 
+                ){
+            int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -420,6 +458,8 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
 
+        try (Statement stmt = connection.createStatement();){
+            int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -435,6 +475,8 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
 
+        try (Statement stmt = connection.createStatement();){
+            int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -446,10 +488,28 @@ public class MySQLHandler extends PersistenceDBHandler {
     public ArrayList<Account> getCustomers(Filter filter) {
         String QUERY = "select * from customer where date_created = \"" + filter.getTimePeriod() + "\" order by \"" + filter.getOrder() + "\"";
         ArrayList<Account> accounts = new ArrayList<Account>();
+        LocalDate date = LocalDate.now();
+        TimePeriod period = filter.getTimePeriod();
+        switch (period)
+        {
+            case THIS_YEAR -> date = date.with(TemporalAdjusters.firstDayOfYear());
+            case THIS_MONTH -> date = date.with(TemporalAdjusters.firstDayOfMonth());
+            case THIS_WEEK -> date = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(),1);
+            default -> date = LocalDate.EPOCH;
+        }
+
+
+        String QUERY = "select * from customer where " + searchTextQuery("","customer.customer_username, customer.customer_email", filter.getSearchText(),"AND") +
+                "date_created >= ? order by  date_created " + filter.getOrder();
+        ArrayList<Account> accounts = new ArrayList<>();
         try
                 (Statement stmt = connection.createStatement();
+        {
+            PreparedStatement stmt = connection.prepareStatement(QUERY);
+            stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Account tempAcc = new Account(rs.getString("customer_username"),
                         rs.getString("customer_email"),
@@ -472,6 +532,24 @@ public class MySQLHandler extends PersistenceDBHandler {
                 (Statement stmt = connection.createStatement();
 
                  ResultSet rs = stmt.executeQuery(QUERY);){
+        LocalDate date = LocalDate.now();
+        TimePeriod period = filter.getTimePeriod();
+        switch (period)
+        {
+            case THIS_YEAR -> date = date.with(TemporalAdjusters.firstDayOfYear());
+            case THIS_MONTH -> date = date.with(TemporalAdjusters.firstDayOfMonth());
+            case THIS_WEEK -> date = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(),1);
+            default -> date = LocalDate.EPOCH;
+        }
+
+        String QUERY = "select * from admin where " + searchTextQuery("","admin.admin_username, customer.admin_email", filter.getSearchText(),"AND") +
+                "date_created >= ? order by  date_created " + filter.getOrder();
+        ArrayList<Account> accounts = new ArrayList<>();
+        try
+                (PreparedStatement stmt = connection.prepareStatement(QUERY);
+                ){
+            stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
+            ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Account tempAcc = new Account(rs.getString("admin_username"),
                         rs.getString("admin_email"),
@@ -567,12 +645,15 @@ public class MySQLHandler extends PersistenceDBHandler {
                 Statement updateStatement = connection.createStatement();
                 ResultSet rs = updateStatement.executeQuery(QUERY);
         ){
+            int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
+
             String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
 
             try (
                     Statement deleteGenreStatement = connection.createStatement();
                     ResultSet rs2 = deleteGenreStatement.executeQuery(QUERY2);
             ) {
+                int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
                 for(int i = 0; i < newTitle.getGenre().size(); i++) {
                 String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() + "\", \"" + newTitle.getPlatform() + "\", \"" + newTitle.getGenre().get(i) + "\")" ;
 
@@ -581,7 +662,9 @@ public class MySQLHandler extends PersistenceDBHandler {
                         ResultSet rs3 = genreStatement.executeQuery(QUERY3);
                 ) {
 
+                ) {
 
+                    int rowsUpdatedInGenresUpdation = genreStatement.executeUpdate(QUERY3);
                 } catch (SQLException e) {
                     printSQLException(e);
                     return null;
@@ -626,6 +709,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
+<<<<<<< HEAD
     public Order saveOrder(Order order, Account account)
     {
         String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
@@ -651,6 +735,10 @@ public class MySQLHandler extends PersistenceDBHandler {
             return null;
         }
         return null;
+=======
+    public ArrayList<Order> getOrders() {
+        return new ArrayList<>();
+>>>>>>> 0b07ce9def06c28296ecc3479ebeda6359a45444
     }
 
 }
