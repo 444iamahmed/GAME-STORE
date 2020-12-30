@@ -597,19 +597,19 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
-        String QUERY = "UPDATE title SET  title_name = \"" + newTitle.getName() + "\", title_developer = \"" + newTitle.getDeveloper() + "\", title_platform = \"" + newTitle.getPlatform() +
-                "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
-                "\" WHERE (title.title_name =  \"" + oldName + "\" AND title.title_developer = \"" + oldDeveloper + "\" AND title.title_platform = \"" + oldPlatform + "\")";
+        String QUERY = "UPDATE title SET title_name = '" + newTitle.getName() + "', title_developer = '" + newTitle.getDeveloper() + "', title_platform = '" + newTitle.getPlatform() +
+                "', title_release_date = '" + Timestamp.valueOf(newTitle.getReleaseDate().atStartOfDay()) + "', title_description = '" + newTitle.getDescription() + "', title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
+                " WHERE (title.title_name =  '" + oldName + "' AND title.title_developer = '" + oldDeveloper + "' AND title.title_platform = '" + oldPlatform + "')";
 
         try (Statement updateStatement = connection.createStatement()){
             int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
 
-            String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + newTitle.getName() + "\" AND title_developer = \"" + newTitle.getDeveloper() + "\"AND title_platform = \"" + newTitle.getPlatform() + "\")";
+            String QUERY2 = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "'AND title_platform = '" + newTitle.getPlatform() + "')";
 
             try (Statement deleteGenreStatement = connection.createStatement();) {
                 int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
                 for(int i = 0; i < newTitle.getGenre().size(); i++) {
-                String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() + "\", \"" + newTitle.getPlatform() + "\", \"" + newTitle.getGenre().get(i) + "\")" ;
+                String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() + "', '" + newTitle.getPlatform() + "', '" + newTitle.getGenre().get(i) + "')" ;
 
                 try (
                         Statement genreStatement = connection.createStatement();
@@ -622,15 +622,15 @@ public class MySQLHandler extends PersistenceDBHandler {
                     return null;
                 }
             }
-                String QUERY4 = "DELETE from title_genre WHERE (title_name =  \"" + newTitle.getName() + "\" AND title_developer = \"" + newTitle.getDeveloper() + "\"AND title_platform = \"" + newTitle.getPlatform() + "\")";
+                String QUERY4 = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "'AND title_platform = '" + newTitle.getPlatform() + "')";
 
                 try (
                         Statement deleteKeysStatement = connection.createStatement();
                         ResultSet rs4 = deleteKeysStatement.executeQuery(QUERY4);
                 ) {
                     for(Key j: newTitle.getKeys()) {
-                        String QUERY5 = "INSERT INTO keys (title_name, title_developer, title_platform, key) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() +
-                                "\", \"" + newTitle.getPlatform() + "\", \"" + j.getValue() + "\")" ;
+                        String QUERY5 = "INSERT INTO keys (title_name, title_developer, title_platform, key) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
+                                "', '" + newTitle.getPlatform() + "', '" + j.getValue() + "')" ;
 
                         try (
                                 Statement keysStatement = connection.createStatement();
