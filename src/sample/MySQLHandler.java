@@ -462,7 +462,6 @@ public class MySQLHandler extends PersistenceDBHandler {
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
-
         }
     }
 
@@ -479,15 +478,12 @@ public class MySQLHandler extends PersistenceDBHandler {
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
-
         }
 
     }
 
     @Override
     public ArrayList<Account> getCustomers(Filter filter) {
-        String QUERY = "select * from customer where date_created = \"" + filter.getTimePeriod() + "\" order by \"" + filter.getOrder() + "\"";
-        ArrayList<Account> accounts = new ArrayList<Account>();
         LocalDate date = LocalDate.now();
         TimePeriod period = filter.getTimePeriod();
         switch (period)
@@ -643,7 +639,6 @@ public class MySQLHandler extends PersistenceDBHandler {
 
         try (
                 Statement updateStatement = connection.createStatement();
-                ResultSet rs = updateStatement.executeQuery(QUERY);
         ){
             int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
 
@@ -652,6 +647,7 @@ public class MySQLHandler extends PersistenceDBHandler {
             try (
                     Statement deleteGenreStatement = connection.createStatement();
                     ResultSet rs2 = deleteGenreStatement.executeQuery(QUERY2);
+
             ) {
                 int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
                 for(int i = 0; i < newTitle.getGenre().size(); i++) {
@@ -712,6 +708,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 <<<<<<< HEAD
     public Order saveOrder(Order order, Account account)
     {
+    public Order saveOrder(Order order, Account account) {
         String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
 
         ArrayList<Order> orders = new ArrayList<Order>();
@@ -723,6 +720,8 @@ public class MySQLHandler extends PersistenceDBHandler {
         ){
             while (rs.next())
             {
+        ) {
+            while (rs.next()) {
                 Order tempOrder = new Order();
                 tempOrder.setOrderNumber(rs.getInt("order_id"));
                 tempOrder.setTotal(rs.getDouble("price"));
@@ -731,11 +730,13 @@ public class MySQLHandler extends PersistenceDBHandler {
             }
 
         }catch (SQLException e) {
+        } catch (SQLException e) {
             printSQLException(e);
             return null;
         }
         return null;
 =======
+    }
     public ArrayList<Order> getOrders() {
         return new ArrayList<>();
 >>>>>>> 0b07ce9def06c28296ecc3479ebeda6359a45444
