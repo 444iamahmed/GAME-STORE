@@ -6,7 +6,6 @@ import java.util.Date;
 public class BrowseFilter extends Filter{
 
     private static BrowseFilter instance = null;
-    private String searchText;
     private Double rating;
     private ArrayList<String> genres;
     private ArrayList<String> platforms;
@@ -19,7 +18,6 @@ public class BrowseFilter extends Filter{
         platforms = new ArrayList<>();
         rating = 0.0;
         maxPrice = 500000.0;
-        searchText = "";
         sortBy = SortBy.DATE;
     }
     public static BrowseFilter getInstance()
@@ -46,13 +44,6 @@ public class BrowseFilter extends Filter{
 
     private Date releaseDate;
 
-    public String getSearchText() {
-        return searchText;
-    }
-
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
-    }
 
     public double getRating() {
         return rating;

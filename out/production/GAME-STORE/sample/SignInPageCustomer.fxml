@@ -26,7 +26,7 @@
                   <Insets />
                </VBox.margin>
             </PasswordField>
-            <Label fx:id="signInError" textFill="#ed2121" />
+            <Label fx:id="signInErrorLabel" textFill="#ed2121" />
             <HBox>
                <children>
                   <Pane />

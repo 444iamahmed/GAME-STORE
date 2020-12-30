@@ -53,7 +53,7 @@
                                     <Label fx:id="confirmPasswordErrorLabel" />
                                     <HBox prefHeight="100.0" prefWidth="200.0">
                                        <children>
-                                          <Button mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account" />
+                                          <Button fx:id="deleteAccountButton" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account" />
                                           <Pane>
                                              <opaqueInsets>
                                                 <Insets />
@@ -86,6 +86,14 @@
                         </BorderPane>
                      </children>
                   </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Order History">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox fx:id="ordersContainer" prefHeight="492.0" prefWidth="932.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

@@ -12,8 +12,8 @@ public abstract class PersistenceDBHandler {
     public abstract ArrayList<Title> getTitles(BrowseFilter browseFilter);
     public abstract ArrayList<Title> getOwnedKeys(Order order);
     public abstract Account saveAccountCustomer(String username, String email, String password);
-    public abstract Account retrieveAccount(String username, String password);
-    public abstract Account retrieveAdmin(String username, String password);
+    public abstract Account retrieveAccountCustomer(String username, String password);
+    public abstract Account retrieveAccountAdmin(String username, String password);
     public abstract Title getSingleTitle(String title_name);
     public abstract ArrayList<Order> getOrders(Account account);
     public abstract Boolean checkUserExistence(String username);

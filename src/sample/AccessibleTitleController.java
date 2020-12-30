@@ -6,9 +6,12 @@ import javafx.scene.control.Label;
 import java.io.IOException;
 
 public abstract class AccessibleTitleController {
+
     protected Object mainPageController;
     @FXML
-    Label nameLabel, priceLabel;
+    Label nameLabel;
+    @FXML
+    Label priceLabel;
 
 
     protected Title title;

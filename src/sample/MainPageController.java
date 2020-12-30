@@ -43,7 +43,7 @@ public abstract class MainPageController {
             pageLoader = new FXMLLoader(getClass().getResource(page + ".fxml"));
             root = pageLoader.load();
         } catch (IOException e) {
-            Logger.getLogger(MainPageCustomerController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, e);
         }
         mainPageBorderPane.setCenter(root);
         return pageLoader.getController();

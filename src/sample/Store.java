@@ -63,12 +63,16 @@ public class Store {
     {
         activeAccount = persistenceDBHandler.saveAccountCustomer(username, email, password);
     }
-    public boolean checkAccountAndLogin(String id, String password)
+    public boolean checkAccountAndLoginCustomer(String id, String password)
     {
-        if((activeAccount = persistenceDBHandler.retrieveAccount(id, password)) != null)
-            return true;
-        return false;
+        return (activeAccount = persistenceDBHandler.retrieveAccountCustomer(id, password)) != null;
+
     }
+    public boolean checkAccountAndLoginAdmin(String id, String password)
+    {
+        return (activeAccount = persistenceDBHandler.retrieveAccountAdmin(id, password)) != null;
+    }
+
     public Account getActiveAccount()
     {
         return activeAccount;
@@ -153,6 +157,6 @@ public class Store {
     }
 
     public ArrayList<Order> getOrders() {
-        return persistenceDBHandler.getOrders();
+        return persistenceDBHandler.getOrders(activeAccount);
     }
 }

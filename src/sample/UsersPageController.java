@@ -35,15 +35,15 @@ public abstract class UsersPageController {
     private void setFilterToggleGroups() {
         for(Toggle i: timeCreatedToggleGroup.getToggles())
         {
-            if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("all time"))
+            if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).replaceAll("\\s+","").equals("all time"))
             {
                 i.setUserData(TimePeriod.ALL_TIME);
             }
-            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this year"))
+            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).replaceAll("\\s+","").equals("this year"))
             {
                 i.setUserData(TimePeriod.THIS_YEAR);
             }
-            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).equals("this month"))
+            else if(((RadioButton) i).getText().toLowerCase(Locale.ROOT).replaceAll("\\s+","").equals("this month"))
             {
                 i.setUserData(TimePeriod.THIS_MONTH);
             }
@@ -74,5 +74,7 @@ public abstract class UsersPageController {
         });
     }
 
-    public abstract void search();
+    public void search(){
+        filter.setSearchText(searchText.getText());
+    }
 }

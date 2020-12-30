@@ -34,7 +34,7 @@ public abstract class AccountPageController {
 
         usernameText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[0] = false;
-            if(newValue != myAccount.getUsername())
+            if(!newValue.equals(myAccount.getUsername()))
             {
                 if(!myStore.usernameExists(newValue))
                 {
@@ -44,12 +44,13 @@ public abstract class AccountPageController {
                 else
                     usernameErrorLabel.setText("Username already exists!");
             }
+
             resetSaveChangesButton();
 
         });
         passwordText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[1] = false;
-            if(newValue != myAccount.getPassword())
+            if(!newValue.equals(myAccount.getPassword()))
             {
                 if(Validator.validatePasswordIntegrity(newValue))
                 {
@@ -62,12 +63,13 @@ public abstract class AccountPageController {
             }
             else
                 confirmPasswordText.setDisable(true);
+
             resetSaveChangesButton();
         });
 
         confirmPasswordText.textProperty().addListener((v, oldValue, newValue) -> {
             conditions[2] = false;
-            if(newValue == passwordText.getText())
+            if(newValue.equals(passwordText.getText()))
             {
                 confirmPasswordErrorLabel.setText("");
                 conditions[2] = true;
@@ -84,11 +86,7 @@ public abstract class AccountPageController {
 
     void resetSaveChangesButton()
     {
-        boolean flag = true;
-        for(boolean i: conditions)
-            if(!i)
-                flag = false;
-        saveChangesButton.setDisable(!flag);
+        saveChangesButton.setDisable(!(conditions[0] || (conditions[1] && conditions[2])));
     }
 
     public void saveChanges()
