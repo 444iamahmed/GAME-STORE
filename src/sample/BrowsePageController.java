@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class BrowsePageController {
 
-    Object myController;
+    MainPageController myController;
 
     @FXML
     ToggleGroup sortToggleGroup, releaseToggleGroup, sortOrderToggleGroup;
@@ -189,9 +189,9 @@ public class BrowsePageController {
         {
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGrid.fxml"));
             Parent titleInGrid = titleLoader.load();
-            TitleInGridController titleController = titleLoader.getController();
+            TitleInGridCustomerController titleController = titleLoader.getController();
             titleController.fillData(i);
-            titleController.setController(myController);
+            titleController.setMainPageController(myController);
             titlesContainer.add(titleInGrid, colCnt, rowCnt);
             colCnt++;
 
@@ -233,7 +233,7 @@ public class BrowsePageController {
         browseFilter.setMaxPrice(slider.getValue());
     }
 
-    public void setMyController(Object mainPageController) {
+    public void setMainPageController(MainPageController mainPageController) {
         this.myController = mainPageController;
     }
 }

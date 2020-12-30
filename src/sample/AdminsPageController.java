@@ -33,7 +33,7 @@ public class AdminsPageController extends UsersPageController {
             Parent adminInList = adminLoader.load();
             AdminInListController adminInListController = adminLoader.getController();
             adminInListController.setMyAccount(i);
-            adminInListController.setMainPageController((MainPageAdminController) controller);
+            adminInListController.setMainPageController((MainPageAdminController) mainPageController);
             adminsContainer.getChildren().add(adminInList);
 
         }

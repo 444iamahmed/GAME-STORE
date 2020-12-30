@@ -2,7 +2,7 @@ package sample;
 
 import java.util.ArrayList;
 
-public class Order extends Displayable{
+public class Order {
     private ArrayList<Title> titles;
     private Integer orderNumber;
     private Double total;
@@ -13,10 +13,6 @@ public class Order extends Displayable{
     }
     public ArrayList<Title> getTitles() {
         return titles;
-    }
-
-    public void setTitles(ArrayList<Title> list) {
-        this.titles.addAll(list);
     }
 
     public Double getTotal() {
@@ -34,5 +30,4 @@ public class Order extends Displayable{
     public void setOrderNumber(Integer orderNumber) {
         this.orderNumber = orderNumber;
     }
-
 }

@@ -12,7 +12,7 @@ public class MainPageCustomerController extends MainPageController{
 
     public void changeTabToBrowse() throws IOException {
         BrowsePageController browsePageController = (BrowsePageController) loadPage("BrowsePage");
-        browsePageController.setMyController(this);
+        browsePageController.setMainPageController(this);
         browsePageController.fillTitlesContainer();
         pageLabel.setText("Browse");
     }

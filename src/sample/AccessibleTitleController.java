@@ -7,7 +7,9 @@ import java.io.IOException;
 
 public abstract class AccessibleTitleController {
 
-    protected Object mainPageController;
+
+    protected MainPageController mainPageController;
+
     @FXML
     Label nameLabel;
     @FXML
@@ -23,29 +25,23 @@ public abstract class AccessibleTitleController {
         myStore = Store.getInstance();
     }
 
-    public Title getMyTitle() {
+    public Title getTitle() {
         return title;
     }
 
+    public void openTitlePage() throws IOException {
+        mainPageController.openTitlePage(title);
+    }
     public void fillData(Title myTitle) {
         this.title = myTitle;
-        setPriceLabel(myTitle.getPrice());
-        setNameLabel(myTitle.getName());
+        nameLabel.setText(myTitle.getName());
     }
 
-    public void setController(Object controller) {
-        mainPageController = controller;
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
     }
 
-    void setPriceLabel(Double priceValue)
-    {
-        priceLabel.setText(priceLabel.getText() + priceValue.toString());
+    public MainPageController getMainPageController() {
+        return mainPageController;
     }
-    void setNameLabel(String nameValue)
-    {
-        nameLabel.setText(nameValue);
-    }
-
-    public abstract void openTitlePage() throws IOException;
-
 }

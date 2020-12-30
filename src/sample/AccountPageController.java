@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.io.IOException;
-import java.util.Optional;
 
 public abstract class AccountPageController {
 
-    protected Object mainPageController;
+    protected MainPageController mainPageController;
     @FXML
     Button deleteAccountButton,
             saveChangesButton;
@@ -36,7 +35,7 @@ public abstract class AccountPageController {
             conditions[0] = false;
             if(!newValue.equals(myAccount.getUsername()))
             {
-                if(!myStore.usernameExists(newValue))
+                if(!usernameExists(newValue))
                 {
                     usernameErrorLabel.setText("");
                     conditions[0] = true;
@@ -97,6 +96,6 @@ public abstract class AccountPageController {
     public abstract void deleteAccount() throws IOException;
 
     public abstract void changeSceneToSignIn() throws IOException;
-
+    protected abstract boolean usernameExists(String username);
 
 }

@@ -36,7 +36,7 @@ public class SignUpPageCustomerController {
             conditions[0] = false;
             if(newValue != "")
             {
-                if(myStore.usernameExists(newValue))
+                if(myStore.usernameExistsCustomer(newValue))
                     signUpPageUsernameError.setText("Username already exists!");
                 else
                 {

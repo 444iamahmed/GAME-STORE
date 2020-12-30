@@ -2,10 +2,12 @@ package sample;
 
 import java.io.IOException;
 
-public class TitleInGridAdminController extends TitleInGridController{
+public class TitleInGridAdminController extends AccessibleTitleController{
 
-    @Override
-    public void openTitlePage() throws IOException {
-        ((MainPageAdminController) mainPageController).openTitlePage(title);
+
+    public void removeTitle()
+    {
+
     }
+
 }

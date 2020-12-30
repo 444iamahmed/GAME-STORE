@@ -16,33 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class TitlePageCustomerController {
-
-    @FXML
-    Label priceLabel, ratingLabel, platformLabel, genresLabel, developerLabel, releaseDateLabel;
-
-    @FXML
-    TextArea descriptionTextArea;
+public class TitlePageCustomerController extends TitlePageController {
 
 
-    Title title;
-    Store myStore;
-
-    public void initialize()
-    {
-        myStore = Store.getInstance();
-    }
-
-    public void fillTitleData(Title myTitle) {
-        title = myTitle;
-        priceLabel.setText(priceLabel.getText() + myTitle.getPrice().toString());
-        ratingLabel.setText(ratingLabel.getText() + myTitle.getRating().toString());
-        platformLabel.setText(platformLabel.getText() + myTitle.getPlatform());
-        genresLabel.setText(genresLabel.getText() + myTitle.getGenreString());
-        descriptionTextArea.setText(myTitle.getDescription());
-        developerLabel.setText(developerLabel.getText() + myTitle.getDeveloper());
-        releaseDateLabel.setText(releaseDateLabel.getText() + myTitle.getReleaseDate().toString());
-    }
     public void addToCart()
     {
         if(!myStore.addToCart(title))
@@ -54,7 +30,16 @@ public class TitlePageCustomerController {
         }
     }
 
-    public Title getTitle() {
-        return title;
+    @Override
+    public void fillTitleData(Title myTitle) {
+        title = myTitle;
+        priceLabel.setText(priceLabel.getText() + myTitle.getPrice().toString());
+        ratingLabel.setText(ratingLabel.getText() + myTitle.getRating().toString());
+        platformLabel.setText(platformLabel.getText() + myTitle.getPlatform());
+        genresLabel.setText(genresLabel.getText() + myTitle.getGenreString());
+        descriptionTextArea.setText(myTitle.getDescription());
+        developerLabel.setText(developerLabel.getText() + myTitle.getDeveloper());
+        releaseDateLabel.setText(releaseDateLabel.getText() + myTitle.getReleaseDate().toString());
     }
+
 }

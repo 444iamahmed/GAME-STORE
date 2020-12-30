@@ -74,4 +74,9 @@ public class AccountPageAdminController extends AccountPageController{
         super.saveChanges();
         myStore.saveAccountChangesAdmin(myAccount);
     }
+
+    @Override
+    protected boolean usernameExists(String username) {
+        return myStore.usernameExistsAdmin(username);
+    }
 }

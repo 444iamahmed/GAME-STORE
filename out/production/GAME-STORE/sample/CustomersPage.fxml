@@ -95,7 +95,7 @@
                         <Font name="Marlett" size="11.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton mnemonicParsing="false" text="This Month" toggleGroup="$timeCreatedToggleGroup">
+                  <RadioButton mnemonicParsing="false" text="This Week" toggleGroup="$timeCreatedToggleGroup">
                      <font>
                         <Font name="Marlett" size="11.0" />
                      </font>

@@ -13,12 +13,11 @@ public class BrowsePageAdminController extends BrowsePageController {
         int maxCol = 3, rowCnt = 0, colCnt = 0;
         for(Title i: myStore.searchTitles(browseFilter))
         {
-            FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGrid.fxml"));
+            FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInGridAdmin.fxml"));
             Parent titleInGrid = titleLoader.load();
-            TitleInGridAdminController titleController = new TitleInGridAdminController();
-            titleLoader.setController(titleController);
+            TitleInGridAdminController titleController = titleLoader.getController();
             titleController.fillData(i);
-            titleController.setController(myController);
+            titleController.setMainPageController(myController);
             titlesContainer.add(titleInGrid, colCnt, rowCnt);
             colCnt++;
 

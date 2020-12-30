@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public abstract class UsersPageController {
 
-    protected Object controller;
+    protected MainPageController mainPageController;
     @FXML
     ToggleGroup timeCreatedToggleGroup, sortOrderToggleGroup;
 
@@ -76,5 +76,9 @@ public abstract class UsersPageController {
 
     public void search(){
         filter.setSearchText(searchText.getText());
+    }
+
+    public void setMainPageController(MainPageController mainPageController) {
+        this.mainPageController = mainPageController;
     }
 }

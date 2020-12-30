@@ -9,12 +9,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
+import javafx.util.converter.DateStringConverter;
 import javafx.util.converter.DateTimeStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -24,7 +28,10 @@ import java.util.regex.Pattern;
 public class TitlePageAdminController extends TitlePageCustomerController{
 
     @FXML
-    TextField developerText, releaseDateText, titleText;
+    TextField developerText, titleText;
+
+    @FXML
+    DatePicker releaseDatePicker;
 
     @FXML
     TextField priceText;
@@ -33,22 +40,23 @@ public class TitlePageAdminController extends TitlePageCustomerController{
     Slider ratingSlider;
 
     @FXML
-    VBox platformOptions,
-    genreOptions,
-    keysContainer;
+    VBox genreCheckBoxContainer, keysContainer, platformRadioButtonContainer;
 
+    @FXML
     ToggleGroup platformToggleGroup;
+
     ArrayList<String> genres;
     ArrayList<String> platforms;
     String originalName, originalDeveloper, originalPlatform;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     FileChooser keysFileChooser;
 
+    @FXML
     public void initialize()
     {
 
-
         super.initialize();
+        platformToggleGroup = new ToggleGroup();
         genres = myStore.getGenres();
         platforms = myStore.getPlatforms();
         setPriceTextFormatter();
@@ -56,21 +64,17 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         for(String m: genres)
         {
             CheckBox tempCheckBox = new CheckBox(m);
-            genreOptions.getChildren().add(tempCheckBox);
+            genreCheckBoxContainer.getChildren().add(tempCheckBox);
         }
         for(String m: platforms)
         {
             RadioButton tempRadioButton = new RadioButton(m);
-            platformOptions.getChildren().add(tempRadioButton);
+            platformRadioButtonContainer.getChildren().add(tempRadioButton);
             platformToggleGroup.getToggles().add(tempRadioButton);
         }
 
-        releaseDateText.setTextFormatter(new TextFormatter<>(new DateTimeStringConverter(dateFormat)));
-        try {
-            fillKeysContainer();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+
 
     }
 
@@ -96,7 +100,7 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         originalPlatform = title.getPlatform();
         titleText.setText(myTitle.getName());
         priceText.setText(myTitle.getPrice().toString());
-        for(Node m: genreOptions.getChildren())
+        for(Node m: genreCheckBoxContainer.getChildren())
         {
             if(title.getGenre().contains(((CheckBox)m).getText()))
             {
@@ -114,13 +118,21 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         }
         descriptionTextArea.setText(myTitle.getDescription());
         developerText.setText(myTitle.getDeveloper());
-        releaseDateText.setText(dateFormat.format(myTitle.getReleaseDate()));
+        releaseDatePicker.converterProperty().set(new LocalDateStringConverter(dateFormat, null));
+        releaseDatePicker.setValue(title.getReleaseDate());
+                //setText(dateFormat.format(myTitle.getReleaseDate()));
+
+        try {
+            fillKeysContainer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveChanges()
     {
         Title changedTitle = new Title();
-        for(Node m: genreOptions.getChildren())
+        for(Node m: genreCheckBoxContainer.getChildren())
         {
             if(((CheckBox)m).isSelected())
                 changedTitle.addGenre(((CheckBox) m).getText());
@@ -128,11 +140,7 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         changedTitle.setPlatform (((RadioButton) platformToggleGroup.getSelectedToggle()).getText());
         changedTitle.setName(titleText.getText());
         changedTitle.setDeveloper(developerText.getText());
-        try {
-            changedTitle.setReleaseDate(dateFormat.parse(releaseDateText.getText()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        changedTitle.setReleaseDate(releaseDatePicker.getValue());
         changedTitle.setDescription(descriptionTextArea.getText());
         changedTitle.setRating(ratingSlider.getValue());
         changedTitle.setPrice(Double.parseDouble(priceText.getText()));
@@ -235,4 +243,9 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         priceText.setTextFormatter(textFormatter);
     }
 
+    public void removeTitle()
+    {
+        //myStore.removeFromInventory(title);
+
+    }
 }

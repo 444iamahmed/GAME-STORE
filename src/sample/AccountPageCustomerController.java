@@ -48,7 +48,7 @@ public class AccountPageCustomerController extends AccountPageController{
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInList.fxml"));
             ownedTitlesContainer.getChildren().add(titleLoader.load());
             TitleInListController titleInList = titleLoader.getController();
-            titleInList.setController(this);
+            titleInList.setMainPageController(this.mainPageController);
             titleInList.fillData(i);
         }
     }
@@ -115,5 +115,10 @@ public class AccountPageCustomerController extends AccountPageController{
         super.saveChanges();
         myStore.saveAccountChangesCustomer(myAccount);
 
+    }
+
+    @Override
+    protected boolean usernameExists(String username) {
+        return myStore.usernameExistsCustomer(username);
     }
 }

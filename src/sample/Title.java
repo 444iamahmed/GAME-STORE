@@ -1,16 +1,14 @@
 package sample;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Title extends Displayable
 {
 
 
     private String name;
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private String description;
     private String developer;
     private String platform;
@@ -25,7 +23,7 @@ public class Title extends Displayable
     Title()
     {
         name = "";
-        releaseDate = new Date();
+        releaseDate = LocalDate.EPOCH;
         description = "";
         platform = "";
         genre = new ArrayList<>();
@@ -35,7 +33,7 @@ public class Title extends Displayable
 
     }
 
-    Title(String n, Date d, String desc, String dev, ArrayList<String> g, String plat, Double r, Double p)
+    Title(String n, LocalDate d, String desc, String dev, ArrayList<String> g, String plat, Double r, Double p)
     {
         name = n;
         releaseDate = d;
@@ -48,7 +46,7 @@ public class Title extends Displayable
         rating = r;
         price = p;
     }
-    Title(String n, Date d, String desc, String dev, String plat, Double r, Double p)
+    Title(String n, LocalDate d, String desc, String dev, String plat, Double r, Double p)
     {
         name = n;
         releaseDate = d;
@@ -100,7 +98,7 @@ public class Title extends Displayable
         return developer;
     }
 
-    public Date getReleaseDate()
+    public LocalDate getReleaseDate()
     {
         return releaseDate;
     }
@@ -136,7 +134,7 @@ public class Title extends Displayable
         this.developer = developer;
     }
 
-    public void setReleaseDate(Date releaseDate)
+    public void setReleaseDate(LocalDate releaseDate)
     {
         this.releaseDate = releaseDate;
     }

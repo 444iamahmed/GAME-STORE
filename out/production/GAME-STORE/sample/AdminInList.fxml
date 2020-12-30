@@ -30,6 +30,6 @@
             <Insets left="40.0" right="40.0" />
          </padding>
       </Pane>
-      <Button mnemonicParsing="false" onAction="#removeAccount" text="Remove" />
+      <Button mnemonicParsing="false" onAction="#deleteAccount" text="Remove" />
    </children>
 </HBox>

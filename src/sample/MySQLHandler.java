@@ -1,5 +1,6 @@
 package sample;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 
 import java.time.LocalDate;
@@ -25,25 +26,26 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
     private String arrayListQuery(String logic,String field, ArrayList<String> list)
     {
-        String tempString = "";
+        StringBuilder tempString = new StringBuilder();
         if(!list.isEmpty())
         {
-            tempString = logic + " ";
-            tempString += field + " IN (";
+            tempString = new StringBuilder(logic + " ");
+            tempString.append(field).append(" IN (");
             for (int i = 0; i<list.size(); i++)
             {
-                tempString += "\"" + list.get(i) + "\"";
+                tempString.append("\"").append(list.get(i)).append("\"");
                 if(i != list.size() - 1)
-                    tempString += ", ";
-            }tempString += ") ";
+                    tempString.append(", ");
+            }
+            tempString.append(") ");
         }
-        return tempString;
+        return tempString.toString();
     }
     private String searchTextQuery(String logic, String matchColumns, String text, String postLogic)
     {
         String tempString = "";
         if(!text.isEmpty())
-            tempString = logic + " MATCH (" + matchColumns + ") AGAINST (\'" + text + "\' IN NATURAL LANGUAGE MODE) " + postLogic + " ";
+            tempString = logic + " MATCH (" + matchColumns + ") AGAINST ('" + text + "' IN NATURAL LANGUAGE MODE) " + postLogic + " ";
         return tempString;
     }
 
@@ -109,8 +111,8 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Title> getOwnedKeys(Order order) {
-        String QUERY = "select * from gka5gkdoler1i5f1.keys where orderid = \"" + order.getOrderNumber() + "\"";
+    public ArrayList<Title> getOwnedKeys(Account account) {
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + account.getUsername() + "\"";
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -132,7 +134,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                     while (titleInformation.next())
                     {
                         currKeyTitle = new Title(titleInformation.getString("title_name"),
-                                titleInformation.getDate("title_release_date"),
+                                titleInformation.getDate("title_release_date").toLocalDate(),
                                 titleInformation.getString("title_description"),
                                 titleInformation.getString("title_developer"),
                                 titleInformation.getString("title_platform"),
@@ -167,7 +169,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                 tempTitle.addKey(new Key(rs.getString("key")));
             }
-            titles.add(tempTitle);
+
         }catch (SQLException e) {
             printSQLException(e);
         }
@@ -197,7 +199,7 @@ public class MySQLHandler extends PersistenceDBHandler {
             {
 
                 Title tempTitle = new Title(rs.getString("title_name"),
-                        rs.getDate("title_release_date"),
+                        rs.getDate("title_release_date").toLocalDate(),
                         rs.getString("title_description"),
                         rs.getString("title_developer"),
                         rs.getString("title_platform"),
@@ -372,7 +374,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                  ResultSet rs = stmt.executeQuery(QUERY);){
             if(rs.next()) {
                 Title tempTitle = new Title(rs.getString("title_name"),
-                        rs.getDate("title_release_date"),
+                        rs.getDate("title_release_date").toLocalDate(),
                         rs.getString("title_description"),
                         rs.getString("title_developer"),
                         rs.getString("title_platform"),
@@ -424,7 +426,6 @@ public class MySQLHandler extends PersistenceDBHandler {
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
-
         }
 
     }
@@ -440,6 +441,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         }
     }
 
+
     @Override
     public void deleteCustomerAccount(Account account) {
         String QUERY = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
@@ -448,6 +450,7 @@ public class MySQLHandler extends PersistenceDBHandler {
             int rowsUpdated = stmt.executeUpdate(QUERY);
         }catch (SQLException e) {
             printSQLException(e);
+
         }
 
     }
@@ -504,9 +507,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         String QUERY = "select * from admin where " + searchTextQuery("","admin.admin_username, customer.admin_email", filter.getSearchText(),"AND") +
                 "date_created >= ? order by  date_created " + filter.getOrder();
         ArrayList<Account> accounts = new ArrayList<>();
-        try
-                (PreparedStatement stmt = connection.prepareStatement(QUERY);
-                ){
+        try (PreparedStatement stmt = connection.prepareStatement(QUERY)){
             stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -524,7 +525,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public int getAdminCount() {
+    public int getAdminCount(){
         String QUERY = "select COUNT(*) from admin";
         try
                 (Statement stmt = connection.createStatement();
@@ -583,7 +584,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                 Order tempOrder = new Order();
                 tempOrder.setOrderNumber(rs.getInt("order_id"));
                 tempOrder.setTotal(rs.getDouble("price"));
-                tempOrder.setTitles(getOwnedKeys(tempOrder));
+                //tempOrder.setTitles(getOwnedKeys(tempOrder));
                 orders.add(tempOrder);
             }
 
@@ -600,18 +601,12 @@ public class MySQLHandler extends PersistenceDBHandler {
                 "\", title_release_date = \"" + newTitle.getReleaseDate() + "\", title_description = \"" + newTitle.getDescription() + "\", title_price = \"" + newTitle.getPrice() + "\", title_rating = \"" + newTitle.getRating() +
                 "\" WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
 
-        try (
-                Statement updateStatement = connection.createStatement();
-        ){
+        try (Statement updateStatement = connection.createStatement()){
             int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
 
             String QUERY2 = "DELETE from title_genre WHERE (title_name =  \"" + oldName + "\" AND title_developer = \"" + oldDeveloper + "\"AND title_platform = \"" + oldPlatform + "\")";
 
-            try (
-                    Statement deleteGenreStatement = connection.createStatement();
-                    ResultSet rs2 = deleteGenreStatement.executeQuery(QUERY2);
-
-            ) {
+            try (Statement deleteGenreStatement = connection.createStatement();) {
                 int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
                 for(int i = 0; i < newTitle.getGenre().size(); i++) {
                 String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES (\"" + newTitle.getName() + "\", \"" + newTitle.getDeveloper() + "\", \"" + newTitle.getPlatform() + "\", \"" + newTitle.getGenre().get(i) + "\")" ;
