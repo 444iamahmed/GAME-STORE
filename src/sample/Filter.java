@@ -13,7 +13,7 @@ public class Filter {
         this.timePeriod = timePeriod;
     }
 
-    Filter()
+    public Filter()
     {
         timePeriod = TimePeriod.ALL_TIME;
         order = "asc";

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.Vector;
 
 
-class Account extends Displayable{
+public class Account extends Displayable{
 
     private StringProperty username;
     private StringProperty email;

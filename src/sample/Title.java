@@ -21,7 +21,7 @@ public class Title extends Displayable
     //Image
 
 
-    Title()
+    public Title()
     {
         name = "";
         releaseDate = LocalDate.EPOCH;
@@ -92,7 +92,7 @@ public class Title extends Displayable
         return Objects.hash(name, developer, platform);
     }
 
-    Title(Title title)
+    public Title(Title title)
     {
         name = title.name;
         releaseDate = title.releaseDate;

@@ -180,6 +180,7 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public ArrayList<Title> getTitles(BrowseFilter browseFilter) {
 
+
         String QUERY = "select * from title where " +
                 searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", browseFilter.getSearchText(),"AND")  +
                 "title.title_rating >= " + browseFilter.getRating() + " AND title.title_price <= " + browseFilter.getMaxPrice() +
@@ -190,13 +191,15 @@ public class MySQLHandler extends PersistenceDBHandler {
                 arrayListQuery("AND", "title_genre.genre", browseFilter.getGenres()) +
                 ") > 0 "+
                 arrayListQuery(" AND",  "title.title_platform", browseFilter.getPlatforms()) +
-                " AND title.exists = 1";
+                " AND title.title_release_date >= ? AND title.exists = 1 " +
+                "ORDER BY " + orderByPredicate(browseFilter.getSortBy()) + " " + browseFilter.getOrder();
         ArrayList<Title> titles = new ArrayList<>();
 
-        try (
-                Statement titlesStatement = connection.createStatement();
-                ResultSet rs = titlesStatement.executeQuery(QUERY);
-                ){
+        try (PreparedStatement titlesStatement = connection.prepareStatement(QUERY)){
+
+            titlesStatement.setTimestamp(1, datePredicate(browseFilter.getTimePeriod()));
+            ResultSet rs = titlesStatement.executeQuery();
+
             while (rs.next())
             {
 
@@ -243,6 +246,33 @@ public class MySQLHandler extends PersistenceDBHandler {
             printSQLException(e);
         }
         return titles;
+    }
+
+    private String orderByPredicate(SortBy sortBy) {
+        switch(sortBy)
+        {
+            case DATE -> {
+                return "title.title_release_date";
+            }
+            case RATING -> {
+                return "title.title_rating";
+            }
+            default -> {
+                return "title.title_price";
+            }
+        }
+    }
+
+    private Timestamp datePredicate(TimePeriod timePeriod) {
+        LocalDate date = LocalDate.now();
+        TimePeriod period = timePeriod;
+        switch (period) {
+            case THIS_YEAR -> date = date.with(TemporalAdjusters.firstDayOfYear());
+            case THIS_MONTH -> date = date.with(TemporalAdjusters.firstDayOfMonth());
+            case THIS_WEEK -> date = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(), 1);
+            default -> date = LocalDate.EPOCH;
+        }
+        return Timestamp.valueOf(date.atStartOfDay());
     }
 
     @Override
@@ -460,15 +490,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Account> getCustomers(Filter filter) {
-        LocalDate date = LocalDate.now();
-        TimePeriod period = filter.getTimePeriod();
-        switch (period)
-        {
-            case THIS_YEAR -> date = date.with(TemporalAdjusters.firstDayOfYear());
-            case THIS_MONTH -> date = date.with(TemporalAdjusters.firstDayOfMonth());
-            case THIS_WEEK -> date = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(),1);
-            default -> date = LocalDate.EPOCH;
-        }
+
 
 
         String QUERY = "select * from customer where " + searchTextQuery("","customer.customer_username, customer.customer_email", filter.getSearchText(),"AND") +
@@ -477,7 +499,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         try
         {
             PreparedStatement stmt = connection.prepareStatement(QUERY);
-            stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
+            stmt.setTimestamp(1, datePredicate(filter.getTimePeriod()));
 
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
@@ -497,21 +519,13 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public ArrayList<Account> getAdmins(Filter filter) {
 
-        LocalDate date = LocalDate.now();
-        TimePeriod period = filter.getTimePeriod();
-        switch (period)
-        {
-            case THIS_YEAR -> date = date.with(TemporalAdjusters.firstDayOfYear());
-            case THIS_MONTH -> date = date.with(TemporalAdjusters.firstDayOfMonth());
-            case THIS_WEEK -> date = date.with(WeekFields.of(Locale.getDefault()).dayOfWeek(),1);
-            default -> date = LocalDate.EPOCH;
-        }
+
 
         String QUERY = "select * from admin where " + searchTextQuery("","admin.admin_username, customer.admin_email", filter.getSearchText(),"AND") +
                 "date_created >= ? order by  date_created " + filter.getOrder();
         ArrayList<Account> accounts = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(QUERY)){
-            stmt.setTimestamp(1, Timestamp.valueOf(date.atStartOfDay()));
+            stmt.setTimestamp(1, datePredicate(filter.getTimePeriod()));
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
                 Account tempAcc = new Account(rs.getString("admin_username"),
