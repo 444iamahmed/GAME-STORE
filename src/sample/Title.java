@@ -83,8 +83,6 @@ public class Title extends Displayable
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
         Title title = (Title) o;
         return name.equals(title.name) && developer.equals(title.developer) && platform.equals(title.platform);
     }
