@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class BrowsePageController {
 
-    MainPageController myController;
+    MainPageController mainPageController;
 
     @FXML
     ToggleGroup sortToggleGroup, releaseToggleGroup, sortOrderToggleGroup;
@@ -192,7 +192,7 @@ public class BrowsePageController {
             Parent titleInGrid = titleLoader.load();
             TitleInGridCustomerController titleController = titleLoader.getController();
             titleController.fillData(i);
-            titleController.setMainPageController(myController);
+            titleController.setMainPageController(mainPageController);
             titlesContainer.add(titleInGrid, colCnt, rowCnt);
             colCnt++;
 
@@ -235,6 +235,6 @@ public class BrowsePageController {
     }
 
     public void setMainPageController(MainPageController mainPageController) {
-        this.myController = mainPageController;
+        this.mainPageController = mainPageController;
     }
 }

@@ -177,13 +177,21 @@ public class MySQLHandler extends PersistenceDBHandler {
         return titles;
     }
 
+    private String numericFieldExistencePredicate(String field, String operator, Double value)
+    {
+        if(value.equals(0.0) || value.equals(500000.0))
+            return "(" + field + " " + operator + " " + value + " OR " + field + " IS NULL)";
+        else
+            return field + " " + operator + " " + value;
+    }
+
     @Override
     public ArrayList<Title> getTitles(BrowseFilter browseFilter) {
 
 
         String QUERY = "select * from title where " +
                 searchTextQuery("","title.title_name, title.title_developer, title.title_platform, title.title_description", browseFilter.getSearchText(),"AND")  +
-                "title.title_rating >= " + browseFilter.getRating() + " AND title.title_price <= " + browseFilter.getMaxPrice() +
+                 numericFieldExistencePredicate("title.title_rating", ">=", browseFilter.getRating()) + " AND " + numericFieldExistencePredicate("title.title_price", "<=", browseFilter.getMaxPrice()) +
                 " AND (select count(title_genre.genre) from title_genre where " +
                 "title_genre.title_name = title.title_name " +
                 "AND title_genre.title_developer = title.title_developer " +
@@ -191,7 +199,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                 arrayListQuery("AND", "title_genre.genre", browseFilter.getGenres()) +
                 ") > 0 "+
                 arrayListQuery(" AND",  "title.title_platform", browseFilter.getPlatforms()) +
-                " AND title.title_release_date >= ? AND title.exists = 1 " +
+                " AND (title.title_release_date >= ?) AND title.exists = 1 " +
                 "ORDER BY " + orderByPredicate(browseFilter.getSortBy()) + " " + browseFilter.getOrder();
         ArrayList<Title> titles = new ArrayList<>();
 
@@ -521,7 +529,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
 
 
-        String QUERY = "select * from admin where " + searchTextQuery("","admin.admin_username, customer.admin_email", filter.getSearchText(),"AND") +
+        String QUERY = "select * from admin where " + searchTextQuery("","admin.admin_username, admin.admin_email", filter.getSearchText(),"AND") +
                 "date_created >= ? order by  date_created " + filter.getOrder();
         ArrayList<Account> accounts = new ArrayList<>();
         try (PreparedStatement stmt = connection.prepareStatement(QUERY)){
@@ -724,7 +732,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title InsertTitle(String newTitleName, String newTitleDeveloper, String newTitlePlatform) {
-        String QUERY_TITLE_EXISTENCE = "select exists from title WHERE (title.title_name =  '" + newTitleName +
+        String QUERY_TITLE_EXISTENCE = "select exists from gka5gkdoler1i5f1.title WHERE (title.title_name =  '" + newTitleName +
                 "' AND title.title_developer = '" + newTitleDeveloper +
                 "' AND title.title_platform = '" + newTitlePlatform + "' AND exists = 0)";
 
@@ -750,11 +758,17 @@ public class MySQLHandler extends PersistenceDBHandler {
             e.printStackTrace();
         }
 
-        String DML_INSERT_TITLE = "INSERT INTO title (title_name, title_developer, title_platform) VALUES ('"
+        if(addedTitle == null)
+        {
+            String DML_INSERT_TITLE = "INSERT INTO title (title_name, title_developer, title_platform) VALUES ('"
                 + newTitleName +
-                "', " + newTitleDeveloper +
-                "', " + newTitlePlatform + ")";
+                "', '" + newTitleDeveloper +
+                "', '" + newTitlePlatform + "')";
 
+            String DML_INSERT_PLACEHOLDER_GENRE = "INSERT INTO title_genre (title_name, title_developer, title_platform, title_genre.genre) VALUES ('"
+                    + newTitleName +
+                    "', '" + newTitleDeveloper +
+                    "', '" + newTitlePlatform + "', 'Action')";
 
         try(Statement stmt = connection.createStatement()){
             stmt.executeUpdate(DML_INSERT_TITLE);
@@ -762,13 +776,13 @@ public class MySQLHandler extends PersistenceDBHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+    }
         return addedTitle;
     }
 
     @Override
     public void setTitleExistence(Title title, boolean b) {
-        String DML_UPDATE_TITLE = "UPDATE title SET exists = " + b + "WHERE (title.title_name =  '" + title.getName() + "' AND title.title_developer = '" + title.getDeveloper() + "' AND title.title_platform = '" + title.getPlatform() + "')";
+        String DML_UPDATE_TITLE = "UPDATE title SET title.exists = " + b + " WHERE (title.title_name =  '" + title.getName() + "' AND title.title_developer = '" + title.getDeveloper() + "' AND title.title_platform = '" + title.getPlatform() + "')";
 
         try (Statement existenceSetStatement = connection.createStatement()){
             existenceSetStatement.executeUpdate(DML_UPDATE_TITLE);
