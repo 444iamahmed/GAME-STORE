@@ -8,13 +8,15 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openTitlePage" prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TitleInGridCustomerController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openTitlePage" prefHeight="220.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.TitleInGridCustomerController">
    <children>
       <ImageView fitHeight="150.0" fitWidth="150.0" onMouseClicked="#openTitlePage" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="nameLabel" onMouseClicked="#openTitlePage" />
+      <Label fx:id="platformLabel" />
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Label fx:id="priceLabel" text="Price: Rs. " />
+            <Label text="Rs. " />
+            <Label fx:id="priceLabel" />
             <Pane>
                <padding>
                   <Insets left="20.0" right="20.0" />

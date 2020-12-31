@@ -15,7 +15,7 @@ public class TitleInListController extends AccessibleTitleController{
     @Override
     public void fillData(Title myTitle) {
         super.fillData(myTitle);
-        keysContainer.setItems(FXCollections.observableArrayList(title.getKeys().toArray()));
+        keysContainer.setItems(FXCollections.observableArrayList(title.getKeysStrings()));
     }
 
     @Override

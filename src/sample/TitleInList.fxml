@@ -14,17 +14,27 @@
       <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#openTitlePage" prefHeight="100.0" prefWidth="400.0">
          <children>
             <ImageView fx:id="titleImageView" fitHeight="75.0" fitWidth="75.0" onMouseClicked="#openTitlePage" pickOnBounds="true" preserveRatio="true" />
+            <VBox alignment="CENTER" prefHeight="50.0">
+               <children>
+                  <Label fx:id="nameLabel">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="platformLabel">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
             <Pane onMouseClicked="#openTitlePage">
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
             </Pane>
-            <Label fx:id="titleLabel" onMouseClicked="#openTitlePage">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <Label fx:id="priceLabel" text="Price: Rs. " />
+            <Label text="Rs. " />
+            <Label fx:id="priceLabel" />
          </children>
       </HBox>
       <ChoiceBox fx:id="keysContainer" minWidth="-Infinity" prefWidth="400.0" />

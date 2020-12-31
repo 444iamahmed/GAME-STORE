@@ -23,8 +23,6 @@ public class Inventory
         this.persistenceDBHandler = persistenceDBHandler;
     }
 
-    public ArrayList<Title> getRunningInventory()
-    {return runningInventory;}
 
     public ArrayList<Title> search(BrowseFilter criteria)
     {

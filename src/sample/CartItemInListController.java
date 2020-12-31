@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class CartItemInListController {
 
     @FXML
-    Label priceLabel, titleLabel;
+    Label priceLabel, nameLabel, platformLabel;
     @FXML
     ImageView titleImageView;
 
@@ -36,9 +36,9 @@ public class CartItemInListController {
     void setItem(CartItem item)
     {
         me = item;
-        priceLabel.setText(priceLabel.getText() + me.getTitle().getPrice().toString());
-        titleLabel.setText(item.getTitle().getName());
-
+        priceLabel.setText(me.getTitle().getPrice().toString());
+        nameLabel.setText(item.getTitle().getName());
+        platformLabel.setText(item.getTitle().getPlatform());
     }
 
 }

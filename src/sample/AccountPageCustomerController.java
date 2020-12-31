@@ -30,14 +30,14 @@ public class AccountPageCustomerController extends AccountPageController{
     }
 
     private void fillOrdersContainer() throws IOException {
-        orders = myStore.getOrders();
-        for(Order i: orders)
-        {
+
+        for (Order order : orders = myStore.getOrders()) {
             FXMLLoader orderLoader = new FXMLLoader(getClass().getResource("OrderContainer.fxml"));
             ordersContainer.getChildren().add(orderLoader.load());
             OrderContainerController orderInList = orderLoader.getController();
-            orderInList.fillContainer(i);
+            orderInList.fillContainer(order);
         }
+
     }
     private void fillOwnedTitlesContainer() throws IOException {
 

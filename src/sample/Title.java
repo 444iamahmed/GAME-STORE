@@ -226,4 +226,14 @@ public class Title extends Displayable
     public boolean doesExist() {
         return exists;
     }
+
+    public ArrayList<String> getKeysStrings()
+    {
+        ArrayList<String> keyList = new ArrayList<>();
+        for(Key i: keys)
+        {
+            keyList.add(i.getValue());
+        }
+        return keyList;
+    }
 }

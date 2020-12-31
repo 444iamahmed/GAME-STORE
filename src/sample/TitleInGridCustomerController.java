@@ -29,7 +29,7 @@ public class TitleInGridCustomerController extends AccessibleTitleController {
 
     void setPriceLabel(Double priceValue)
     {
-        priceLabel.setText(priceLabel.getText() + priceValue.toString());
+        priceLabel.setText(priceValue.toString());
     }
 
     @Override

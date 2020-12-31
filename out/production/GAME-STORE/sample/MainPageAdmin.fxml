@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -16,6 +17,8 @@
             <Button mnemonicParsing="false" onAction="#changeTabToAdmins" text="Admins" />
             <Button mnemonicParsing="false" onAction="#changeTabToCustomers" text="Customers" />
             <Button mnemonicParsing="false" onAction="#changeTabToTitles" text="Titles" />
+            <Pane prefHeight="200.0" prefWidth="200.0" />
+            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#changeSceneToSignIn" text="Sign Out" />
          </children>
          <opaqueInsets>
             <Insets />
@@ -23,12 +26,11 @@
       </VBox>
    </left>
    <top>
-      <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
          <padding>
             <Insets bottom="13.0" left="13.0" top="10.0" />
          </padding>
          <children>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#changeSceneToSignIn" text="Sign Out" />
             <Label fx:id="pageLabel" alignment="CENTER">
                <font>
                   <Font size="24.0" />

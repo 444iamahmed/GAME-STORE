@@ -110,7 +110,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public ArrayList<Title> getOwnedKeys(Order order) {
-        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + order.getOrderNumber() + "\"";
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where orderid = " + order.getOrderNumber();
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -122,9 +122,9 @@ public class MySQLHandler extends PersistenceDBHandler {
                  ){
             while (rs.next())
             {
-                String TITLE_INFORMATION_QUERY = "select * from title where title_name = " + rs.getString("title_name") +
-                        " AND title_developer = " + rs.getString("title_developer") +
-                        " AND title_platform = " + rs.getString("title_platform");
+                String TITLE_INFORMATION_QUERY = "select * from title where title_name = '" + rs.getString("title_name") +
+                        "' AND title_developer = '" + rs.getString("title_developer") +
+                        "' AND title_platform = '" + rs.getString("title_platform") + "'";
                 try (
                         Statement titleInfoStatement = connection.createStatement();
                         ResultSet titleInformation = titleInfoStatement.executeQuery(TITLE_INFORMATION_QUERY);
@@ -137,23 +137,24 @@ public class MySQLHandler extends PersistenceDBHandler {
                                 titleInformation.getString("title_developer"),
                                 titleInformation.getString("title_platform"),
                                 titleInformation.getDouble("title_rating") ,
-                                titleInformation.getDouble("title_price"));
+                                titleInformation.getDouble("title_price"),
+                                titleInformation.getBoolean("exists"));
                     }
                 } catch (SQLException e){
                     printSQLException(e);
                 }
 
                 boolean addFlag = false;
-                if(tempTitle == null || (addFlag = (tempTitle != null && !tempTitle.equals(currKeyTitle))))
+                if(tempTitle == null || (addFlag = !tempTitle.equals(currKeyTitle)))
                 {
                     if(addFlag)
                         titles.add(tempTitle);
                     tempTitle = currKeyTitle;
 
-                    String GENRE_QUERY = "select genre from title_genre where title_name = "+tempTitle.getName() +
-                        " and title_developer = " + tempTitle.getDeveloper() +
-                        " and title_platform = "+ tempTitle.getPlatform() +
-                        " GROUP BY title_name,title_developer, title_platform";
+                    String GENRE_QUERY = "select genre from title_genre where title_name = '"+ tempTitle.getName() +
+                        "' AND title_developer = '" + tempTitle.getDeveloper() +
+                        "' AND title_platform = '"+ tempTitle.getPlatform() +
+                        "' GROUP BY title_name,title_developer, title_platform";
                     try (
                             Statement genresStatement = connection.createStatement();
                             ResultSet genreSet = genresStatement.executeQuery(GENRE_QUERY);
@@ -167,6 +168,8 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                 tempTitle.addKey(new Key(rs.getString("key")));
             }
+            titles.add(tempTitle);
+
 
         }catch (SQLException e) {
             printSQLException(e);
@@ -570,9 +573,9 @@ public class MySQLHandler extends PersistenceDBHandler {
     @Override
     public ArrayList<Order> getOrders(Account account) {
 
-        String QUERY = "select * from orders where customer_email = \"" + account.getEmail() + "\"";
+        String QUERY = "select * from gka5gkdoler1i5f1.order where order.customer_email = '" + account.getEmail() + "'";
 
-        ArrayList<Order> orders = new ArrayList<Order>();
+        ArrayList<Order> orders = new ArrayList<>();
 
 
         try (
@@ -582,8 +585,8 @@ public class MySQLHandler extends PersistenceDBHandler {
             while (rs.next())
             {
                 Order tempOrder = new Order();
-                tempOrder.setOrderNumber(rs.getInt("order_id"));
-                tempOrder.setTotal(rs.getDouble("price"));
+                tempOrder.setOrderNumber(rs.getInt("orderid"));
+                tempOrder.setTotal(rs.getDouble("total"));
                 tempOrder.setTitles(getOwnedKeys(tempOrder));
                 orders.add(tempOrder);
             }

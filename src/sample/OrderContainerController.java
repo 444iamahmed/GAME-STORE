@@ -23,6 +23,7 @@ public class OrderContainerController {
             FXMLLoader titleLoader = new FXMLLoader(getClass().getResource("TitleInListNotClickable.fxml"));
             orderContainer.getChildren().add(titleLoader.load());
             TitleInListController titleInList = titleLoader.getController();
+
             titleInList.fillData(i);
         }
     }
