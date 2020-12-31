@@ -689,7 +689,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                  ) {
                 for (Key i: j.getKeys()
                      ) {
-                    String DML_UPDATE_KEY = "UPDATE gka5gkdoler1i5f1.keys SET keys.orderid = ('" + orderID + "') WHERE (keys.key = '" + i.getValue() + "')";
+                    String DML_UPDATE_KEY = "UPDATE gka5gkdoler1i5f1.keys SET orderid = " + orderID + " WHERE (keys.key = '" + i.getValue() + "')";
 
                     try (Statement keysStatement = connection.createStatement()) {
                         keysStatement.executeUpdate(DML_UPDATE_KEY);

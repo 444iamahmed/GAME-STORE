@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 
 import java.io.IOException;
 import java.util.Set;
@@ -12,9 +13,14 @@ public class TitleInListController extends AccessibleTitleController{
 
     @FXML
     ChoiceBox keysContainer;
+
+    @FXML
+    Label priceLabel;
+
     @Override
     public void fillData(Title myTitle) {
         super.fillData(myTitle);
+        priceLabel.setText(myTitle.getPrice().toString());
         keysContainer.setItems(FXCollections.observableArrayList(title.getKeysStrings()));
     }
 
