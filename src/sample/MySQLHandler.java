@@ -584,7 +584,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                 Order tempOrder = new Order();
                 tempOrder.setOrderNumber(rs.getInt("order_id"));
                 tempOrder.setTotal(rs.getDouble("price"));
-                //tempOrder.setTitles(getOwnedKeys(tempOrder));
+                tempOrder.setTitles(getOwnedKeys(tempOrder));
                 orders.add(tempOrder);
             }
 
@@ -701,9 +701,6 @@ public class MySQLHandler extends PersistenceDBHandler {
             printSQLException(e);
         }
         return null;
-    }
-    public ArrayList<Order> getOrders() {
-        return new ArrayList<>();
     }
 
     @Override

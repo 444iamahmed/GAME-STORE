@@ -36,7 +36,6 @@ public abstract class PersistenceDBHandler {
 
     public abstract Integer saveOrder(Order order, Account account);
 
-    public abstract ArrayList<Order> getOrders();
 
     public abstract Title InsertTitle(String newTitleName, String newTitleDeveloper, String newTitlePlatform);
 

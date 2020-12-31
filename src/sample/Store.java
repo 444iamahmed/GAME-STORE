@@ -45,10 +45,6 @@ public class Store {
     {
         return FXCollections.observableList(inventory.search(filters));
     }
-//    public ObservableList<Title> getOwnedKeys()
-//    {
-//        return FXCollections.observableList(persistenceDBHandler.getOwnedKeys(activeAccount));
-//    }
 
     public boolean usernameExistsCustomer(String username)
     {
@@ -162,7 +158,7 @@ public class Store {
     }
 
     public ArrayList<Order> getOrders() {
-        return persistenceDBHandler.getOrders();
+        return persistenceDBHandler.getOrders(activeAccount);
     }
 
     public boolean usernameExistsAdmin(String username) {
