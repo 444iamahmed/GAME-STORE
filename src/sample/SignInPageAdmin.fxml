@@ -51,7 +51,7 @@
       </VBox>
    </center>
    <top>
-      <Label alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label alignment="CENTER" prefHeight="54.0" prefWidth="294.0" text="Sign In - Admin" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>

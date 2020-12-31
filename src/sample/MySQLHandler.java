@@ -618,24 +618,11 @@ public class MySQLHandler extends PersistenceDBHandler {
             printSQLException(e);
             return null;
         }
-        String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "')";
+        String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + oldName +
+                "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "')";
 
         try (Statement deleteGenreStatement = connection.createStatement();) {
             deleteGenreStatement.executeUpdate(DML_DELETE_GENRES);
-            for(String i: newTitle.getGenre()) {
-
-                String DML_INSERT_GENRES = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) " +
-                        "VALUES ('" + oldName + "', '" + oldDeveloper +
-                        "', '" + oldPlatform + "', '" + i + "')";
-
-                try (Statement genreStatement = connection.createStatement()) {
-
-                    genreStatement.executeUpdate(DML_INSERT_GENRES);
-
-                } catch (SQLException e) {
-                    printSQLException(e);
-                }
-            }
 
         }catch (SQLException e) {
             printSQLException(e);
@@ -648,6 +635,20 @@ public class MySQLHandler extends PersistenceDBHandler {
         try (Statement updateStatement = connection.createStatement()){
 
             updateStatement.executeUpdate(DML_UPDATE_TITLE);
+            for(String i: newTitle.getGenre()) {
+
+                String DML_INSERT_GENRES = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) " +
+                        "VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
+                        "', '" + newTitle.getPlatform() + "', '" + i + "')";
+
+                try (Statement genreStatement = connection.createStatement()) {
+
+                    genreStatement.executeUpdate(DML_INSERT_GENRES);
+
+                } catch (SQLException e) {
+                    printSQLException(e);
+                }
+            }
             return newTitle;
         }catch (SQLException e) {
             printSQLException(e);
