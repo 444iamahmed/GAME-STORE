@@ -168,4 +168,12 @@ public class Store {
     public boolean usernameExistsAdmin(String username) {
         return persistenceDBHandler.checkAdminExistence(username);
     }
+
+    public Title addToInventory(String newTitleName, String newTitleDeveloper, String newTitlePlatform) {
+        return inventory.add(newTitleName, newTitleDeveloper, newTitlePlatform);
+    }
+
+    public void removeFromInventory(Title title) {
+        inventory.remove(title);
+    }
 }

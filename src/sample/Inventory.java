@@ -34,4 +34,12 @@ public class Inventory
     {
         return persistenceDBHandler.updateTitle(oldName, oldDeveloper, oldPlatform, newTitle);
     }
-} 
+
+    public Title add(String newTitleName, String newTitleDeveloper, String newTitlePlatform) {
+        return persistenceDBHandler.InsertTitle(newTitleName, newTitleDeveloper, newTitlePlatform);
+    }
+
+    public void remove(Title title) {
+        persistenceDBHandler.setTitleExistence(title, false);
+    }
+}

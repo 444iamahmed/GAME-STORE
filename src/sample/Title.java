@@ -16,6 +16,7 @@ public class Title extends Displayable
     private HashSet<Key> keys;
     private Double rating;
     private Double price;
+    private boolean exists = true;
     private final PersistenceDBHandler persistenceDBHandler = MySQLHandler.getInstance();
     //Image
 
@@ -58,6 +59,26 @@ public class Title extends Displayable
         genre = new ArrayList<>();
         keys = new HashSet<>();
 
+    }
+
+    public Title(String name, String developer, String platform) {
+        this.name = name;
+        this.developer = developer;
+        this.platform = platform;
+    }
+
+    Title(String n, LocalDate d, String desc, String dev, String plat, Double r, Double p, boolean exists)
+    {
+        name = n;
+        releaseDate = d;
+        description = desc;
+        developer = dev;
+        platform = plat;
+        rating = r;
+        price = p;
+        genre = new ArrayList<>();
+        keys = new HashSet<>();
+        this.exists = exists;
     }
 
     @Override
@@ -191,9 +212,6 @@ public class Title extends Displayable
         return tempGenres;
     }
 
-    public void fillKeys() {
-        keys = persistenceDBHandler.getTitleKeys(name, developer, platform);
-    }
     public Key popKey(){
         if (keys.size() == 0) {
             return null;
@@ -201,5 +219,13 @@ public class Title extends Displayable
         Key key = keys.iterator().next();
         keys.remove(key);
         return key;
+    }
+
+    public void setExists(boolean exists) {
+        this.exists = exists;
+    }
+
+    public boolean doesExist() {
+        return exists;
     }
 }

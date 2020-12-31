@@ -42,7 +42,6 @@ public class TitlePageAdminController extends TitlePageCustomerController{
     @FXML
     VBox genreCheckBoxContainer, keysContainer, platformRadioButtonContainer;
 
-    @FXML
     ToggleGroup platformToggleGroup;
 
     ArrayList<String> genres;
@@ -51,7 +50,7 @@ public class TitlePageAdminController extends TitlePageCustomerController{
     DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     FileChooser keysFileChooser;
 
-    @FXML
+
     public void initialize()
     {
 
@@ -100,6 +99,7 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         originalPlatform = title.getPlatform();
         titleText.setText(myTitle.getName());
         priceText.setText(myTitle.getPrice().toString());
+        ratingSlider.setValue(myTitle.getRating());
         for(Node m: genreCheckBoxContainer.getChildren())
         {
             if(title.getGenre().contains(((CheckBox)m).getText()))
@@ -245,7 +245,6 @@ public class TitlePageAdminController extends TitlePageCustomerController{
 
     public void removeTitle()
     {
-        //myStore.removeFromInventory(title);
-
+        myStore.removeFromInventory(title);
     }
 }

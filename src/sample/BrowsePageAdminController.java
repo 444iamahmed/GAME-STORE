@@ -2,6 +2,8 @@ package sample;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -29,5 +31,15 @@ public class BrowsePageAdminController extends BrowsePageController {
         }
     }
 
+    public void addTitle() throws IOException {
+
+        Stage newTitleInputWindow = new Stage();
+        newTitleInputWindow.setTitle("New Title");
+        FXMLLoader windowLoader = new FXMLLoader(getClass().getResource("NewTitleInput.fxml"));
+        Parent newTitleParent = windowLoader.load();
+        newTitleInputWindow.setScene(new Scene(newTitleParent));
+        newTitleInputWindow.show();
+
+    }
 
 }

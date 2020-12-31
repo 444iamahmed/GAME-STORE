@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -17,18 +16,15 @@
             <Label fx:id="totalPriceLabel" text="Price: Rs. " />
             <Pane prefHeight="0.0" prefWidth="100.0" />
             <Button mnemonicParsing="false" onAction="#checkout" text="Checkout" />
+            <Button mnemonicParsing="false" onAction="#clearCart" text="Clear Cart" />
          </children>
       </HBox>
    </bottom>
    <center>
-      <ScrollPane hbarPolicy="NEVER" BorderPane.alignment="CENTER">
-        <content>
-          <AnchorPane>
-               <children>
-                  <VBox fx:id="cartItemsList" alignment="CENTER" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-        </content>
+      <ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="cartItemsList" alignment="CENTER" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="500.0" />
+         </content>
       </ScrollPane>
    </center>
    <right>

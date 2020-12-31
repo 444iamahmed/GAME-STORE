@@ -10,7 +10,7 @@ public class Main extends Application {
 
    @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("SignInPageAdmin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("SignInPageCustomer.fxml"));
         primaryStage.setTitle("GAME-STORE");
         primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.show();

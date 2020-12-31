@@ -186,7 +186,8 @@ public class MySQLHandler extends PersistenceDBHandler {
                 "AND title_genre.title_platform = title.title_platform " +
                 arrayListQuery("AND", "title_genre.genre", browseFilter.getGenres()) +
                 ") > 0 "+
-                arrayListQuery(" AND",  "title.title_platform", browseFilter.getPlatforms());
+                arrayListQuery(" AND",  "title.title_platform", browseFilter.getPlatforms()) +
+                " AND title.exists = 1";
         ArrayList<Title> titles = new ArrayList<>();
 
         try (
@@ -202,7 +203,8 @@ public class MySQLHandler extends PersistenceDBHandler {
                         rs.getString("title_developer"),
                         rs.getString("title_platform"),
                         rs.getDouble("title_rating") ,
-                        rs.getDouble("title_price"));
+                        rs.getDouble("title_price"),
+                        rs.getBoolean("exists"));
 
                 String KEY_QUERY = "select * from gka5gkdoler1i5f1.keys where title_name = \"" + tempTitle.getName() + "\" " +
                         "AND title_developer = \"" + tempTitle.getDeveloper() + "\" " +
@@ -242,13 +244,13 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Account saveAccountCustomer(String username, String email, String password) {
-        String QUERY = "INSERT INTO customer (customer_username, customer_password, customer_email) VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\")";
+        String DML_INSERT_CUSTOMER = "INSERT INTO customer (customer_username, customer_password, customer_email) VALUES (\"" + username + "\", \"" + password + "\", \"" + email + "\")";
         Account saved = new Account(username,email,password);
         try
                 (Statement stmt = connection.createStatement();
 
                  ){
-            int rowsUpdated = stmt.executeUpdate(QUERY);
+            stmt.executeUpdate(DML_INSERT_CUSTOMER);
             return retrieveAccountCustomer(username, password);
         }catch (SQLException e) {
             printSQLException(e);
@@ -402,12 +404,12 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void updateCustomerAccount(Account account) {
-        String QUERY = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_username = \"" + account.getUsername() + "\" WHERE (customer_email =  \"" + account.getEmail() + "\")";
+        String DML_UPDATE_CUSTOMER = "UPDATE customer SET  customer_password = \"" + account.getPassword() + "\", customer_username = \"" + account.getUsername() + "\" WHERE (customer_email =  \"" + account.getEmail() + "\")";
         try
                 (Statement stmt = connection.createStatement();
 
                  ){
-            int rowsUpdated = stmt.executeUpdate(QUERY);
+            stmt.executeUpdate(DML_UPDATE_CUSTOMER);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -416,12 +418,12 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
     @Override
     public void updateAdminAccount(Account account) {
-        String QUERY = "UPDATE admin SET  admin_password = \"" + account.getPassword() + "\", admin_username = \"" + account.getUsername() + "\" WHERE (admin_email =  \"" + account.getEmail() + "\")";
+        String DML_UPDATE_ADMIN = "UPDATE admin SET  admin_password = \"" + account.getPassword() + "\", admin_username = \"" + account.getUsername() + "\" WHERE (admin_email =  \"" + account.getEmail() + "\")";
         try
                 (Statement stmt = connection.createStatement();
 
                 ){
-            int rowsUpdated = stmt.executeUpdate(QUERY);
+            stmt.executeUpdate(DML_UPDATE_ADMIN);
         }catch (SQLException e) {
             printSQLException(e);
         }
@@ -430,10 +432,10 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void deleteAdminAccount(Account account) {
-        String QUERY = "DELETE from admin where admin.admin_email = \"" + account.getEmail() + "\"";
+        String DML_DELETE_ADMIN = "DELETE from admin where admin.admin_email = \"" + account.getEmail() + "\"";
 
         try (Statement stmt = connection.createStatement();){
-            int rowsUpdated = stmt.executeUpdate(QUERY);
+            stmt.executeUpdate(DML_DELETE_ADMIN);
         }catch (SQLException e) {
             printSQLException(e);
         }
@@ -442,10 +444,10 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public void deleteCustomerAccount(Account account) {
-        String QUERY = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
+        String DML_DELETE_CUSTOMER = "DELETE from customer where customer.customer_email = \"" + account.getEmail() + "\"";
 
         try (Statement stmt = connection.createStatement();){
-            int rowsUpdated = stmt.executeUpdate(QUERY);
+            stmt.executeUpdate(DML_DELETE_CUSTOMER);
         }catch (SQLException e) {
             printSQLException(e);
 
@@ -595,47 +597,42 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
-        String QUERY = "UPDATE title SET title_name = '" + newTitle.getName() + "', title_developer = '" + newTitle.getDeveloper() + "', title_platform = '" + newTitle.getPlatform() +
+        String DML_UPDATE_TITLE = "UPDATE title SET title_name = '" + newTitle.getName() + "', title_developer = '" + newTitle.getDeveloper() + "', title_platform = '" + newTitle.getPlatform() +
                 "', title_release_date = '" + Timestamp.valueOf(newTitle.getReleaseDate().atStartOfDay()) + "', title_description = '" + newTitle.getDescription() + "', title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
                 " WHERE (title.title_name =  '" + oldName + "' AND title.title_developer = '" + oldDeveloper + "' AND title.title_platform = '" + oldPlatform + "')";
 
         try (Statement updateStatement = connection.createStatement()){
-            int rowsUpdatedInTitles = updateStatement.executeUpdate(QUERY);
 
-            String QUERY2 = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "'AND title_platform = '" + newTitle.getPlatform() + "')";
+            updateStatement.executeUpdate(DML_UPDATE_TITLE);
+            String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "' AND title_platform = '" + newTitle.getPlatform() + "')";
 
             try (Statement deleteGenreStatement = connection.createStatement();) {
-                int rowsUpdatedInGenresDeletion = updateStatement.executeUpdate(QUERY2);
-                for(int i = 0; i < newTitle.getGenre().size(); i++) {
-                String QUERY3 = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() + "', '" + newTitle.getPlatform() + "', '" + newTitle.getGenre().get(i) + "')" ;
+                deleteGenreStatement.executeUpdate(DML_DELETE_GENRES);
+                for(String i: newTitle.getGenre()) {
 
-                try (
-                        Statement genreStatement = connection.createStatement();
+                    String DML_INSERT_GENRES = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) " +
+                        "VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
+                        "', '" + newTitle.getPlatform() + "', '" + i + "')";
 
-                ) {
+                try (Statement genreStatement = connection.createStatement()) {
 
-                    int rowsUpdatedInGenresUpdation = genreStatement.executeUpdate(QUERY3);
+                    genreStatement.executeUpdate(DML_INSERT_GENRES);
+
                 } catch (SQLException e) {
                     printSQLException(e);
-                    return null;
                 }
             }
-                String QUERY4 = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "'AND title_platform = '" + newTitle.getPlatform() + "')";
+                String DML_DELETE_KEYS = "DELETE from gka5gkdoler1i5f1.keys WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "' AND title_platform = '" + newTitle.getPlatform() + "' AND orderid IS NOT NULL)";
 
-                try (
-                        Statement deleteKeysStatement = connection.createStatement();
-                        ResultSet rs4 = deleteKeysStatement.executeQuery(QUERY4);
-                ) {
+                try (Statement deleteKeysStatement = connection.createStatement()) {
+
+                    deleteKeysStatement.executeUpdate(DML_DELETE_KEYS);
                     for(Key j: newTitle.getKeys()) {
-                        String QUERY5 = "INSERT INTO keys (title_name, title_developer, title_platform, key) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
+                        String DML_INSERT_KEYS = "INSERT INTO gka5gkdoler1i5f1.keys (title_name, title_developer, title_platform, keys.key) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
                                 "', '" + newTitle.getPlatform() + "', '" + j.getValue() + "')" ;
 
-                        try (
-                                Statement keysStatement = connection.createStatement();
-                                ResultSet rs5 = keysStatement.executeQuery(QUERY5);
-                        ) {
-
-
+                        try (Statement keysStatement = connection.createStatement()) {
+                            keysStatement.executeUpdate(DML_INSERT_KEYS);
                         } catch (SQLException e) {
                             printSQLException(e);
                             return null;
@@ -644,42 +641,35 @@ public class MySQLHandler extends PersistenceDBHandler {
                     return newTitle;
                 }catch (SQLException e) {
                     printSQLException(e);
-                    return null;
                 }
             }catch (SQLException e) {
                 printSQLException(e);
-                return null;
             }
-
-
         }catch (SQLException e) {
             printSQLException(e);
-            return null;
         }
+        return null;
     }
 
     @Override
     public Integer saveOrder(Order order, Account account) {
-        String QUERY = "INSERT INTO order (total, customer_email) VALUES (\"" + order.getTotal() + "\", \"" + account.getEmail() + "\")";
+        String DML_INSERT_ORDER = "INSERT INTO gka5gkdoler1i5f1.order (total, customer_email) VALUES ('" + order.getTotal() + "', '" + account.getEmail() + "')";
 
 
-        try (
-                Statement titlesStatement = connection.createStatement();
-                //ResultSet rs = titlesStatement.executeQuery(QUERY);
-        ) {
+        try (Statement titlesStatement = connection.createStatement()) {
 
-            titlesStatement.executeUpdate(QUERY);
-            String QUERY2 = "select * from orders where customer_email = \"" + account.getEmail() + "\"";
+            titlesStatement.executeUpdate(DML_INSERT_ORDER);
+            String QUERY_INSERTED_ORDER = "select * from gka5gkdoler1i5f1.order where customer_email = '" + account.getEmail() + "'";
+
             int orderID = 0;
-
 
             try (
                     Statement lastOrderStatement = connection.createStatement();
-                    ResultSet rs = lastOrderStatement.executeQuery(QUERY2);
+                    ResultSet resultSetLastOrder = lastOrderStatement.executeQuery(QUERY_INSERTED_ORDER);
             ){
-                while (rs.next())
+                while (resultSetLastOrder.next())
                 {
-                    orderID = rs.getInt("orderid");
+                    orderID = resultSetLastOrder.getInt("orderid");
                 }
 
             }catch (SQLException e) {
@@ -691,28 +681,79 @@ public class MySQLHandler extends PersistenceDBHandler {
                  ) {
                 for (Key i: j.getKeys()
                      ) {
-                    String QUERY3 = "UPDATE key SET orderid = (\"" + orderID + "\") WHERE (key = \"" + i.getValue() + "\")";
+                    String DML_UPDATE_KEY = "UPDATE gka5gkdoler1i5f1.keys SET keys.orderid = ('" + orderID + "') WHERE (keys.key = '" + i.getValue() + "')";
 
-                    try (
-                            Statement keysStatement = connection.createStatement();
-                            //ResultSet rs = titlesStatement.executeQuery(QUERY);
-                    ) {
-                        keysStatement.executeUpdate(QUERY3);
+                    try (Statement keysStatement = connection.createStatement()) {
+                        keysStatement.executeUpdate(DML_UPDATE_KEY);
                     } catch (SQLException e) {
                         printSQLException(e);
-                        return null;
                     }
                 }
+
             }
             return order.getOrderNumber();
+
         } catch (SQLException e) {
             printSQLException(e);
-            return null;
         }
-
+        return null;
     }
     public ArrayList<Order> getOrders() {
         return new ArrayList<>();
     }
 
+    @Override
+    public Title InsertTitle(String newTitleName, String newTitleDeveloper, String newTitlePlatform) {
+        String QUERY_TITLE_EXISTENCE = "select exists from title WHERE (title.title_name =  '" + newTitleName +
+                "' AND title.title_developer = '" + newTitleDeveloper +
+                "' AND title.title_platform = '" + newTitlePlatform + "' AND exists = 0)";
+
+        Title addedTitle = null;
+
+        try(Statement existenceCheckStatement = connection.createStatement();
+                ResultSet existenceCheckResultSet = existenceCheckStatement.executeQuery(QUERY_TITLE_EXISTENCE)){
+            if(existenceCheckResultSet.next())
+            {
+                String DML_UPDATE_EXISTENCE = "UPDATE title SET exists = true WHERE (title.title_name =  '" + newTitleName +
+                        "' AND title.title_developer = '" + newTitleDeveloper +
+                        "' AND title.title_platform = '" + newTitlePlatform + "'";
+
+                try(Statement existenceSetStatement = connection.createStatement())
+                {
+                    existenceSetStatement.executeUpdate(DML_UPDATE_EXISTENCE);
+                    addedTitle = new Title(newTitleName, newTitleDeveloper, newTitlePlatform);
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String DML_INSERT_TITLE = "INSERT INTO title (title_name, title_developer, title_platform) VALUES ('"
+                + newTitleName +
+                "', " + newTitleDeveloper +
+                "', " + newTitlePlatform + ")";
+
+
+        try(Statement stmt = connection.createStatement()){
+            stmt.executeUpdate(DML_INSERT_TITLE);
+            addedTitle = new Title(newTitleName, newTitleDeveloper, newTitlePlatform);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return addedTitle;
+    }
+
+    @Override
+    public void setTitleExistence(Title title, boolean b) {
+        String DML_UPDATE_TITLE = "UPDATE title SET exists = " + b + "WHERE (title.title_name =  '" + title.getName() + "' AND title.title_developer = '" + title.getDeveloper() + "' AND title.title_platform = '" + title.getPlatform() + "')";
+
+        try (Statement existenceSetStatement = connection.createStatement()){
+            existenceSetStatement.executeUpdate(DML_UPDATE_TITLE);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

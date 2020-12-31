@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public class CartPageController {
 
-    MainPageCustomerController myController;
+    MainPageCustomerController mainPageController;
     @FXML
     VBox cartItemsList;
     @FXML
@@ -39,7 +39,7 @@ public class CartPageController {
             cartItemInList.setController(this);
             cartItemInList.setItem(i);
         }
-        totalPriceLabel.setText(totalPriceLabel.getText() + myStore.getCartTotal().toString());
+        totalPriceLabel.setText("Price: Rs. " + myStore.getCartTotal().toString());
 
     }
 
@@ -62,7 +62,8 @@ public class CartPageController {
             if(orderNumber != null)
             {
                 purchaseSuccessfulAlert(orderNumber);
-                clearCart();
+
+
             }
             else
             {
@@ -80,18 +81,18 @@ public class CartPageController {
         alert.showAndWait();
     }
 
-    private void purchaseSuccessfulAlert(Integer orderNumber) {
+    private void purchaseSuccessfulAlert(Integer orderNumber) throws IOException {
         Alert orderDetails = new Alert(Alert.AlertType.INFORMATION);
         orderDetails.setTitle("Order Details");
         orderDetails.setHeaderText("Order No. " + orderNumber + "\n with Total: Rs. " + myStore.getCartTotal().toString());
-        myStore.clearCart();
+        clearCart();
+        mainPageController.changeTabToBrowse();
         orderDetails.showAndWait();
-        myController.changeTabToHome();
     }
 
     void setMainPageController(MainPageCustomerController controller)
     {
-        myController = controller;
+        mainPageController = controller;
     }
 
     public void clearCart() throws IOException {

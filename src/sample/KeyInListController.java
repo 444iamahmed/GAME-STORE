@@ -1,8 +1,8 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class KeyInListController {
