@@ -32,7 +32,7 @@ public class AdminsPageController extends UsersPageController {
             FXMLLoader adminLoader = new FXMLLoader(getClass().getResource("AdminInList.fxml"));
             Parent adminInList = adminLoader.load();
             AdminInListController adminInListController = adminLoader.getController();
-            adminInListController.setMyAccount(i);
+            adminInListController.fillData(i);
             adminInListController.setMainPageController((MainPageAdminController) mainPageController);
             adminsContainer.getChildren().add(adminInList);
 

@@ -121,4 +121,6 @@ public class AccountPageCustomerController extends AccountPageController{
     protected boolean usernameExists(String username) {
         return myStore.usernameExistsCustomer(username);
     }
+
+
 }

@@ -52,6 +52,8 @@ public class MainPageAdminController extends MainPageController{
 
     public void openAdminPage(Account account) throws IOException{
         AccountPageAdminController accountPageAdminController = (AccountPageAdminController) loadPage("AccountPageAdmin");
+        accountPageAdminController.setMainPageController(this);
         accountPageAdminController.fillAccountData(account);
+
     }
 }

@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox alignment="CENTER" onMouseClicked="#openAdminPage" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminInListController">
    <children>
       <VBox onMouseClicked="#openAdminPage">
@@ -30,6 +29,6 @@
             <Insets left="40.0" right="40.0" />
          </padding>
       </Pane>
-      <Button mnemonicParsing="false" onAction="#deleteAccount" text="Remove" />
+      <Button mnemonicParsing="false" onAction="#deleteAccount" text="Delete" />
    </children>
 </HBox>

@@ -98,4 +98,8 @@ public abstract class AccountPageController {
     public abstract void changeSceneToSignIn() throws IOException;
     protected abstract boolean usernameExists(String username);
 
+    public void setMainPageController(MainPageController mainPageController)
+    {
+        this.mainPageController = mainPageController;
+    }
 }

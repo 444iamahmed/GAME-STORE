@@ -100,7 +100,7 @@ public class Store {
     {
         if(account.getEmail() == activeAccount.getEmail())
             activeAccount = null;
-        persistenceDBHandler.deleteCustomerAccount(account);
+        persistenceDBHandler.deleteAdminAccount(account);
     }
 
 
