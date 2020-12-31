@@ -154,6 +154,11 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         {
             saveChangesFailedAlert();
         }
+        else{
+            originalName = changedTitle.getName();
+            originalDeveloper = changedTitle.getDeveloper();
+            originalPlatform = changedTitle.getPlatform();
+        }
     }
 
     private void saveChangesFailedAlert() {

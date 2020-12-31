@@ -208,7 +208,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
                 String KEY_QUERY = "select * from gka5gkdoler1i5f1.keys where title_name = \"" + tempTitle.getName() + "\" " +
                         "AND title_developer = \"" + tempTitle.getDeveloper() + "\" " +
-                        "AND title_platform = \"" + tempTitle.getPlatform() + "\"";
+                        "AND title_platform = \"" + tempTitle.getPlatform() + "\" AND orderid IS NULL";
                 try (
                         Statement keysStatement = connection.createStatement();
                         ResultSet keysSet = keysStatement.executeQuery(KEY_QUERY);
@@ -546,7 +546,7 @@ public class MySQLHandler extends PersistenceDBHandler {
 
         String QUERY = "select * from gka5gkdoler1i5f1.keys where title_name = \"" + name + "\" " +
                 "AND title_developer = \"" + developer + "\" " +
-                "AND title_platform = \"" + platform + "\"";
+                "AND title_platform = \"" + platform + "\" AND orderid IS NULL";
 
         HashSet<Key> keys = new HashSet<>();
 
@@ -604,7 +604,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         try (Statement updateStatement = connection.createStatement()){
 
             updateStatement.executeUpdate(DML_UPDATE_TITLE);
-            String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "' AND title_platform = '" + newTitle.getPlatform() + "')";
+            String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "')";
 
             try (Statement deleteGenreStatement = connection.createStatement();) {
                 deleteGenreStatement.executeUpdate(DML_DELETE_GENRES);
@@ -622,7 +622,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                     printSQLException(e);
                 }
             }
-                String DML_DELETE_KEYS = "DELETE from gka5gkdoler1i5f1.keys WHERE (title_name =  '" + newTitle.getName() + "' AND title_developer = '" + newTitle.getDeveloper() + "' AND title_platform = '" + newTitle.getPlatform() + "' AND orderid IS NOT NULL)";
+                String DML_DELETE_KEYS = "DELETE from gka5gkdoler1i5f1.keys WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "' AND orderid IS NULL)";
 
                 try (Statement deleteKeysStatement = connection.createStatement()) {
 
