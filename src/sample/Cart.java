@@ -10,7 +10,7 @@ public class Cart {
     private Double price;
     Inventory inventory;
 
-   
+
     private Cart(){
         cartItems=new ArrayList<>();
         inventory = Inventory.getInstance();
