@@ -30,7 +30,7 @@ public class AdminsPageController extends UsersPageController {
 
         for(Account i: myStore.searchAdmins(filter))
         {
-            FXMLLoader adminLoader = new FXMLLoader(FXMLFileLoader.loadResource("sAdminInList.fxml"));
+            FXMLLoader adminLoader = new FXMLLoader(FXMLFileLoader.loadResource("AdminInList.fxml"));
             Parent adminInList = adminLoader.load();
             AdminInListController adminInListController = adminLoader.getController();
             adminInListController.fillData(i);
