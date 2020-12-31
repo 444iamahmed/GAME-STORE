@@ -597,22 +597,36 @@ public class MySQLHandler extends PersistenceDBHandler {
 
     @Override
     public Title updateTitle(String oldName, String oldDeveloper, String oldPlatform, Title newTitle) {
-        String DML_UPDATE_TITLE = "UPDATE title SET title_name = '" + newTitle.getName() + "', title_developer = '" + newTitle.getDeveloper() + "', title_platform = '" + newTitle.getPlatform() +
-                "', title_release_date = '" + Timestamp.valueOf(newTitle.getReleaseDate().atStartOfDay()) + "', title_description = '" + newTitle.getDescription() + "', title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
-                " WHERE (title.title_name =  '" + oldName + "' AND title.title_developer = '" + oldDeveloper + "' AND title.title_platform = '" + oldPlatform + "')";
+        String DML_DELETE_KEYS = "DELETE from gka5gkdoler1i5f1.keys WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "' AND orderid IS NULL)";
 
-        try (Statement updateStatement = connection.createStatement()){
+        try (Statement deleteKeysStatement = connection.createStatement()) {
 
-            updateStatement.executeUpdate(DML_UPDATE_TITLE);
-            String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "')";
+            deleteKeysStatement.executeUpdate(DML_DELETE_KEYS);
+            for(Key j: newTitle.getKeys()) {
+                String DML_INSERT_KEYS = "INSERT INTO gka5gkdoler1i5f1.keys (title_name, title_developer, title_platform, keys.key) VALUES ('" + oldName + "', '" + oldDeveloper +
+                        "', '" + oldPlatform + "', '" + j.getValue() + "')" ;
 
-            try (Statement deleteGenreStatement = connection.createStatement();) {
-                deleteGenreStatement.executeUpdate(DML_DELETE_GENRES);
-                for(String i: newTitle.getGenre()) {
+                try (Statement keysStatement = connection.createStatement()) {
+                    keysStatement.executeUpdate(DML_INSERT_KEYS);
+                } catch (SQLException e) {
+                    printSQLException(e);
+                    return null;
+                }
+            }
 
-                    String DML_INSERT_GENRES = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) " +
-                        "VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
-                        "', '" + newTitle.getPlatform() + "', '" + i + "')";
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
+        String DML_DELETE_GENRES = "DELETE from title_genre WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "')";
+
+        try (Statement deleteGenreStatement = connection.createStatement();) {
+            deleteGenreStatement.executeUpdate(DML_DELETE_GENRES);
+            for(String i: newTitle.getGenre()) {
+
+                String DML_INSERT_GENRES = "INSERT INTO title_genre (title_name, title_developer, title_platform, genre) " +
+                        "VALUES ('" + oldName + "', '" + oldDeveloper +
+                        "', '" + oldPlatform + "', '" + i + "')";
 
                 try (Statement genreStatement = connection.createStatement()) {
 
@@ -622,33 +636,23 @@ public class MySQLHandler extends PersistenceDBHandler {
                     printSQLException(e);
                 }
             }
-                String DML_DELETE_KEYS = "DELETE from gka5gkdoler1i5f1.keys WHERE (title_name =  '" + oldName + "' AND title_developer = '" + oldDeveloper + "' AND title_platform = '" + oldPlatform + "' AND orderid IS NULL)";
 
-                try (Statement deleteKeysStatement = connection.createStatement()) {
-
-                    deleteKeysStatement.executeUpdate(DML_DELETE_KEYS);
-                    for(Key j: newTitle.getKeys()) {
-                        String DML_INSERT_KEYS = "INSERT INTO gka5gkdoler1i5f1.keys (title_name, title_developer, title_platform, keys.key) VALUES ('" + newTitle.getName() + "', '" + newTitle.getDeveloper() +
-                                "', '" + newTitle.getPlatform() + "', '" + j.getValue() + "')" ;
-
-                        try (Statement keysStatement = connection.createStatement()) {
-                            keysStatement.executeUpdate(DML_INSERT_KEYS);
-                        } catch (SQLException e) {
-                            printSQLException(e);
-                            return null;
-                        }
-                    }
-                    return newTitle;
-                }catch (SQLException e) {
-                    printSQLException(e);
-                }
-            }catch (SQLException e) {
-                printSQLException(e);
-            }
         }catch (SQLException e) {
             printSQLException(e);
+            return null;
         }
-        return null;
+        String DML_UPDATE_TITLE = "UPDATE title SET title_name = '" + newTitle.getName() + "', title_developer = '" + newTitle.getDeveloper() + "', title_platform = '" + newTitle.getPlatform() +
+                "', title_release_date = '" + Timestamp.valueOf(newTitle.getReleaseDate().atStartOfDay()) + "', title_description = '" + newTitle.getDescription() + "', title_price = " + newTitle.getPrice() + ", title_rating = " + newTitle.getRating() +
+                " WHERE (title.title_name =  '" + oldName + "' AND title.title_developer = '" + oldDeveloper + "' AND title.title_platform = '" + oldPlatform + "')";
+
+        try (Statement updateStatement = connection.createStatement()){
+
+            updateStatement.executeUpdate(DML_UPDATE_TITLE);
+            return newTitle;
+        }catch (SQLException e) {
+            printSQLException(e);
+            return null;
+        }
     }
 
     @Override
