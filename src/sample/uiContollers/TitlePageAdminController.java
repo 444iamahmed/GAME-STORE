@@ -246,8 +246,8 @@ public class TitlePageAdminController extends TitlePageCustomerController{
         priceText.setTextFormatter(textFormatter);
     }
 
-    public void removeTitle()
-    {
+    public void removeTitle() throws IOException {
         myStore.removeFromInventory(title);
+        ((MainPageAdminController) mainPageController).changeTabToTitles();
     }
 }

@@ -30,6 +30,7 @@ public abstract class MainPageController {
     public void initialize()
     {
         myStore = Store.getInstance();
+        changeTabToHome();
     }
 
     public void changeTabToHome()

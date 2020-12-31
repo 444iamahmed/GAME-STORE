@@ -12,12 +12,7 @@ import java.io.IOException;
 public class MainPageAdminController extends MainPageController{
 
 
-    @Override
-    public void changeTabToHome()
-    {
-        loadPage("HomePageAdmin");
-        pageLabel.setText("Home");
-    }
+
     public void changeTabToTitles() throws IOException {
         BrowsePageAdminController browsePageController = (BrowsePageAdminController) loadPage("BrowsePageAdmin");
         browsePageController.setMainPageController(this);
