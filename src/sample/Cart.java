@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Cart {
 
+
     private static Cart instance=null;
     private ArrayList<CartItem> cartItems;
     private Double price;
     Inventory inventory;
+
 
     private Cart(){
         cartItems=new ArrayList<>();

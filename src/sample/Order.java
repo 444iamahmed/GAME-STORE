@@ -31,12 +31,12 @@ public class Order {
     }
 
 
-    public void setTitles(ArrayList<Title> titles) {
-        this.titles = titles;
-    }
 
     public ArrayList<Title> getTitles() {
         return titles;
+    }
+    public void setTitles(ArrayList<Title> list) {
+        this.titles.addAll(list);
     }
 
     public Double getTotal() {
