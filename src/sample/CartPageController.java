@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class CartPageController {
@@ -85,9 +86,10 @@ public class CartPageController {
         Alert orderDetails = new Alert(Alert.AlertType.INFORMATION);
         orderDetails.setTitle("Order Details");
         orderDetails.setHeaderText("Order No. " + orderNumber + "\n with Total: Rs. " + myStore.getCartTotal().toString());
-        clearCart();
+
         mainPageController.changeTabToBrowse();
         orderDetails.showAndWait();
+        clearCart();
     }
 
     void setMainPageController(MainPageCustomerController controller)
@@ -96,7 +98,9 @@ public class CartPageController {
     }
 
     public void clearCart() throws IOException {
-        for(CartItem i: myStore.getCartItems())
+        ArrayList<CartItem> tempItems = new ArrayList<CartItem>();
+        tempItems.addAll(myStore.getCartItems());
+        for(CartItem i: tempItems)
         {
             myStore.removeFromCart(i.getTitle());
         }
