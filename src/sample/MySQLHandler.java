@@ -109,8 +109,8 @@ public class MySQLHandler extends PersistenceDBHandler {
     }
 
     @Override
-    public ArrayList<Title> getOwnedKeys(Account account) {
-        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + account.getUsername() + "\"";
+    public ArrayList<Title> getOwnedKeys(Order order) {
+        String QUERY = "select * from gka5gkdoler1i5f1.keys where key_owner = \"" + order.getOrderNumber() + "\"";
         Title tempTitle = null;
         Title currKeyTitle = null;
         ArrayList<Title> titles = new ArrayList<>();
@@ -584,7 +584,7 @@ public class MySQLHandler extends PersistenceDBHandler {
                 Order tempOrder = new Order();
                 tempOrder.setOrderNumber(rs.getInt("order_id"));
                 tempOrder.setTotal(rs.getDouble("price"));
-                //tempOrder.setTitles(getOwnedKeys(tempOrder));
+                tempOrder.setTitles(getOwnedKeys(tempOrder));
                 orders.add(tempOrder);
             }
 
@@ -703,9 +703,7 @@ public class MySQLHandler extends PersistenceDBHandler {
         }
         return null;
     }
-    public ArrayList<Order> getOrders() {
-        return new ArrayList<>();
-    }
+
 
     @Override
     public Title InsertTitle(String newTitleName, String newTitleDeveloper, String newTitlePlatform) {

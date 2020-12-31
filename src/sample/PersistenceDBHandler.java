@@ -10,7 +10,7 @@ public abstract class PersistenceDBHandler {
     public abstract ArrayList<String> getGenres();
     public abstract ArrayList<String> getPlatforms();
     public abstract ArrayList<Title> getTitles(BrowseFilter browseFilter);
-    public abstract ArrayList<Title> getOwnedKeys(Account account);
+    public abstract ArrayList<Title> getOwnedKeys(Order order);
     public abstract Account saveAccountCustomer(String username, String email, String password);
     public abstract Account retrieveAccountCustomer(String username, String password);
     public abstract Account retrieveAccountAdmin(String username, String password);
@@ -36,7 +36,7 @@ public abstract class PersistenceDBHandler {
 
     public abstract Integer saveOrder(Order order, Account account);
 
-    public abstract ArrayList<Order> getOrders();
+
 
     public abstract Title InsertTitle(String newTitleName, String newTitleDeveloper, String newTitlePlatform);
 

@@ -35,6 +35,9 @@ public class Order {
     public ArrayList<Title> getTitles() {
         return titles;
     }
+    public void setTitles(ArrayList<Title> list) {
+        this.titles.addAll(list);
+    }
 
     public Double getTotal() {
         return total;

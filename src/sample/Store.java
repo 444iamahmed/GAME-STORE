@@ -162,7 +162,7 @@ public class Store {
     }
 
     public ArrayList<Order> getOrders() {
-        return persistenceDBHandler.getOrders();
+        return persistenceDBHandler.getOrders(activeAccount);
     }
 
     public boolean usernameExistsAdmin(String username) {
