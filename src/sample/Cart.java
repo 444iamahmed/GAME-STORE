@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class Cart {
 
     public static Cart instance=null;
+    private static Cart instance=null;
     private ArrayList<CartItem> cartItems;
     private Double price;
     Inventory inventory;
 
     public Cart(){
+    private Cart(){
         cartItems=new ArrayList<>();
         inventory = Inventory.getInstance();
         price=0.0;
